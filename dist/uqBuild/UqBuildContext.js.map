@@ -1,0 +1,1 @@
+{"version":3,"file":"UqBuildContext.js","sourceRoot":"","sources":["../../tonwa-core/uqBuild/UqBuildContext.ts"],"names":[],"mappings":";;;AACA,2CAA0C;AAE1C;IAKC,wBAAY,SAA4B,EAAE,WAAmB;QAC5D,IAAI,CAAC,SAAS,GAAG,SAAS,CAAC;QAC3B,IAAI,CAAC,WAAW,GAAG,WAAW,CAAC;QAC/B,IAAI,CAAC,UAAU,GAAG,IAAI,uBAAU,CAAC,IAAI,CAAC,CAAC;IACxC,CAAC;IAMF,qBAAC;AAAD,CAAC,AAfD,IAeC;AAfqB,wCAAc"}
