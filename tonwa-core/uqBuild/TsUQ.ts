@@ -66,6 +66,7 @@ export class TsUQ {
 		ts += `
 	\nexport interface UqExt extends Uq {
 		Acts(param:ParamActs): Promise<any>;
+		IDRender(id:number):${this.buildContext.element};
 	`;
 		function appendArr<T extends Entity>(arr: T[], type: string, tsBuild: (v: T) => string) {
 			if (arr.length === 0) return;
