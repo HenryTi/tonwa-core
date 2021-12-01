@@ -337,7 +337,7 @@ var TsUQ = /** @class */ (function () {
         appendArr(ixArr, 'IX', function (v) { return _this.uqBlock(v, _this.buildIX); });
         ts += '\n}\n';
         ts += "\n\texport function assign(uq: any, to:string, from:any): void {\n\t\tlet hasEntity = uq.hasEntity(to);\n\t\tif (hasEntity === false) {\n\t\t\treturn;\n\t\t}\n\t\tObject.assign((uq as any)[to], from);\n\t}\n\t";
-        tsImport += " } from \"tonva-core\";\n\t\timport { Render } from \"tonva-" + this.buildContext.uiPlatform + "\";";
+        tsImport += " } from \"tonwa-core\";\n\t\timport { Render } from \"tonwa-" + this.buildContext.uiPlatform + "\";";
         return tsImport + ts;
     };
     TsUQ.prototype.uqEntityInterface = function (entity, buildInterface) {

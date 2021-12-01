@@ -56,10 +56,10 @@ var uqsMan_1 = require("./uqsMan");
 var tool_1 = require("../tool");
 var web_1 = require("../web");
 var UQsLoader = /** @class */ (function () {
-    function UQsLoader(tonva, appConfig) {
+    function UQsLoader(tonwa, appConfig) {
         this.isBuildingUQ = false;
         this.appConfig = appConfig;
-        this.tonva = tonva;
+        this.tonwa = tonwa;
     }
     UQsLoader.prototype.build = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -109,7 +109,7 @@ var UQsLoader = /** @class */ (function () {
                     case 0:
                         _a = this.appConfig, app = _a.app, uqConfigs = _a.uqs, version = _a.version;
                         name = app.name, dev = app.dev;
-                        uqsManApp = new UQsManApp(this.tonva, dev.name + "/" + name);
+                        uqsManApp = new UQsManApp(this.tonwa, dev.name + "/" + name);
                         this.uqsMan = uqsManApp;
                         appOwner = uqsManApp.appOwner, appName = uqsManApp.appName, localData = uqsManApp.localData;
                         uqAppData = localData.get();
@@ -154,7 +154,7 @@ var UQsLoader = /** @class */ (function () {
                 switch (_b.label) {
                     case 0:
                         _a = this.appConfig, uqConfigs = _a.uqs, version = _a.version;
-                        this.uqsMan = new uqsMan_1.UQsMan(this.tonva);
+                        this.uqsMan = new uqsMan_1.UQsMan(this.tonwa);
                         return [4 /*yield*/, this.loadUqData(uqConfigs)];
                     case 1:
                         uqs = _b.sent();
@@ -170,7 +170,7 @@ var UQsLoader = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        centerAppApi = new web_1.CenterAppApi(this.tonva.web, 'tv/', undefined);
+                        centerAppApi = new web_1.CenterAppApi(this.tonwa.web, 'tv/', undefined);
                         return [4 /*yield*/, centerAppApi.appUqs(appOwner, appName)];
                     case 1:
                         ret = _a.sent();
@@ -190,7 +190,7 @@ var UQsLoader = /** @class */ (function () {
                             var owner = dev.name, ownerAlias = dev.alias;
                             return { owner: owner, ownerAlias: ownerAlias, name: name, version: version, alias: alias };
                         });
-                        centerAppApi = new web_1.CenterAppApi(this.tonva.web, 'tv/', undefined);
+                        centerAppApi = new web_1.CenterAppApi(this.tonwa.web, 'tv/', undefined);
                         return [4 /*yield*/, centerAppApi.uqs(uqs)];
                     case 1:
                         ret = _b.sent();
@@ -214,15 +214,15 @@ var UQsLoader = /** @class */ (function () {
 exports.UQsLoader = UQsLoader;
 var UQsManApp = /** @class */ (function (_super) {
     __extends(UQsManApp, _super);
-    function UQsManApp(tonva, tonvaAppName /*, tvs:TVs*/) {
-        var _this = _super.call(this, tonva /*, tvs*/) || this;
-        var parts = tonvaAppName.split('/');
+    function UQsManApp(tonwa, tonwaAppName /*, tvs:TVs*/) {
+        var _this = _super.call(this, tonwa /*, tvs*/) || this;
+        var parts = tonwaAppName.split('/');
         if (parts.length !== 2) {
-            throw new Error('tonvaApp name must be / separated, owner/app');
+            throw new Error('tonwaApp name must be / separated, owner/app');
         }
         _this.appOwner = parts[0];
         _this.appName = parts[1];
-        _this.localMap = tool_1.env.localDb.map(tonvaAppName);
+        _this.localMap = tool_1.env.localDb.map(tonwaAppName);
         _this.localData = _this.localMap.child('uqData');
         return _this;
     }
@@ -242,11 +242,11 @@ var UQsBuildingLoader = /** @class */ (function (_super) {
                         //nav.forceDevelopment = true;
                         tool_1.env.isDevelopment = true;
                         //await nav.init();
-                        //await this.tonva.web.navInit();
-                        return [4 /*yield*/, this.tonva.init()];
+                        //await this.tonwa.web.navInit();
+                        return [4 /*yield*/, this.tonwa.init()];
                     case 1:
                         //await nav.init();
-                        //await this.tonva.web.navInit();
+                        //await this.tonwa.web.navInit();
                         _a.sent();
                         this.isBuildingUQ = true;
                         uqs = this.appConfig.uqs;

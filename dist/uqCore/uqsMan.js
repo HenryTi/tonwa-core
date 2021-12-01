@@ -47,10 +47,10 @@ export interface TVs {
 }
 */
 var UQsMan = /** @class */ (function () {
-    function UQsMan(tonva /*, tvs:TVs*/) {
+    function UQsMan(tonwa /*, tvs:TVs*/) {
         this.uqMans = [];
-        this.tonva = tonva;
-        this.web = tonva.web;
+        this.tonwa = tonwa;
+        this.web = tonwa.web;
         //this.tvs = tvs || {};
         //this.buildTVs();
         this.uqMans = [];
@@ -156,7 +156,7 @@ var UQsMan = /** @class */ (function () {
                                 uq = uqFull;
                             }
                             else {
-                                uq = new uqMan_1.UqMan(this.tonva, uqData /*, undefined, this.tvs[uqFullName] || this.tvs[uqName]*/);
+                                uq = new uqMan_1.UqMan(this.tonwa, uqData /*, undefined, this.tvs[uqFullName] || this.tvs[uqName]*/);
                                 this.collection[uqFullName] = uq;
                                 promiseInits.push(uq.init());
                             }

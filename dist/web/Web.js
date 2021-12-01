@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Web = void 0;
 /* eslint-disable */
-//import { Tonva } from "../Tonva";
+//import { Tonwa } from "../Tonwa";
 var appBridge_1 = require("./appBridge");
 var centerApi_1 = require("./centerApi");
 var uqApi_1 = require("./uqApi");

@@ -66,7 +66,7 @@ var IdCache = /** @class */ (function () {
     function IdCache(tuidLocal) {
         this.queue = []; // 每次使用，都排到队头
         this.waitingIds = []; // 等待loading的
-        this.cache = tuidLocal.uq.tonva.createObservableMap();
+        this.cache = tuidLocal.uq.tonwa.createObservableMap();
         this.tuidInner = tuidLocal;
         this.initLocalArr();
     }

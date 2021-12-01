@@ -1,13 +1,13 @@
 import { UqMan } from './uqMan';
 import { UqData } from '../web';
-import { Tonva, UqConfig } from '../core';
+import { Tonwa, UqConfig } from '../core';
 export declare class UQsMan {
-    private readonly tonva;
+    private readonly tonwa;
     private readonly web;
     private collection;
     proxy: any;
     uqMans: UqMan[];
-    constructor(tonva: Tonva);
+    constructor(tonwa: Tonwa);
     buildUqs(uqDataArr: UqData[], version: string, uqConfigs: UqConfig[], isBuildingUQ: boolean): Promise<string[]>;
     uq(uqName: string): UqMan;
     getUqUserRoles(uqLower: string): Promise<string[]>;

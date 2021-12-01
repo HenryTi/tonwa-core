@@ -1,5 +1,5 @@
 /* eslint-disable */
-//import { Tonva } from "../Tonva";
+//import { Tonwa } from "../Tonwa";
 import { AppBridge } from "./appBridge";
 import { CenterApi } from "./centerApi";
 import { UqData, CallCenterApi, CenterAppApi, UnitxApi, UqAppData, UqTokenApi, UserApi } from "./uqApi";
@@ -14,8 +14,8 @@ import { Host, resUrlFromHost } from './host';
 //import { AppConfig, UqConfig } from "../app";
 
 export interface PromiseValue<T> {
-	resolve: (value?: T | PromiseLike<T>) => void;
-	reject: (reason?: any) => void;
+    resolve: (value?: T | PromiseLike<T>) => void;
+    reject: (reason?: any) => void;
 }
 
 export abstract class Web {
@@ -25,14 +25,14 @@ export abstract class Web {
 
     // ===== nav搬移内容结束
 
-	// abstract navInit(): Promise<void>
+    // abstract navInit(): Promise<void>
 
-	reload() {
-		throw new Error('Method not implemented.');
-	}
-	showReloadPage(msg: string) {
-		throw new Error('Method not implemented.');
-	}
+    reload() {
+        throw new Error('Method not implemented.');
+    }
+    showReloadPage(msg: string) {
+        throw new Error('Method not implemented.');
+    }
     // 这个应该会去掉
     navBack() {
         throw new Error('Method not implemented.');
@@ -56,17 +56,17 @@ export abstract class Web {
     startWait() {
         //throw new Error('Method not implemented.');
     }
-    centerHost:string;
-    centerToken:string|undefined = undefined;
-    loginedUserId:number = 0;    
-    centerChannelUI:HttpChannel;
-    centerChannel:HttpChannel;
+    centerHost: string;
+    centerToken: string | undefined = undefined;
+    loginedUserId: number = 0;
+    centerChannelUI: HttpChannel;
+    centerChannel: HttpChannel;
 
-    channelUIs:{[name:string]: HttpChannel|(PromiseValue<any>[])} = {};
-    channelNoUIs:{[name:string]: HttpChannel|(PromiseValue<any>[])} = {};
-    channels:{[unitId:number]: HttpChannel} = {};
+    channelUIs: { [name: string]: HttpChannel | (PromiseValue<any>[]) } = {};
+    channelNoUIs: { [name: string]: HttpChannel | (PromiseValue<any>[]) } = {};
+    channels: { [unitId: number]: HttpChannel } = {};
 
-//    readonly tonva: Tonva;
+    //    readonly tonwa: Tonwa;
     readonly centerApi: CenterApi;
     readonly appBridge: AppBridge;
     readonly userApi: UserApi;
@@ -76,7 +76,7 @@ export abstract class Web {
     readonly guestApi: GuestApi;
     readonly messageHub: MessageHub;
     readonly wsBridge: WsBridge;
-    readonly host:Host;
+    readonly host: Host;
 
     language: string;
     culture: string;
@@ -101,7 +101,7 @@ export abstract class Web {
         this.wsBridge = new WsBridge(this);
         this.host = new Host();
     }
-    
+
     logoutApis() {
         this.channelUIs = {};
         this.channelNoUIs = {};
@@ -109,31 +109,31 @@ export abstract class Web {
         this.appBridge.logoutUqTokens();
     }
 
-    setCenterUrl(url:string) {
+    setCenterUrl(url: string) {
         console.log('setCenterUrl %s', url);
         this.centerHost = url;
         this.centerChannel = undefined;
         this.centerChannelUI = undefined;
     }
-    
-    setCenterToken(userId:number, t?:string) {
+
+    setCenterToken(userId: number, t?: string) {
         this.loginedUserId = userId;
         this.centerToken = t;
         this.centerChannel = undefined;
         this.centerChannelUI = undefined;
     }
 
-    getCenterChannelUI():HttpChannel {
+    getCenterChannelUI(): HttpChannel {
         if (this.centerChannelUI !== undefined) return this.centerChannelUI;
         return this.centerChannelUI = new CenterHttpChannel(this, this.centerHost, this.centerToken, new HttpChannelNavUI(this));
     }
-    
-    getCenterChannel():HttpChannel {
+
+    getCenterChannel(): HttpChannel {
         if (this.centerChannel !== undefined) return this.centerChannel;
         return this.centerChannel = new CenterHttpChannel(this, this.centerHost, this.centerToken);
     }
 
-    setNetToken(userId:number, token:string) {
+    setNetToken(userId: number, token: string) {
         this.setCenterToken(userId, token);
         WSChannel.setCenterToken(token);
     }
@@ -143,7 +143,7 @@ export abstract class Web {
         WSChannel.setCenterToken(undefined);
     }
 
-    resUrlFromHost(host:string): string {
+    resUrlFromHost(host: string): string {
         return resUrlFromHost(host);
     }
 }

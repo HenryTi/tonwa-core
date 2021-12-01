@@ -1,9 +1,9 @@
 import { capitalCase } from "../tool";
-//import { FieldItem, FieldUIType } from "../../tonva-react/ui";
+//import { FieldItem, FieldUIType } from "../../tonwa-react/ui";
 
-export function buildFieldItem(field:any, isKey:boolean):any/*FieldItem*/ {
-	let $FieldItemType: string, fieldItemType: string, widget:any/*FieldUIType*/;
-	let {name, type} = field;
+export function buildFieldItem(field: any, isKey: boolean): any/*FieldItem*/ {
+	let $FieldItemType: string, fieldItemType: string, widget: any/*FieldUIType*/;
+	let { name, type } = field;
 	switch (type) {
 		case 'id':
 			$FieldItemType = 'FieldItemId';

@@ -12,7 +12,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./AppConfig"), exports);
 __exportStar(require("./Navigo"), exports);
-__exportStar(require("./Tonva"), exports);
+__exportStar(require("./Tonwa"), exports);
 __exportStar(require("./Nav"), exports);
 __exportStar(require("./Login"), exports);
 //# sourceMappingURL=index.js.map

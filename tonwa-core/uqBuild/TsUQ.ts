@@ -1,11 +1,13 @@
 import { UqBuildContext } from "./UqBuildContext";
 import { camelCase, capitalCase } from "../tool";
-import { UqMan, Action, Book, Query, Sheet
+import {
+	UqMan, Action, Book, Query, Sheet
 	, Tuid, UqEnum, Map, History, Pending
-	, Entity, ID, IX, IDX, ArrFields, Field } from '../uqCore';
+	, Entity, ID, IX, IDX, ArrFields, Field
+} from '../uqCore';
 import { entityName } from "./tools";
 
-const fieldTypeMap:{[type:string]:string} = {
+const fieldTypeMap: { [type: string]: string } = {
 	"char": "string",
 	"text": "string",
 	"id": "number",
@@ -21,26 +23,26 @@ const fieldTypeMap:{[type:string]:string} = {
 const sysFields = ['id', 'main', 'row', 'no', '$create', '$update', '$owner'];
 
 export class TsUQ {
-	private buildContext:UqBuildContext;
-	private readonly uq:UqMan;
-	private readonly uqAlias:string;
+	private buildContext: UqBuildContext;
+	private readonly uq: UqMan;
+	private readonly uqAlias: string;
 
-	constructor(buildContext:UqBuildContext, uq:UqMan, uqAlias:string) {
+	constructor(buildContext: UqBuildContext, uq: UqMan, uqAlias: string) {
 		this.buildContext = buildContext;
 		this.uq = uq;
 		this.uqAlias = uqAlias;
 	}
-	
+
 	build() {
 		let tsImport = `
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import { IDXValue, Uq`;
-		let ts:string = `\n\n`;
+		let ts: string = `\n\n`;
 		ts += '\n//===============================';
 		ts += `\n//======= UQ ${this.uq.name} ========`;
 		ts += '\n//===============================';
 		ts += '\n';
-		
+
 		let { enumArr, tuidArr, actionArr, sheetArr
 			, queryArr, bookArr, mapArr, historyArr
 			, pendingArr, idArr, idxArr, ixArr
@@ -56,7 +58,7 @@ export class TsUQ {
 		pendingArr.forEach(v => ts += this.uqEntityInterface<Pending>(v, this.buildPendingInterface));
 		idArr.forEach(v => ts += this.uqEntityInterface<ID>(v, this.buildIDInterface));
 		idxArr.forEach(v => ts += this.uqEntityInterface<IDX>(v, this.buildIDXInterface));
-		idxArr.forEach(v => ts += this.uqEntityInterface<IDX>(v, this.buildIDXActParamInterface));	
+		idxArr.forEach(v => ts += this.uqEntityInterface<IDX>(v, this.buildIDXActParamInterface));
 		ixArr.forEach(v => ts += this.uqEntityInterface<IX>(v, this.buildIXInterface));
 
 		ts += this.buildActsInterface(this.uq);
@@ -65,7 +67,7 @@ export class TsUQ {
 	\nexport interface UqExt extends Uq {
 		Acts(param:ParamActs): Promise<any>;
 	`;
-		function appendArr<T extends Entity>(arr:T[], type:string, tsBuild: (v:T) => string) {
+		function appendArr<T extends Entity>(arr: T[], type: string, tsBuild: (v: T) => string) {
 			if (arr.length === 0) return;
 			let tsLen = ts.length;
 			arr.forEach(v => ts += tsBuild(v));
@@ -94,30 +96,30 @@ export class TsUQ {
 		Object.assign((uq as any)[to], from);
 	}
 	`;
-		
-		tsImport += ` } from "tonva-core";
-		import { Render } from "tonva-${this.buildContext.uiPlatform}";`;
+
+		tsImport += ` } from "tonwa-core";
+		import { Render } from "tonwa-${this.buildContext.uiPlatform}";`;
 
 		return tsImport + ts;
 	}
 
-	private uqEntityInterface<T extends Entity>(entity: T, buildInterface: (entity: T)=>string) {
-		let {name} = entity;
+	private uqEntityInterface<T extends Entity>(entity: T, buildInterface: (entity: T) => string) {
+		let { name } = entity;
 		if (name.indexOf('$') > 0) return '';
 		let entityCode = buildInterface(entity);
 		if (!entityCode) return '';
 		return '\n' + entityCode + '\n';
 	}
 
-	private uqBlock<T extends Entity>(entity: T, build: (entity: T)=>string) {
-		let {name} = entity;
+	private uqBlock<T extends Entity>(entity: T, build: (entity: T) => string) {
+		let { name } = entity;
 		if (name.indexOf('$') > 0) return '';
 		let entityCode = build(entity);
 		if (!entityCode) return '';
 		return '\n' + entityCode;
 	}
 
-	private buildFields(fields: Field[], isInID:boolean = false, indent:number = 1) {
+	private buildFields(fields: Field[], isInID: boolean = false, indent: number = 1) {
 		if (!fields) return '';
 		let ts = '';
 		for (let f of fields) {
@@ -126,15 +128,15 @@ export class TsUQ {
 		return ts;
 	}
 
-	private buildField(field: Field, isInID:boolean, indent:number = 1) {
-		let {name, type} = field;
+	private buildField(field: Field, isInID: boolean, indent: number = 1) {
+		let { name, type } = field;
 		let s = fieldTypeMap[type];
 		if (!s) s = 'any';
-		let q:string = (isInID === true && sysFields.indexOf(name) >= 0)? '?' : '';
+		let q: string = (isInID === true && sysFields.indexOf(name) >= 0) ? '?' : '';
 		return `\n${'\t'.repeat(indent)}${name}${q}: ${s};`;
 	}
 
-	private buildArrs(arrFields: ArrFields[]):string {
+	private buildArrs(arrFields: ArrFields[]): string {
 		if (!arrFields) return '';
 		let ts = '\n';
 		for (let af of arrFields) {
@@ -145,11 +147,11 @@ export class TsUQ {
 		return ts;
 	}
 
-	private buildReturns(entity:Entity, returns:ArrFields[]):string {
+	private buildReturns(entity: Entity, returns: ArrFields[]): string {
 		if (!returns) return;
 		//let {typeName} = entity;
 		//let type = typeMap[typeName] || typeName;
-		let {sName} = entity;
+		let { sName } = entity;
 		sName = capitalCase(sName);
 		let ts = '';
 		for (let ret of returns) {
@@ -196,11 +198,11 @@ export class TsUQ {
 	}
 
 	private buildEnumInterface = (enm: UqEnum) => {
-		let {schema} = enm;
+		let { schema } = enm;
 		if (!schema) return;
-		let {values} = schema;
+		let { values } = schema;
 		let ts = `export enum ${capitalCase(enm.sName)} {`;
-		let first:boolean = true;
+		let first: boolean = true;
 		for (let i in values) {
 			if (first === false) {
 				ts += ',';
@@ -221,7 +223,7 @@ export class TsUQ {
 	}
 
 	private buildQuery = (query: Query) => {
-		let {sName} = query;
+		let { sName } = query;
 		let ts = `\t${entityName(sName)}: UqQuery<Param${capitalCase(sName)}, Result${capitalCase(sName)}>;`;
 		return ts;
 	}
@@ -235,25 +237,25 @@ export class TsUQ {
 	}
 
 	private buildSheet = (sheet: Sheet) => {
-		let {sName, verify} = sheet;
+		let { sName, verify } = sheet;
 		let cName = capitalCase(sName);
-		let v = verify? `Verify${cName}` : 'any';
+		let v = verify ? `Verify${cName}` : 'any';
 		let ts = `\t${entityName(sName)}: UqSheet<Sheet${cName}, ${v}>;`;
 		return ts;
 	}
 
 	private buildSheetInterface = (sheet: Sheet) => {
-		let {sName, fields, arrFields, verify} = sheet;
+		let { sName, fields, arrFields, verify } = sheet;
 		let ts = `export interface Sheet${capitalCase(sName)} {`;
 		ts += this.buildFields(fields);
 		ts += this.buildArrs(arrFields);
 		ts += '}';
 
 		if (verify) {
-			let {returns} = verify;
+			let { returns } = verify;
 			ts += `\nexport interface Verify${capitalCase(sName)} {`;
 			for (let item of returns) {
-				let {name:arrName, fields} = item;
+				let { name: arrName, fields } = item;
 				ts += '\n\t' + arrName + ': {';
 				ts += this.buildFields(fields, false, 2);
 				ts += '\n\t}[];';
@@ -263,14 +265,14 @@ export class TsUQ {
 		return ts;
 	}
 
-	private buildBook = (book: Book):string => {
-		let {sName} = book;
+	private buildBook = (book: Book): string => {
+		let { sName } = book;
 		let ts = `\t${entityName(sName)}: UqBook<Param${capitalCase(sName)}, Result${capitalCase(sName)}>;`;
 		return ts;
 	}
 
-	private buildBookInterface = (book: Book):string => {
-		let {sName, fields, returns} = book;
+	private buildBookInterface = (book: Book): string => {
+		let { sName, fields, returns } = book;
 		let ts = `export interface Param${capitalCase(sName)} {`;
 		ts += this.buildFields(fields);
 		ts += '\n}\n';
@@ -278,13 +280,13 @@ export class TsUQ {
 		return ts;
 	}
 
-	private buildMap = (map: Map):string => {
-		let {sName} = map;
+	private buildMap = (map: Map): string => {
+		let { sName } = map;
 		let ts = `\t${entityName(sName)}: UqMap;`;
 		return ts;
 	}
 
-	private buildMapInterface = (map: Map):string => {
+	private buildMapInterface = (map: Map): string => {
 		/*
 		let {sName, fields, returns} = map;
 		let ts = `export interface Param${capitalCaseString(sName)} {`;
@@ -296,14 +298,14 @@ export class TsUQ {
 		return '';
 	}
 
-	private buildHistory = (history: History):string => {
-		let {sName} = history;
+	private buildHistory = (history: History): string => {
+		let { sName } = history;
 		let ts = `\t${entityName(sName)}: UqHistory<Param${capitalCase(sName)}, Result${capitalCase(sName)}>;`;
 		return ts;
 	}
 
-	private buildHistoryInterface = (history: History):string => {
-		let {sName, fields, returns} = history;
+	private buildHistoryInterface = (history: History): string => {
+		let { sName, fields, returns } = history;
 		let ts = `export interface Param${capitalCase(sName)} {`;
 		ts += this.buildFields(fields);
 		ts += '\n}\n';
@@ -311,13 +313,13 @@ export class TsUQ {
 		return ts;
 	}
 
-	private buildPending = (pending: Pending):string => {
-		let {sName} = pending;
+	private buildPending = (pending: Pending): string => {
+		let { sName } = pending;
 		let ts = `\t${entityName(sName)}: UqPending<any, any>;`;
 		return ts;
 	}
 
-	private buildPendingInterface = (pending: Pending):string => {
+	private buildPendingInterface = (pending: Pending): string => {
 		/*
 		let {sName, fields, returns} = pending;
 		let ts = `export interface Param${capitalCaseString(sName)} {`;
@@ -329,30 +331,30 @@ export class TsUQ {
 		return '';
 	}
 
-	private buildID = (id: ID):string => {
-		let {sName} = id;
+	private buildID = (id: ID): string => {
+		let { sName } = id;
 		let ts = `\t${entityName(sName)}: UqID<any>;`;
 		return ts;
 	}
 
-	private buildIDX = (idx: IDX):string => {
-		let {sName} = idx;
+	private buildIDX = (idx: IDX): string => {
+		let { sName } = idx;
 		let ts = `\t${entityName(sName)}: UqIDX<any>;`;
 		return ts;
 	}
 
-	private buildIX = (ix: IX):string => {
-		let {sName} = ix;
+	private buildIX = (ix: IX): string => {
+		let { sName } = ix;
 		let ts = `\t${entityName(sName)}: UqIX<any>;`;
 		return ts;
 	}
 
-	private buildIDInterface = (idEntity: ID):string => {
-		let {sName, fields, schema} = idEntity;
-		let {keys:schemaKeys} = schema;
-		let keys:Field[] = [], others:Field[] = [];
+	private buildIDInterface = (idEntity: ID): string => {
+		let { sName, fields, schema } = idEntity;
+		let { keys: schemaKeys } = schema;
+		let keys: Field[] = [], others: Field[] = [];
 		for (let f of fields) {
-			let {name} = f;
+			let { name } = f;
 			if (name === 'id') continue;
 			if ((schemaKeys as any[]).find(v => v.name === name)) keys.push(f);
 			else others.push(f);
@@ -365,13 +367,13 @@ export class TsUQ {
 		return ts;
 	}
 
-	private buildIDXInterface = (idx: IDX):string => {
-		let {sName, fields, schema} = idx;
-		let {exFields} = schema;
+	private buildIDXInterface = (idx: IDX): string => {
+		let { sName, fields, schema } = idx;
+		let { exFields } = schema;
 		let ts = `export interface ${capitalCase(sName)} {`;
 		let indent = 1;
 		for (let field of fields) {
-			let {name, type} = field;
+			let { name, type } = field;
 			let s = fieldTypeMap[type];
 			if (!s) s = 'any';
 			ts += `\n${'\t'.repeat(indent)}${name}`;
@@ -381,11 +383,11 @@ export class TsUQ {
 
 		ts += `\n\t$act?: number;`;
 
-		let hasTrack:boolean = false;
-		let hasMemo:boolean = false;
+		let hasTrack: boolean = false;
+		let hasMemo: boolean = false;
 		if (exFields) {
 			for (let exField of exFields) {
-				let {track, memo} = exField;
+				let { track, memo } = exField;
 				if (track === true) hasTrack = true;
 				if (memo === true) hasMemo = true;
 			}
@@ -400,13 +402,13 @@ export class TsUQ {
 		return ts;
 	}
 
-	private buildIDXActParamInterface = (idx: IDX):string => {
-		let {sName, fields, schema} = idx;
-		let {exFields} = schema;
+	private buildIDXActParamInterface = (idx: IDX): string => {
+		let { sName, fields, schema } = idx;
+		let { exFields } = schema;
 		let ts = `export interface ActParam${capitalCase(sName)} {`;
 		let indent = 1;
 		for (let field of fields) {
-			let {name, type} = field;
+			let { name, type } = field;
 			let s = fieldTypeMap[type];
 			if (!s) s = 'any';
 			ts += `\n${'\t'.repeat(indent)}${name}`;
@@ -416,11 +418,11 @@ export class TsUQ {
 
 		ts += `\n\t$act?: number;`;
 
-		let hasTrack:boolean = false;
-		let hasMemo:boolean = false;
+		let hasTrack: boolean = false;
+		let hasMemo: boolean = false;
 		if (exFields) {
 			for (let exField of exFields) {
-				let {track, memo} = exField;
+				let { track, memo } = exField;
 				if (track === true) hasTrack = true;
 				if (memo === true) hasMemo = true;
 			}
@@ -435,8 +437,8 @@ export class TsUQ {
 		return ts;
 	}
 
-	private buildIXInterface = (ix: IX):string => {
-		let {sName, fields} = ix;
+	private buildIXInterface = (ix: IX): string => {
+		let { sName, fields } = ix;
 		let ts = `export interface ${capitalCase(sName)} {`;
 		ts += this.buildFields(fields);
 		ts += '\n}';
@@ -446,15 +448,15 @@ export class TsUQ {
 	private buildActsInterface(uq: UqMan) {
 		let ts = `\nexport interface ParamActs {`;
 		uq.idArr.forEach(v => {
-			let {sName} = v;
+			let { sName } = v;
 			ts += `\n\t${camelCase(sName)}?: ${capitalCase(sName)}[];`;
 		});
 		uq.idxArr.forEach(v => {
-			let {sName} = v;
+			let { sName } = v;
 			ts += `\n\t${camelCase(sName)}?: ActParam${capitalCase(sName)}[];`;
 		});
 		uq.ixArr.forEach(v => {
-			let {sName} = v;
+			let { sName } = v;
 			ts += `\n\t${camelCase(sName)}?: ${capitalCase(sName)}[];`;
 		});
 		ts += '\n}\n';

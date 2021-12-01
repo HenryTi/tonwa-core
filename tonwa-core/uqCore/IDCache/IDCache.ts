@@ -5,16 +5,16 @@ const delayLoad = 30; 	// 延迟loading的时间
 export class IDCache {
 	protected uqMan: UqMan;
 	private queue: number[] = [];               							// 每次使用，都排到队头
-	private cache:Map<number, object|number>;    // 已经缓冲的, 如果是数值，则是重复取的次数
+	private cache: Map<number, object | number>;    // 已经缓冲的, 如果是数值，则是重复取的次数
 	private waitingIds: number[] = [];          							// 等待loading的
 	private timeoutHandler: any;
 
 	constructor(uqMan: UqMan) {
 		this.uqMan = uqMan;
-		this.cache = uqMan.tonva.createObservableMap<number, object|number>();
+		this.cache = uqMan.tonwa.createObservableMap<number, object | number>();
 	}
 
-	getValue(id:number): object {
+	getValue(id: number): object {
 		let ret = this.cache.get(id);
 		if (ret === null) return;
 		if (ret === undefined) {
@@ -35,7 +35,7 @@ export class IDCache {
 		if (waitingIds.length === 0) return;
 		let values = await this.TvIdValues(waitingIds);
 		for (let val of values) {
-			let {id} = val;
+			let { id } = val;
 			if (waitingIds[0] < 0) id = -id;
 			this.cache.set(id, val);
 			let index = waitingIds.findIndex(v => v === id);
@@ -46,7 +46,7 @@ export class IDCache {
 		}
 	}
 
-	private useId(id:number) {
+	private useId(id: number) {
 		if (!id) return;
 		if (typeof id !== 'number') {
 			console.error('id cache ' + id + ' is not number');
@@ -89,20 +89,20 @@ export class IDCache {
 		return;
 	}
 
-	private moveToHead(id:number) {
+	private moveToHead(id: number) {
 		let index = this.queue.findIndex(v => v === id);
 		this.queue.splice(index, 1);
 		this.queue.push(id);
 	}
 
-	remove(id:number) {
+	remove(id: number) {
 		this.cache.delete(id);
 		let index = this.queue.findIndex(v => v === id);
 		this.queue.splice(index, 1);
 		//this.localArr.removeItem(id);
 	}
 
-	resetCache(id:number) {
+	resetCache(id: number) {
 		this.remove(id);
 		this.useId(id);
 	}

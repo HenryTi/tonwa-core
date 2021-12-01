@@ -1,5 +1,5 @@
 import { UqApi, UqData } from '../web';
-import { Tonva, UqConfig } from '../core';
+import { Tonwa, UqConfig } from '../core';
 import { Tuid, TuidDiv, TuidBox } from './tuid';
 import { Action } from './action';
 import { Sheet } from './sheet';
@@ -281,11 +281,11 @@ export declare class UqMan {
     readonly name: string;
     readonly uqApi: UqApi;
     readonly id: number;
-    readonly tonva: Tonva;
+    readonly tonwa: Tonwa;
     readonly web: Web;
     uqVersion: number;
     config: UqConfig;
-    constructor(tonva: Tonva, uqData: UqData);
+    constructor(tonwa: Tonwa, uqData: UqData);
     getID(name: string): ID;
     getIDX(name: string): IDX;
     getIX(name: string): IX;

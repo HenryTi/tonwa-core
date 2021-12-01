@@ -95,7 +95,7 @@ var EnumResultType;
 })(EnumResultType || (EnumResultType = {}));
 ;
 var UqMan = /** @class */ (function () {
-    function UqMan(tonva, uqData /*, createBoxId:CreateBoxId, tvs:{[entity:string]:(values:any)=>JSX.Element}*/) {
+    function UqMan(tonwa, uqData /*, createBoxId:CreateBoxId, tvs:{[entity:string]:(values:any)=>JSX.Element}*/) {
         var _this = this;
         this.entities = {};
         this.enums = {};
@@ -496,8 +496,8 @@ var UqMan = /** @class */ (function () {
                 }
             });
         }); };
-        this.tonva = tonva;
-        this.web = tonva.web;
+        this.tonwa = tonwa;
+        this.web = tonwa.web;
         //this.createBoxId = createBoxId;
         /*
         if (createBoxId === undefined) {

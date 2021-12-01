@@ -1,11 +1,11 @@
-import { Tonva, AppConfig as AppConfigCore } from '../core';
+import { Tonwa, AppConfig as AppConfigCore } from '../core';
 import { UQsMan } from "./uqsMan";
 export declare class UQsLoader {
-    readonly tonva: Tonva;
+    readonly tonwa: Tonwa;
     protected readonly appConfig: AppConfigCore;
     protected isBuildingUQ: boolean;
     uqsMan: UQsMan;
-    constructor(tonva: Tonva, appConfig: AppConfigCore);
+    constructor(tonwa: Tonwa, appConfig: AppConfigCore);
     build(): Promise<string[]>;
     private loadApp;
     loadUqs(): Promise<string[]>;

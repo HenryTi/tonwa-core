@@ -9,10 +9,10 @@ export class TsTemplate {
     }
 
     readonly tsHeader: string;
-    
-    get tsApp():string {
+
+    get tsApp(): string {
         return `${this.tsHeader}
-    import { NavView, start, nav } from 'tonva-${this.buildContext.uiPlatform}';
+    import { NavView, start, nav } from 'tonwa-${this.buildContext.uiPlatform}';
     import { CApp } from './CApp';
     import { appConfig } from './appConfig';
     
@@ -27,7 +27,7 @@ export class TsTemplate {
     `;
     }
 
-    get tsCApp():string {
+    get tsCApp(): string {
         return `${this.tsHeader}
     import { CUqApp } from "./CBase";
     import { res } from "./res";
@@ -59,7 +59,7 @@ export class TsTemplate {
                 if (this.tick<gaps[this.gapIndex]) return;
                 this.tick = 0;
                 if (this.gapIndex < gaps.length - 1) ++this.gapIndex;
-                let ret = await this.uqs.BzHelloTonva.$poked.query(undefined, false);
+                let ret = await this.uqs.BzHelloTonwa.$poked.query(undefined, false);
                 let v = ret.ret[0];
                 if (v === undefined) return;
                 if (!v.poke) return;
@@ -73,11 +73,11 @@ export class TsTemplate {
         }
     }
     `;
-    }    
+    }
 
-    get tsCBase():string {
+    get tsCBase(): string {
         return `${this.tsHeader}
-    import { CSub, CBase, CAppBase, IConstructor } from 'tonva-${this.buildContext.uiPlatform}';
+    import { CSub, CBase, CAppBase, IConstructor } from 'tonwa-${this.buildContext.uiPlatform}';
     import { UQs } from './uqs';
     import { CApp } from './CApp';
     
@@ -98,7 +98,7 @@ export class TsTemplate {
     `;
     }
 
-    get tsIndex():string {
+    get tsIndex(): string {
         return `${this.tsHeader}
     export { CUqApp, CUqBase, CUqSub } from './CBase';
     export { CApp } from './CApp';
@@ -107,10 +107,10 @@ export class TsTemplate {
     export * from './startApp';
     `;
     }
-        
-    get tsVMain():string {
+
+    get tsVMain(): string {
         return `${this.tsHeader}
-    import { VPage, Page } from 'tonva-${this.buildContext.uiPlatform}';
+    import { VPage, Page } from 'tonwa-${this.buildContext.uiPlatform}';
     import { CApp } from './CApp';
     
     export class VMain extends VPage<CApp> {
@@ -124,7 +124,7 @@ export class TsTemplate {
     }
     `;
     }
-    
+
 
 
 }

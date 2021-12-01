@@ -2,16 +2,16 @@ import { Web } from './Web';
 import { FetchError } from './fetchError';
 
 export interface HttpChannelUI {
-    startWait():void;
-    endWait():void;
-    showError(error:FetchError):Promise<void>;
+    startWait(): void;
+    endWait(): void;
+    showError(error: FetchError): Promise<void>;
     // showUpgradeUq(uq:string, version:number):Promise<void>;
 }
 
 export class HttpChannelNavUI implements HttpChannelUI {
-    protected readonly web:Web;
+    protected readonly web: Web;
 
-    constructor(web:Web) {
+    constructor(web: Web) {
         this.web = web;
     }
 
@@ -21,7 +21,7 @@ export class HttpChannelNavUI implements HttpChannelUI {
     endWait() {
         this.web.endWait();
     }
-    async showError(error:FetchError):Promise<void> {
+    async showError(error: FetchError): Promise<void> {
         this.web.endWait();
         /*
         if (error.name === 'SyntaxError') {
@@ -34,7 +34,7 @@ export class HttpChannelNavUI implements HttpChannelUI {
     }
     /*
     async showUpgradeUq(uq:string, version:number):Promise<void> {
-        await this.web.tonva.nav.showUpgradeUq(uq, version);
+        await this.web.tonwa.nav.showUpgradeUq(uq, version);
     }
     */
 }

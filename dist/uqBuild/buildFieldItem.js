@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.buildFieldItem = void 0;
 var tool_1 = require("../tool");
-//import { FieldItem, FieldUIType } from "../../tonva-react/ui";
+//import { FieldItem, FieldUIType } from "../../tonwa-react/ui";
 function buildFieldItem(field, isKey) {
     var $FieldItemType, fieldItemType, widget /*FieldUIType*/;
     var name = field.name, type = field.type;

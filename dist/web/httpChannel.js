@@ -293,7 +293,7 @@ var HttpChannel = /** @class */ (function () {
                                             }
                                             retError = retJson.error;
                                             if (!(retError === undefined)) return [3 /*break*/, 2];
-                                            return [4 /*yield*/, that.showError(buildError('not valid tonva json'))];
+                                            return [4 /*yield*/, that.showError(buildError('not valid tonwa json'))];
                                         case 1:
                                             _a.sent();
                                             return [3 /*break*/, 4];

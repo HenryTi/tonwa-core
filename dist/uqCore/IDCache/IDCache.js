@@ -79,7 +79,7 @@ var IDCache = /** @class */ (function () {
             });
         }); };
         this.uqMan = uqMan;
-        this.cache = uqMan.tonva.createObservableMap();
+        this.cache = uqMan.tonwa.createObservableMap();
     }
     IDCache.prototype.getValue = function (id) {
         var ret = this.cache.get(id);
