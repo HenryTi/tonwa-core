@@ -241,49 +241,52 @@ export interface Uq {
 	getAdmins(): Promise<{ id: number; role: number }[]>;
 	$: UqMan;
 	Acts(param: any): Promise<any>;
-	$Acts(param: any): Promise<string>;
 	ActIX<T>(param: ParamActIX<T>): Promise<number[]>;
-	$ActIX<T>(param: ParamActIX<T>): Promise<string>;
 	ActIXSort(param: ParamActIXSort): Promise<void>;
-	$ActIXSort(param: ParamActIXSort): Promise<string>;
 	ActDetail<M, D>(param: ParamActDetail<M, D>): Promise<RetActDetail>;
-	$ActDetail<M, D>(param: ParamActDetail<M, D>): Promise<string>;
 	ActDetail<M, D, D2>(param: ParamActDetail2<M, D, D2>): Promise<RetActDetail2>;
-	$ActDetail<M, D, D2>(param: ParamActDetail2<M, D, D2>): Promise<string>;
 	ActDetail<M, D, D2, D3>(param: ParamActDetail3<M, D, D2, D3>): Promise<RetActDetail3>;
-	$ActDetail<M, D, D2, D3>(param: ParamActDetail3<M, D, D2, D3>): Promise<string>;
 	QueryID<T>(param: ParamQueryID): Promise<T[]>;
-	$QueryID<T>(param: ParamQueryID): Promise<string>;
 	IDNO(param: ParamIDNO): Promise<string>;
-	$IDNO(param: ParamIDNO): Promise<string>;
 	IDDetailGet<M, D>(param: ParamIDDetailGet): Promise<[M[], D[]]>;
-	$IDDetailGet<M, D>(param: ParamIDDetailGet): Promise<string>;
 	IDDetailGet<M, D, D2>(param: ParamIDDetailGet): Promise<[M[], D[], D2[]]>;
-	$IDDetailGet<M, D, D2>(param: ParamIDDetailGet): Promise<string>;
 	IDDetailGet<M, D, D2, D3>(param: ParamIDDetailGet): Promise<[M[], D[], D2[], D3[]]>;
-	$IDDetailGet<M, D, D2, D3>(param: ParamIDDetailGet): Promise<string>;
 	ID<T>(param: ParamID): Promise<T[]>;
-	$ID<T>(param: ParamID): Promise<string>;
-	KeyID<T>(param: ParamKeyID): Promise<T[]>;
-	$KeyID<T>(param: ParamKeyID): Promise<string>;
-	IX<T>(param: ParamIX): Promise<T[]>;
-	$IX<T>(param: ParamIX): Promise<string>;
 	IXr<T>(param: ParamIX): Promise<T[]>; // IX id 反查IX list
-	$IXr<T>(param: ParamIX): Promise<string>; // IX id 反查IX list
+	KeyID<T>(param: ParamKeyID): Promise<T[]>;
+	IX<T>(param: ParamIX): Promise<T[]>;
 	KeyIX<T>(param: ParamKeyIX): Promise<T[]>;
-	$KeyIX<T>(param: ParamKeyIX): Promise<string>;
 	IDLog<T>(param: ParamIDLog): Promise<T[]>;
-	$IDLog<T>(param: ParamIDLog): Promise<string>;
 	IDSum<T>(param: ParamIDSum): Promise<T[]>;
-	$IDSum<T>(param: ParamIDSum): Promise<string>;
 	IDxID<T, T2>(param: ParamIDxID): Promise<[T[], T2[]]>; // ID list with IX 对应的子集
-	$IDxID<T, T2>(param: ParamIDxID): Promise<string>; // ID list with IX 对应的子集
 	IDinIX<T>(param: ParamIDinIX): Promise<T & { $in: boolean }[]>;
-	$IDinIX<T>(param: ParamIDinIX): Promise<string>;
 	IDTree<T>(param: ParamIDTree): Promise<T[]>;
-	$IDTree<T>(param: ParamIDTree): Promise<string>;
 
 	IDTv(ids: number[]): Promise<any[]>;
+
+	/*
+	$Acts(param: any): Promise<string>;
+	$ActIX<T>(param: ParamActIX<T>): Promise<string>;
+	$ActIXSort(param: ParamActIXSort): Promise<string>;
+	$ActDetail<M, D>(param: ParamActDetail<M, D>): Promise<string>;
+	$ActDetail<M, D, D2>(param: ParamActDetail2<M, D, D2>): Promise<string>;
+	$ActDetail<M, D, D2, D3>(param: ParamActDetail3<M, D, D2, D3>): Promise<string>;
+	$QueryID<T>(param: ParamQueryID): Promise<string>;
+	$IDNO(param: ParamIDNO): Promise<string>;
+	$IDDetailGet<M, D>(param: ParamIDDetailGet): Promise<string>;
+	$IDDetailGet<M, D, D2>(param: ParamIDDetailGet): Promise<string>;
+	$IDDetailGet<M, D, D2, D3>(param: ParamIDDetailGet): Promise<string>;
+	$ID<T>(param: ParamID): Promise<string>;
+	$KeyID<T>(param: ParamKeyID): Promise<string>;
+	$IX<T>(param: ParamIX): Promise<string>;
+	$IXr<T>(param: ParamIX): Promise<string>; // IX id 反查IX list
+	$KeyIX<T>(param: ParamKeyIX): Promise<string>;
+	$IDLog<T>(param: ParamIDLog): Promise<string>;
+	$IDSum<T>(param: ParamIDSum): Promise<string>;
+	$IDxID<T, T2>(param: ParamIDxID): Promise<string>; // ID list with IX 对应的子集
+	$IDinIX<T>(param: ParamIDinIX): Promise<string>;
+	$IDTree<T>(param: ParamIDTree): Promise<string>;
+	*/
 	/*
 	IDRender(id: number, render?:(value:any) => JSX.Element): JSX.Element;
 	IDV<T>(id: number): T;
