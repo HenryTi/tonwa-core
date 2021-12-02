@@ -33,7 +33,7 @@ export abstract class HttpChannel {
         this.hostUrl = hostUrl;
         this.apiToken = apiToken;
         this.ui = ui;
-        this.timeout = env.isDevelopment === true ? 500000 : 50000;
+        this.timeout = env.isDevelopment === true ? 10000 : 50000;
     }
 
     private startWait = (waiting: boolean) => {
@@ -44,7 +44,7 @@ export abstract class HttpChannel {
 
     private endWait = (url?: string, reject?: (reason?: any) => void) => {
         if (this.ui !== undefined) this.ui.endWait();
-        if (reject !== undefined) reject('访问webapi超时 ' + url);
+        if (reject !== undefined) reject(url);
     }
 
     private showError = async (error: FetchError) => {
@@ -151,7 +151,7 @@ export abstract class HttpChannel {
             let timeOutHandler = env.setTimeout(
                 undefined, //'httpChannel.fetch',
                 () => {
-                    that.endWait(url + ' timeout endWait: ' + (Date.now() - now) + 'ms', reject);
+                    that.endWait(`webapi timeout: ${(Date.now() - now)}ms ${url}`, reject);
                 },
                 this.timeout);
             let res = await fetch(encodeURI(path), options);

@@ -80,7 +80,7 @@ var HttpChannel = /** @class */ (function () {
             if (_this.ui !== undefined)
                 _this.ui.endWait();
             if (reject !== undefined)
-                reject('访问webapi超时 ' + url);
+                reject(url);
         };
         this.showError = function (error) { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -99,7 +99,7 @@ var HttpChannel = /** @class */ (function () {
         this.hostUrl = hostUrl;
         this.apiToken = apiToken;
         this.ui = ui;
-        this.timeout = tool_1.env.isDevelopment === true ? 500000 : 50000;
+        this.timeout = tool_1.env.isDevelopment === true ? 10000 : 50000;
     }
     HttpChannel.prototype.used = function () {
         this.post('', {});
@@ -261,7 +261,7 @@ var HttpChannel = /** @class */ (function () {
                         now_1 = Date.now();
                         timeOutHandler_1 = tool_1.env.setTimeout(undefined, //'httpChannel.fetch',
                         function () {
-                            that.endWait(url + ' timeout endWait: ' + (Date.now() - now_1) + 'ms', reject);
+                            that.endWait("webapi timeout: " + (Date.now() - now_1) + "ms " + url, reject);
                         }, this.timeout);
                         return [4 /*yield*/, fetch(encodeURI(path), options)];
                     case 2:
