@@ -293,7 +293,7 @@ var TsUQ = /** @class */ (function () {
     }
     TsUQ.prototype.build = function () {
         var _this = this;
-        var tsImport = "\n\t// eslint-disable-next-line @typescript-eslint/no-unused-vars\n\timport { IDXValue, Uq";
+        var tsImport = "\n// eslint-disable-next-line @typescript-eslint/no-unused-vars\nimport { IDXValue, Uq";
         var ts = "\n\n";
         ts += '\n//===============================';
         ts += "\n//======= UQ " + this.uq.name + " ========";
@@ -314,7 +314,7 @@ var TsUQ = /** @class */ (function () {
         idxArr.forEach(function (v) { return ts += _this.uqEntityInterface(v, _this.buildIDXActParamInterface); });
         ixArr.forEach(function (v) { return ts += _this.uqEntityInterface(v, _this.buildIXInterface); });
         ts += this.buildActsInterface(this.uq);
-        ts += "\n\t\nexport interface UqExt extends Uq {\n\t\tActs(param:ParamActs): Promise<any>;\n\t\tIDRender(id:number):" + this.buildContext.element + ";\n\t";
+        ts += "\n\nexport interface UqExt extends Uq {\n\tActs(param:ParamActs): Promise<any>;\n\tSQL: Uq;\n\tIDRender(id:number):" + this.buildContext.element + ";\n";
         function appendArr(arr, type, tsBuild) {
             if (arr.length === 0)
                 return;
@@ -336,8 +336,8 @@ var TsUQ = /** @class */ (function () {
         appendArr(idxArr, 'IDX', function (v) { return _this.uqBlock(v, _this.buildIDX); });
         appendArr(ixArr, 'IX', function (v) { return _this.uqBlock(v, _this.buildIX); });
         ts += '\n}\n';
-        ts += "\n\texport function assign(uq: any, to:string, from:any): void {\n\t\tlet hasEntity = uq.hasEntity(to);\n\t\tif (hasEntity === false) {\n\t\t\treturn;\n\t\t}\n\t\tObject.assign((uq as any)[to], from);\n\t}\n\t";
-        tsImport += " } from \"tonwa-core\";\n\t\timport { Render } from \"tonwa-" + this.buildContext.uiPlatform + "\";";
+        ts += "\nexport function assign(uq: any, to:string, from:any): void {\n\tlet hasEntity = uq.hasEntity(to);\n\tif (hasEntity === false) {\n\t\treturn;\n\t}\n\tObject.assign((uq as any)[to], from);\n}\n";
+        tsImport += " } from \"tonwa-core\";\nimport { Render } from \"tonwa-" + this.buildContext.uiPlatform + "\";";
         return tsImport + ts;
     };
     TsUQ.prototype.uqEntityInterface = function (entity, buildInterface) {

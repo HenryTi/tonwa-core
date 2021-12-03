@@ -53,7 +53,7 @@ var TsUqFolder = /** @class */ (function () {
                 continue;
             imports += "\nimport * as " + cName + " from './" + cName + ".ui';";
             sets += "\n\tassign(uq, '" + cName + "', " + cName + ");";
-            var tsUI = "/* eslint-disable */\n\t// eslint-disable-next-line @typescript-eslint/no-unused-vars\n\timport { FieldItem, FieldItemNumber, FieldItemString, FieldItemId, FieldItemInt, UI, TFunc } from 'tonwa-" + this.buildContext.uiPlatform + "';\n\t// eslint-disable-next-line @typescript-eslint/no-unused-vars\n\timport { Res, uqStringify, setRes } from \"tonwa-core\";\n\timport { Tuid" + cName + " } from \"./" + this.uqAlias + "\";\n\t\n\tconst resRaw: Res<any> = {\n\t\t$zh: {\n\t\t},\n\t\t$en: {\n\t\t}\n\t};\n\tconst res: any = {};\n\tsetRes(res, resRaw);\n\t\n\texport const t:TFunc = (str:string|" + this.buildContext.element + "): string|" + this.buildContext.element + " => {\n\t\treturn res[str as string] ?? str;\n\t}\n\t\n\texport function render(item: Tuid" + cName + "):" + this.buildContext.element + " {\n\t\treturn <>{uqStringify(item)}</>;\n\t};\n\t";
+            var tsUI = "/* eslint-disable */\n// eslint-disable-next-line @typescript-eslint/no-unused-vars\nimport { FieldItem, FieldItemNumber, FieldItemString, FieldItemId, FieldItemInt, UI, TFunc } from 'tonwa-" + this.buildContext.uiPlatform + "';\n// eslint-disable-next-line @typescript-eslint/no-unused-vars\nimport { Res, uqStringify, setRes } from \"tonwa-core\";\nimport { Tuid" + cName + " } from \"./" + this.uqAlias + "\";\n\nconst resRaw: Res<any> = {\n\t$zh: {\n\t},\n\t$en: {\n\t}\n};\nconst res: any = {};\nsetRes(res, resRaw);\n\nexport const t:TFunc = (str:string|" + this.buildContext.element + "): string|" + this.buildContext.element + " => {\n\treturn res[str as string] ?? str;\n}\n\nexport function render(item: Tuid" + cName + "):" + this.buildContext.element + " {\n\treturn <>{uqStringify(item)}</>;\n};\n";
             var path = uqFolder + "/" + cName + ".ui.tsx";
             (0, tools_1.saveTsFileIfNotExists)(path, tsUI);
         }
@@ -67,7 +67,7 @@ var TsUqFolder = /** @class */ (function () {
             coll[cName.toLocaleLowerCase()] = i;
             imports += "\nimport * as " + cName + " from './" + cName + ".ui';";
             sets += "\n\tassign(uq, '" + cName + "', " + cName + ");";
-            var tsUI = "// eslint-disable-next-line @typescript-eslint/no-unused-vars\n\timport { FieldItem, FieldItemNumber, FieldItemString, FieldItemId, FieldItemInt, UI, TFunc } from 'tonwa-" + this.buildContext.uiPlatform + "';\n\t// eslint-disable-next-line @typescript-eslint/no-unused-vars\n\timport { Res, uqStringify, setRes } from \"tonwa-core\";\n\timport { " + cName + " } from \"./" + this.uqAlias + "\";\n\t\n\t/*--fields--*/\n\tconst fields = {\n\t};\n\t/*==fields==*/\n\t\n\tconst fieldArr: FieldItem[] = [\n\t];\n\t\n\texport const ui: UI = {\n\t\tlabel: \"" + cName + "\",\n\t\tfieldArr,\n\t\tfields,\n\t};\n\t\n\tconst resRaw: Res<any> = {\n\t\t$zh: {\n\t\t},\n\t\t$en: {\n\t\t}\n\t};\n\tconst res: any = {};\n\tsetRes(res, resRaw);\n\t\n\texport const t:TFunc = (str:string|" + this.buildContext.element + "): string|" + this.buildContext.element + " => {\n\t\treturn res[str as string] ?? str;\n\t}\n\t\n\texport function render(item: " + cName + "):" + this.buildContext.element + " {\n\t\treturn <>{uqStringify(item)}</>;\n\t};\n\t";
+            var tsUI = "// eslint-disable-next-line @typescript-eslint/no-unused-vars\nimport { FieldItem, FieldItemNumber, FieldItemString, FieldItemId, FieldItemInt, UI, TFunc } from 'tonwa-" + this.buildContext.uiPlatform + "';\n// eslint-disable-next-line @typescript-eslint/no-unused-vars\nimport { Res, uqStringify, setRes } from \"tonwa-core\";\nimport { " + cName + " } from \"./" + this.uqAlias + "\";\n\n/*--fields--*/\nconst fields = {\n};\n/*==fields==*/\n\nconst fieldArr: FieldItem[] = [\n];\n\nexport const ui: UI = {\n\tlabel: \"" + cName + "\",\n\tfieldArr,\n\tfields,\n};\n\nconst resRaw: Res<any> = {\n\t$zh: {\n\t},\n\t$en: {\n\t}\n};\nconst res: any = {};\nsetRes(res, resRaw);\n\nexport const t:TFunc = (str:string|" + this.buildContext.element + "): string|" + this.buildContext.element + " => {\n\treturn res[str as string] ?? str;\n}\n\nexport function render(item: " + cName + "):" + this.buildContext.element + " {\n\treturn <>{uqStringify(item)}</>;\n};\n";
             var path = uqFolder + "/" + cName + ".ui.tsx";
             (0, tools_1.saveTsFileIfNotExists)(path, tsUI);
             var fields = this.buildFields(i);
@@ -83,7 +83,7 @@ var TsUqFolder = /** @class */ (function () {
             });
             this.replaceTsFileString(path, { begin: '\nconst fieldArr: FieldItem[] = [\n', end: '\n];\n', content: tsFieldArr });
         }
-        var tsIndex = "import { UqExt as Uq, assign } from './" + this.uqAlias + "';" + imports + "\n\t\t\n\texport function setUI(uq: Uq) {" + sets + "\n\t}\n\texport * from './" + this.uqAlias + "';\n\t";
+        var tsIndex = "import { UqExt as Uq, assign } from './" + this.uqAlias + "';" + imports + "\n\t\nexport function setUI(uq: Uq) {" + sets + "\n}\nexport * from './" + this.uqAlias + "';\n";
         (0, tools_1.overrideTsFile)(uqFolder + "/index.ts", tsIndex);
         var files = fs_1.default.readdirSync(uqFolder);
         var suffix = '.ui.tsx';

@@ -58,29 +58,29 @@ export class TsUqFolder {
 			sets += `\n	assign(uq, '${cName}', ${cName});`;
 
 			let tsUI = `/* eslint-disable */
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	import { FieldItem, FieldItemNumber, FieldItemString, FieldItemId, FieldItemInt, UI, TFunc } from 'tonwa-${this.buildContext.uiPlatform}';
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	import { Res, uqStringify, setRes } from "tonwa-core";
-	import { Tuid${cName} } from "./${this.uqAlias}";
-	
-	const resRaw: Res<any> = {
-		$zh: {
-		},
-		$en: {
-		}
-	};
-	const res: any = {};
-	setRes(res, resRaw);
-	
-	export const t:TFunc = (str:string|${this.buildContext.element}): string|${this.buildContext.element} => {
-		return res[str as string] ?? str;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { FieldItem, FieldItemNumber, FieldItemString, FieldItemId, FieldItemInt, UI, TFunc } from 'tonwa-${this.buildContext.uiPlatform}';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { Res, uqStringify, setRes } from "tonwa-core";
+import { Tuid${cName} } from "./${this.uqAlias}";
+
+const resRaw: Res<any> = {
+	$zh: {
+	},
+	$en: {
 	}
-	
-	export function render(item: Tuid${cName}):${this.buildContext.element} {
-		return <>{uqStringify(item)}</>;
-	};
-	`;
+};
+const res: any = {};
+setRes(res, resRaw);
+
+export const t:TFunc = (str:string|${this.buildContext.element}): string|${this.buildContext.element} => {
+	return res[str as string] ?? str;
+}
+
+export function render(item: Tuid${cName}):${this.buildContext.element} {
+	return <>{uqStringify(item)}</>;
+};
+`;
 
 			let path = `${uqFolder}/${cName}.ui.tsx`;
 			saveTsFileIfNotExists(path, tsUI);
@@ -96,42 +96,42 @@ export class TsUqFolder {
 			sets += `\n	assign(uq, '${cName}', ${cName});`;
 
 			let tsUI = `// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	import { FieldItem, FieldItemNumber, FieldItemString, FieldItemId, FieldItemInt, UI, TFunc } from 'tonwa-${this.buildContext.uiPlatform}';
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	import { Res, uqStringify, setRes } from "tonwa-core";
-	import { ${cName} } from "./${this.uqAlias}";
-	
-	/*--fields--*/
-	const fields = {
-	};
-	/*==fields==*/
-	
-	const fieldArr: FieldItem[] = [
-	];
-	
-	export const ui: UI = {
-		label: "${cName}",
-		fieldArr,
-		fields,
-	};
-	
-	const resRaw: Res<any> = {
-		$zh: {
-		},
-		$en: {
-		}
-	};
-	const res: any = {};
-	setRes(res, resRaw);
-	
-	export const t:TFunc = (str:string|${this.buildContext.element}): string|${this.buildContext.element} => {
-		return res[str as string] ?? str;
+import { FieldItem, FieldItemNumber, FieldItemString, FieldItemId, FieldItemInt, UI, TFunc } from 'tonwa-${this.buildContext.uiPlatform}';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { Res, uqStringify, setRes } from "tonwa-core";
+import { ${cName} } from "./${this.uqAlias}";
+
+/*--fields--*/
+const fields = {
+};
+/*==fields==*/
+
+const fieldArr: FieldItem[] = [
+];
+
+export const ui: UI = {
+	label: "${cName}",
+	fieldArr,
+	fields,
+};
+
+const resRaw: Res<any> = {
+	$zh: {
+	},
+	$en: {
 	}
-	
-	export function render(item: ${cName}):${this.buildContext.element} {
-		return <>{uqStringify(item)}</>;
-	};
-	`;
+};
+const res: any = {};
+setRes(res, resRaw);
+
+export const t:TFunc = (str:string|${this.buildContext.element}): string|${this.buildContext.element} => {
+	return res[str as string] ?? str;
+}
+
+export function render(item: ${cName}):${this.buildContext.element} {
+	return <>{uqStringify(item)}</>;
+};
+`;
 
 			let path = `${uqFolder}/${cName}.ui.tsx`;
 			saveTsFileIfNotExists(path, tsUI);
@@ -156,11 +156,11 @@ export class TsUqFolder {
 		}
 
 		let tsIndex = `import { UqExt as Uq, assign } from './${this.uqAlias}';${imports}
-		
-	export function setUI(uq: Uq) {${sets}
-	}
-	export * from './${this.uqAlias}';
-	`;
+	
+export function setUI(uq: Uq) {${sets}
+}
+export * from './${this.uqAlias}';
+`;
 		overrideTsFile(`${uqFolder}/index.ts`, tsIndex);
 
 		let files = fs.readdirSync(uqFolder);

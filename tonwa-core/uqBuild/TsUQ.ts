@@ -35,8 +35,8 @@ export class TsUQ {
 
 	build() {
 		let tsImport = `
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	import { IDXValue, Uq`;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { IDXValue, Uq`;
 		let ts: string = `\n\n`;
 		ts += '\n//===============================';
 		ts += `\n//======= UQ ${this.uq.name} ========`;
@@ -64,10 +64,12 @@ export class TsUQ {
 		ts += this.buildActsInterface(this.uq);
 
 		ts += `
-	\nexport interface UqExt extends Uq {
-		Acts(param:ParamActs): Promise<any>;
-		IDRender(id:number):${this.buildContext.element};
-	`;
+
+export interface UqExt extends Uq {
+	Acts(param:ParamActs): Promise<any>;
+	SQL: Uq;
+	IDRender(id:number):${this.buildContext.element};
+`;
 		function appendArr<T extends Entity>(arr: T[], type: string, tsBuild: (v: T) => string) {
 			if (arr.length === 0) return;
 			let tsLen = ts.length;
@@ -89,17 +91,17 @@ export class TsUQ {
 		appendArr<IX>(ixArr, 'IX', v => this.uqBlock<IX>(v, this.buildIX));
 		ts += '\n}\n';
 		ts += `
-	export function assign(uq: any, to:string, from:any): void {
-		let hasEntity = uq.hasEntity(to);
-		if (hasEntity === false) {
-			return;
-		}
-		Object.assign((uq as any)[to], from);
+export function assign(uq: any, to:string, from:any): void {
+	let hasEntity = uq.hasEntity(to);
+	if (hasEntity === false) {
+		return;
 	}
-	`;
+	Object.assign((uq as any)[to], from);
+}
+`;
 
 		tsImport += ` } from "tonwa-core";
-		import { Render } from "tonwa-${this.buildContext.uiPlatform}";`;
+import { Render } from "tonwa-${this.buildContext.uiPlatform}";`;
 
 		return tsImport + ts;
 	}
