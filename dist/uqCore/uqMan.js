@@ -1138,6 +1138,9 @@ var UqMan = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         ID = param.ID, IX = param.IX, IDX = param.IDX;
+                        if (!IDX) {
+                            IDX = [ID];
+                        }
                         return [4 /*yield*/, this.apiPost('query-id', resultType, __assign(__assign({}, param), { ID: entityName(ID), IX: IX === null || IX === void 0 ? void 0 : IX.map(function (v) { return entityName(v); }), IDX: this.IDXToString(IDX) }))];
                     case 1:
                         ret = _a.sent();
@@ -1161,12 +1164,12 @@ var UqMan = /** @class */ (function () {
     };
     UqMan.prototype.apiIDNO = function (param, resultType) {
         return __awaiter(this, void 0, void 0, function () {
-            var ID, ret;
+            var ID, stamp, ret;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        ID = param.ID;
-                        return [4 /*yield*/, this.apiPost('id-no', resultType, { ID: entityName(ID) })];
+                        ID = param.ID, stamp = param.stamp;
+                        return [4 /*yield*/, this.apiPost('id-no', resultType, { ID: entityName(ID), stamp: stamp })];
                     case 1:
                         ret = _a.sent();
                         return [2 /*return*/, ret];

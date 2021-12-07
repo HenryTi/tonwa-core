@@ -145,6 +145,7 @@ export interface ParamQueryID {
 
 export interface ParamIDNO {
 	ID: ID;
+	stamp?: undefined,
 }
 
 export interface ParamIDDetailGet {
@@ -935,6 +936,9 @@ export class UqMan {
 
 	private async apiQueryID(param: ParamQueryID, resultType: EnumResultType): Promise<any[]> {
 		let { ID, IX, IDX } = param;
+		if (!IDX) {
+			IDX = [ID];
+		}
 		let ret = await this.apiPost('query-id', resultType, {
 			...param,
 			ID: entityName(ID),
@@ -989,8 +993,8 @@ export class UqMan {
 	}
 
 	private async apiIDNO(param: ParamIDNO, resultType: EnumResultType): Promise<string> {
-		let { ID } = param;
-		let ret = await this.apiPost('id-no', resultType, { ID: entityName(ID) });
+		let { ID, stamp } = param;
+		let ret = await this.apiPost('id-no', resultType, { ID: entityName(ID), stamp });
 		return ret;
 	}
 

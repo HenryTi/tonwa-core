@@ -116,6 +116,7 @@ export interface ParamQueryID {
 }
 export interface ParamIDNO {
     ID: ID;
+    stamp?: undefined;
 }
 export interface ParamIDDetailGet {
     id: number;
