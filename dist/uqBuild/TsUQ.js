@@ -167,7 +167,7 @@ var TsUQ = /** @class */ (function () {
         };
         this.buildID = function (id) {
             var sName = id.sName;
-            var ts = "\t" + (0, tools_1.entityName)(sName) + ": UqID<any>;";
+            var ts = "\t" + (0, tools_1.entityName)(sName) + ": UqID<any> & IDXEntity<any>;";
             return ts;
         };
         this.buildIDX = function (idx) {
@@ -337,7 +337,7 @@ var TsUQ = /** @class */ (function () {
         appendArr(ixArr, 'IX', function (v) { return _this.uqBlock(v, _this.buildIX); });
         ts += '\n}\n';
         ts += "\nexport function assign(uq: any, to:string, from:any): void {\n\tlet hasEntity = uq.hasEntity(to);\n\tif (hasEntity === false) {\n\t\treturn;\n\t}\n\tObject.assign((uq as any)[to], from);\n}\n";
-        tsImport += " } from \"tonwa-core\";\nimport { Render } from \"tonwa-" + this.buildContext.uiPlatform + "\";";
+        tsImport += " } from \"tonwa-core\";\nimport { Render, IDXEntity } from \"tonwa-" + this.buildContext.uiPlatform + "\";";
         return tsImport + ts;
     };
     TsUQ.prototype.uqEntityInterface = function (entity, buildInterface) {

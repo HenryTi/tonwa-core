@@ -101,7 +101,7 @@ export function assign(uq: any, to:string, from:any): void {
 `;
 
 		tsImport += ` } from "tonwa-core";
-import { Render } from "tonwa-${this.buildContext.uiPlatform}";`;
+import { Render, IDXEntity } from "tonwa-${this.buildContext.uiPlatform}";`;
 
 		return tsImport + ts;
 	}
@@ -336,7 +336,7 @@ import { Render } from "tonwa-${this.buildContext.uiPlatform}";`;
 
 	private buildID = (id: ID): string => {
 		let { sName } = id;
-		let ts = `\t${entityName(sName)}: UqID<any>;`;
+		let ts = `\t${entityName(sName)}: UqID<any> & IDXEntity<any>;`;
 		return ts;
 	}
 
