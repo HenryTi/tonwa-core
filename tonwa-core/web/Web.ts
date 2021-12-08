@@ -48,7 +48,7 @@ export abstract class Web {
         throw new Error('Method not implemented.');
     }
     async onError(error: FetchError) {
-        throw new Error('Method not implemented.');
+        throw error;
     }
     endWait() {
         //throw new Error('Method not implemented.');

@@ -102,7 +102,7 @@ var Web = /** @class */ (function () {
     Web.prototype.onError = function (error) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                throw new Error('Method not implemented.');
+                throw error;
             });
         });
     };
