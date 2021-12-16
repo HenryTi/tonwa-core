@@ -38,14 +38,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Host = exports.resUrlFromHost = void 0;
 var tool_1 = require("../tool");
-/*
-.env
-#REACT_APP_CENTER_HOST=101.200.46.56
-#REACT_APP_CENTER_HOST=47.92.87.6
-REACT_APP_CENTER_HOST=https://tv.jkchemical.com
-REACT_APP_RES_HOST=https://tv.jkchemical.com
-REACT_APP_UNIT=24
-*/
 var centerHost = 'https://tv.jkchemical.com'; // process.env['REACT_APP_CENTER_HOST'];
 var centerDebugHost = 'localhost:3000'; //'192.168.86.64';
 var resHost = 'https://tv.jkchemical.com' || centerHost;

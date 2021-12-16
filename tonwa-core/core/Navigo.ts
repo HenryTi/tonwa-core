@@ -1,6 +1,6 @@
 // typescript version of krasimir/navigo
 
-export type RouteFunc = (params?:string|{[name:string]:string}, query?:string) => void;
+export type RouteFunc = (params?: string | { [name: string]: string }, query?: string) => void;
 
 export interface NamedRoute {
 	as: string;
@@ -8,10 +8,10 @@ export interface NamedRoute {
 	hooks?: Hooks;
 }
 export interface Hooks {
-	before: (done:()=>void, params:object) => void;
-	after: (params:object) => void;
-	leave: (params:object) => void;
-	already: (params:object) => void;
+	before: (done: () => void, params: object) => void;
+	after: (params: object) => void;
+	leave: (params: object) => void;
+	already: (params: object) => void;
 }
 interface Handler {
 	handler: RouteFunc;
@@ -21,11 +21,11 @@ interface LastResolved {
 	url: string;
 	query: string;
 	hooks: Hooks;
-	params?: {[name:string]:string};
+	params?: { [name: string]: string };
 	name?: string;
 }
 interface Route {
-	route: string|RegExp;
+	route: string | RegExp;
 	handler: RouteFunc,
 	name: string,
 	hooks: Hooks
@@ -41,59 +41,59 @@ export class Navigo {
 
 	private static isPushStateAvailable() {
 		return !!(
-		  typeof window !== 'undefined' &&
-		  window.history &&
-		  window.history.pushState
+			typeof window !== 'undefined' &&
+			window.history &&
+			window.history.pushState
 		);
 	}
-	
-	private static clean(s:string|RegExp) {
+
+	private static clean(s: string | RegExp) {
 		if (s instanceof RegExp) return s;
 		return Navigo.cleanUrl(s);
 	}
-	private static cleanUrl(s:string) {
+	private static cleanUrl(s: string) {
 		return s.replace(/\/+$/, '').replace(/^\/+/, '^/');
 	}
 
-	private static regExpResultToParams(match:any[], names:string[]) {
+	private static regExpResultToParams(match: any[], names: string[]) {
 		if (names.length === 0) return null;
 		if (!match) return null;
 		return match
-		  .slice(1, match.length)
-		  .reduce((params, value, index) => {
+			.slice(1, match.length)
+			.reduce((params, value, index) => {
 				if (params === null) params = {};
 				params[names[index]] = decodeURIComponent(value);
 				return params;
-		  }, null);
+			}, null);
 	}
-	  
-	private static replaceDynamicURLParts(route:string|RegExp) {
-		let paramNames:string[] = [], regexp:RegExp;
-	  
+
+	private static replaceDynamicURLParts(route: string | RegExp) {
+		let paramNames: string[] = [], regexp: RegExp;
+
 		if (route instanceof RegExp) {
 			regexp = route;
 		}
 		else {
 			regexp = new RegExp(
 				route.replace(Navigo.PARAMETER_REGEXP, function (full, dots, name) {
-						paramNames.push(name);
-						return Navigo.REPLACE_VARIABLE_REGEXP;
-					})
+					paramNames.push(name);
+					return Navigo.REPLACE_VARIABLE_REGEXP;
+				})
 					.replace(Navigo.WILDCARD_REGEXP, Navigo.REPLACE_WILDCARD) + Navigo.FOLLOWED_BY_SLASH_REGEXP
 				, Navigo.MATCH_REGEXP_FLAGS);
 		}
 		return { regexp, paramNames };
 	}
-	  
-	private static getUrlDepth(url:string):number {
+
+	private static getUrlDepth(url: string): number {
 		return url.replace(/\/$/, '').split('/').length;
 	}
-	  
-	private static compareUrlDepth(urlA:string, urlB:string) {
+
+	private static compareUrlDepth(urlA: string, urlB: string) {
 		return Navigo.getUrlDepth(urlB) - Navigo.getUrlDepth(urlA);
 	}
-	  
-	private static findMatchedRoutes(url:string, routes:Route[] = []) {
+
+	private static findMatchedRoutes(url: string, routes: Route[] = []) {
 		return routes.map(route => {
 			let { regexp, paramNames } = Navigo.replaceDynamicURLParts(Navigo.clean(route.route));
 			let match = url.replace(/^\/+/, '/').match(regexp);
@@ -101,12 +101,12 @@ export class Navigo {
 			return match ? { match, route, params } : false;
 		}).filter(m => m);
 	}
-	  
-	private static match(url:string, routes:Route[]) {
+
+	private static match(url: string, routes: Route[]) {
 		return Navigo.findMatchedRoutes(url, routes)[0] || false;
 	}
-	  
-	private static root(url:string, routes:Route[]) {
+
+	private static root(url: string, routes: Route[]) {
 		const colonExp = RegExp('\\/:\\D(\\w*)', 'g');
 		const exp = ''; // '($|\\/)';  // 单\，编译报错 ($|\/)
 		let matched = routes.map(
@@ -131,26 +131,26 @@ export class Navigo {
 			return result;
 		}, matched0);
 	}
-	  
+
 	private static isHashChangeAPIAvailable() {
 		return typeof window !== 'undefined' && 'onhashchange' in window;
 	}
-	  
-	private static extractGETParameters(url:string):string {
+
+	private static extractGETParameters(url: string): string {
 		return url.split(/\?(.*)?$/).slice(1).join('');
 	}
-	  
-	private static getOnlyURL(url:string, useHash:boolean, hash:string) {
-		let onlyURL = url, split:string[];
-		var cleanGETParam = (str:string) => str.split(/\?(.*)?$/)[0];
-	  
+
+	private static getOnlyURL(url: string, useHash: boolean, hash: string) {
+		let onlyURL = url, split: string[];
+		var cleanGETParam = (str: string) => str.split(/\?(.*)?$/)[0];
+
 		if (typeof hash === 'undefined') {
 			// To preserve BC
 			hash = '#';
 		}
-	  
+
 		if (Navigo.isPushStateAvailable() && !useHash) {
-		  	onlyURL = cleanGETParam(url).split(hash)[0];
+			onlyURL = cleanGETParam(url).split(hash)[0];
 		}
 		else {
 			split = url.split(hash);
@@ -158,14 +158,14 @@ export class Navigo {
 		}
 		return onlyURL;
 	}
-	  
-	private static manageHooks(handler:RouteFunc, hooks:Hooks, params?:any, exHooks?:Hooks) {
+
+	private static manageHooks(handler: RouteFunc, hooks: Hooks, params?: any, exHooks?: Hooks) {
 		if (hooks && typeof hooks === 'object') {
 			if (hooks.before) {
 				hooks.before((shouldRoute = true) => {
-				if (!shouldRoute) return;
-				handler();
-				hooks.after && hooks.after(params);
+					if (!shouldRoute) return;
+					handler();
+					hooks.after && hooks.after(params);
 				}, params);
 				return;
 			}
@@ -177,39 +177,39 @@ export class Navigo {
 		}
 		handler();
 	}
-	  
-	private static isHashedRoot(url:string, useHash:boolean, hash:string) {
+
+	private static isHashedRoot(url: string, useHash: boolean, hash: string) {
 		if (Navigo.isPushStateAvailable() && !useHash) {
-		  return false;
+			return false;
 		}
-	  
+
 		if (!url.match(hash)) {
-		  return false;
+			return false;
 		}
-	  
+
 		let split = url.split(hash);
-	  
+
 		return split.length < 2 || split[1] === '';
 	}
-	
-	private root:string;
-	private _routes:Route[] = [];
-	private _useHash:boolean;
-	private _hash:string;
-	private _paused:boolean;
-	private _destroyed:boolean;
-	private _lastRouteResolved:LastResolved;
-	private _notFoundHandler:Handler;
-	private _defaultHandler:Handler;
-	private _usePushState:boolean;
-	private _genericHooks:Hooks;
+
+	private root: string;
+	private _routes: Route[] = [];
+	private _useHash: boolean;
+	private _hash: string;
+	private _paused: boolean;
+	private _destroyed: boolean;
+	private _lastRouteResolved: LastResolved;
+	private _notFoundHandler: Handler;
+	private _defaultHandler: Handler;
+	private _usePushState: boolean;
+	private _genericHooks: Hooks;
 	private _historyUpdateMethod: 'pushState' | 'replaceState'; // HistoryUpdateMethod;
 	private timout: any; //NodeJS.Timeout;
 
-	constructor(r:string = null, useHash:boolean = false, hash:string = '#') {
+	constructor(r: string = null, useHash: boolean = false, hash: string = '#') {
 		this.root = null;
 		this._useHash = useHash;
-		this._hash = (!hash)? '#' : hash;
+		this._hash = (!hash) ? '#' : hash;
 		this._paused = false;
 		this._destroyed = false;
 		this._lastRouteResolved = null;
@@ -219,19 +219,19 @@ export class Navigo {
 		//this._onLocationChange = this._onLocationChange.bind(this);
 		this._genericHooks = null;
 		this._historyUpdateMethod = 'pushState';
-	
+
 		if (r) {
 			this.root = useHash ? r.replace(/\/$/, '/' + this._hash) : r.replace(/\/$/, '');
 		} else if (useHash) {
 			this.root = this._cLoc().split(this._hash)[0].replace(/\/$/, '/' + this._hash);
 		}
-	
+
 		this._listen();
 		this.updatePageLinks();
 	}
-  
-	navigate(path:string, absolute:boolean = false):Navigo {
-		let to:string;
+
+	navigate(path: string, absolute: boolean = false): Navigo {
+		let to: string;
 		path = path || '';
 		if (this._usePushState) {
 			to = (!absolute ? this._getRoot() + '/' : '') + path.replace(/^\/+/, '/');
@@ -242,7 +242,7 @@ export class Navigo {
 		}
 		else if (typeof window !== 'undefined') {
 			path = path.replace(new RegExp('^' + this._hash), '');
-			let {location} = window;
+			let { location } = window;
 			location.href = location.href
 				.replace(/#$/, '')
 				.replace(new RegExp(this._hash + '.*$'), '') + this._hash + path;
@@ -250,11 +250,11 @@ export class Navigo {
 		return this;
 	}
 
-	on(routeFunc:RouteFunc, hooks?:Hooks):Navigo;
-	on(url:string, routeFunc:RouteFunc, hooks?:Hooks):Navigo;
-	on(regex:RegExp, routeFunc:RouteFunc, hooks?:Hooks):Navigo;
-	on(options: {[url:string]: RouteFunc|NamedRoute}):Navigo;
-	on(...args:any[]):Navigo {
+	on(routeFunc: RouteFunc, hooks?: Hooks): Navigo;
+	on(url: string, routeFunc: RouteFunc, hooks?: Hooks): Navigo;
+	on(regex: RegExp, routeFunc: RouteFunc, hooks?: Hooks): Navigo;
+	on(options: { [url: string]: RouteFunc | NamedRoute }): Navigo;
+	on(...args: any[]): Navigo {
 		let arg0 = args[0];
 		let arg1 = args[1];
 		switch (typeof arg0) {
@@ -271,8 +271,8 @@ export class Navigo {
 			default:
 				if (args.length < 2) break;
 				if (arg0 === '/') {
-					this._defaultHandler = { 
-						handler: typeof arg1 === 'object'? arg1.uses : arg1, 
+					this._defaultHandler = {
+						handler: typeof arg1 === 'object' ? arg1.uses : arg1,
 						hooks: args[2],
 					};
 					break;
@@ -283,7 +283,7 @@ export class Navigo {
 		return this;
 	}
 
-	off(handler:RouteFunc):Navigo {
+	off(handler: RouteFunc): Navigo {
 		if (this._defaultHandler !== null && handler === this._defaultHandler.handler) {
 			this._defaultHandler = null;
 		}
@@ -297,29 +297,29 @@ export class Navigo {
 		return this;
 	}
 
-	notFound(handler:RouteFunc, hooks:Hooks):Navigo {
+	notFound(handler: RouteFunc, hooks: Hooks): Navigo {
 		this._notFoundHandler = { handler, hooks };
 		return this;
 	}
 
-	resolve(current?:string) {
+	resolve(current?: string) {
 		let c = current || this._cLoc();
 		let root = this._getRoot();
 		let url = c.replace(root, '');
-	
+
 		if (this._useHash) {
 			const exp = '^\\/';  // 单\，编译报错 ^\/
 			url = url.replace(new RegExp(exp + this._hash), '/');
 		}
-	
+
 		let GETParameters = Navigo.extractGETParameters(current || this._cLoc());
 		let onlyURL = Navigo.getOnlyURL(url, this._useHash, this._hash);
 		if (onlyURL.startsWith('/') === false) {
 			onlyURL = '/' + onlyURL;
 		}
-	
+
 		if (this._paused) return false;
-	
+
 		if (
 			this._lastRouteResolved &&
 			onlyURL === this._lastRouteResolved.url &&
@@ -330,16 +330,16 @@ export class Navigo {
 			}
 			return false;
 		}
-	
+
 		let matched = Navigo.match(onlyURL, this._routes);
-	
-		let manageHooks = (handler:Handler) => {
+
+		let manageHooks = (handler: Handler) => {
 			Navigo.manageHooks(() => {
 				Navigo.manageHooks(() => {
 					this._callLeave();
 					this._lastRouteResolved = {
 						url: onlyURL,
-						query: GETParameters, 
+						query: GETParameters,
 						hooks: handler.hooks
 					};
 					handler.handler(GETParameters);
@@ -386,7 +386,7 @@ export class Navigo {
 				*/
 				manageHooks(this._notFoundHandler);
 			}
-			return false;	
+			return false;
 		}
 		let m = matched;
 		if (m) {
@@ -402,8 +402,8 @@ export class Navigo {
 			Navigo.manageHooks(() => {
 				Navigo.manageHooks(() => {
 					m.route.route instanceof RegExp ?
-					handler(...(m.match.slice(1, m.match.length))) :
-					handler(m.params, GETParameters);
+						handler(...(m.match.slice(1, m.match.length))) :
+						handler(m.params, GETParameters);
 				}, m.route.hooks, m.params, this._genericHooks);
 			}, this._genericHooks, m.params);
 			return m;
@@ -425,13 +425,13 @@ export class Navigo {
 	updatePageLinks() {
 		//var self = this;
 		if (typeof document === 'undefined') return;
-			this._findLinks().forEach(link => {
+		this._findLinks().forEach(link => {
 			if (!link.hasListenerAttached) {
 				link.addEventListener('click', (e: any) => {
 					// e: React.MouseEvent<HTMLElement>
-					if((e.ctrlKey || e.metaKey) && e.currentTarget.tagName.toLowerCase() === 'a'){ return false; }
+					if ((e.ctrlKey || e.metaKey) && e.currentTarget.tagName.toLowerCase() === 'a') { return false; }
 					var location = this.getLinkPath(link);
-		
+
 					if (!this._destroyed) {
 						e.preventDefault();
 						this.navigate(location.replace(/\/+$/, '').replace(/^\/+/, '/'));
@@ -442,7 +442,7 @@ export class Navigo {
 		});
 	}
 
-	generate(name:string, data:any = {}) {
+	generate(name: string, data: any = {}) {
 		let result = this._routes.reduce((result, route) => {
 			if (route.name === name) {
 				result = route.route.toString();
@@ -452,15 +452,15 @@ export class Navigo {
 			}
 			return result;
 		}, '');
-	
+
 		return this._useHash ? this._hash + result : result;
 	}
 
-	link(path:string) {
+	link(path: string) {
 		return this._getRoot() + path;
 	}
 
-	pause(status:boolean = true) {
+	pause(status: boolean = true) {
 		this._paused = status;
 		if (status) {
 			this._historyUpdateMethod = 'replaceState';
@@ -474,7 +474,7 @@ export class Navigo {
 		this.pause(false);
 	}
 
-	historyAPIUpdateMethod(value:'pushState' | 'replaceState') {
+	historyAPIUpdateMethod(value: 'pushState' | 'replaceState') {
 		if (typeof value === 'undefined') return this._historyUpdateMethod;
 		this._historyUpdateMethod = value;
 		return value;
@@ -490,38 +490,38 @@ export class Navigo {
 		return this._lastRouteResolved;
 	}
 
-	getLinkPath(link:any) {
+	getLinkPath(link: any) {
 		return link.getAttribute('href');
 	}
 
-	hooks(hooks:Hooks) {
+	hooks(hooks: Hooks) {
 		this._genericHooks = hooks;
 	}
 
-	private _add(route:string|RegExp, handler:RouteFunc|NamedRoute, hooks:Hooks) {
+	private _add(route: string | RegExp, handler: RouteFunc | NamedRoute, hooks: Hooks) {
 		if (typeof route === 'string') {
 			route = encodeURI(route);
 		}
 		this._routes.push(
 			typeof handler === 'object' ?
-			{
-				route,
-				handler: handler.uses,
-				name: handler.as,
-				hooks: hooks || handler.hooks
-			} 
-			:
-			{
-				route,
-				handler, 
-				name: undefined,
-				hooks,
-			}
+				{
+					route,
+					handler: handler.uses,
+					name: handler.as,
+					hooks: hooks || handler.hooks
+				}
+				:
+				{
+					route,
+					handler,
+					name: undefined,
+					hooks,
+				}
 		);
 		return this._add;
 	}
 
-	private _historyUpdate(data:any, title:string, url?:string) {
+	private _historyUpdate(data: any, title: string, url?: string) {
 		switch (this._historyUpdateMethod) {
 			default: throw Error('unknow history method ' + this._historyUpdateMethod);
 			case 'pushState': window.history.pushState(data, title, url); return;
@@ -548,7 +548,7 @@ export class Navigo {
 		}
 		else {
 			let cached = this._cLoc();
-	
+
 			let check = () => {
 				let current = this._cLoc();
 				if (cached !== current) {
@@ -567,7 +567,7 @@ export class Navigo {
 			//if (typeof window.__NAVIGO_WINDOW_LOCATION_MOCK__ !== 'undefined') {
 			//	return window.__NAVIGO_WINDOW_LOCATION_MOCK__;
 			//}
-			let {href} = window.location;
+			let { href } = window.location;
 			return Navigo.cleanUrl(href);
 		}
 		return '';
@@ -583,9 +583,9 @@ export class Navigo {
 	}
 
 	private _callLeave() {
-		const lastRouteResolved = this._lastRouteResolved;	
+		const lastRouteResolved = this._lastRouteResolved;
 		if (lastRouteResolved) {
-			let {params, hooks} = lastRouteResolved;
+			let { params, hooks } = lastRouteResolved;
 			if (hooks) {
 				if (hooks.leave) {
 					hooks.leave(params);

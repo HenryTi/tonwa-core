@@ -1,14 +1,5 @@
 import { env } from '../tool';
 
-/*
-.env
-#REACT_APP_CENTER_HOST=101.200.46.56
-#REACT_APP_CENTER_HOST=47.92.87.6
-REACT_APP_CENTER_HOST=https://tv.jkchemical.com
-REACT_APP_RES_HOST=https://tv.jkchemical.com
-REACT_APP_UNIT=24
-*/
-
 const centerHost = 'https://tv.jkchemical.com'; // process.env['REACT_APP_CENTER_HOST'];
 const centerDebugHost = 'localhost:3000'; //'192.168.86.64';
 const resHost = 'https://tv.jkchemical.com' || centerHost;
@@ -17,40 +8,40 @@ const uqDebugHost = 'localhost:3015'; //'192.168.86.63';
 const uqDebugBuilderHost = 'localhost:3009';
 interface HostValue {
     value: string;
-	local: boolean;
+    local: boolean;
 }
-const hosts:{[name:string]:HostValue} = {
+const hosts: { [name: string]: HostValue } = {
     centerhost: {
-        value: /*process.env['REACT_APP_CENTER_DEBUG_HOST']*/ undefined || centerDebugHost, 
-		local: false,
+        value: /*process.env['REACT_APP_CENTER_DEBUG_HOST']*/ undefined || centerDebugHost,
+        local: false,
     },
     reshost: {
         value: /*process.env['REACT_APP_RES_DEBUG_HOST']*/ undefined || resDebugHost,
-		local: false,
+        local: false,
     },
     uqhost: {
-        value: /*process.env['REACT_APP_UQ_DEBUG_HOST']*/ undefined || uqDebugHost, 
-		local: false,
+        value: /*process.env['REACT_APP_UQ_DEBUG_HOST']*/ undefined || uqDebugHost,
+        local: false,
     },
     unitxhost: {
-        value: /*process.env['REACT_APP_UQ_DEBUG_HOST']*/ undefined || uqDebugHost, 
-		local: false,
+        value: /*process.env['REACT_APP_UQ_DEBUG_HOST']*/ undefined || uqDebugHost,
+        local: false,
     },
     "uq-build": {
-        value: /*process.env['REACT_APP_UQ_DEBUG_BUILDER_HOST']*/ undefined || uqDebugBuilderHost, 
-		local: false,
+        value: /*process.env['REACT_APP_UQ_DEBUG_BUILDER_HOST']*/ undefined || uqDebugBuilderHost,
+        local: false,
     }
 }
 
 const httpArr = ['https://', 'http://'];
-function isAbsoluteUrl(url:string):boolean {
+function isAbsoluteUrl(url: string): boolean {
     for (let str of httpArr) {
         if (url.startsWith(str) === true) return true;
     }
     return false;
 }
 
-function urlFromHost(host:string):string {
+function urlFromHost(host: string): string {
     if (isAbsoluteUrl(host) === true) {
         if (host.endsWith('/')) return host;
         return host + '/';
@@ -58,20 +49,20 @@ function urlFromHost(host:string):string {
     return `http://${host}/`;
 }
 
-function centerUrlFromHost(host:string):string {
+function centerUrlFromHost(host: string): string {
     return urlFromHost(host);
 }
-function centerWsFromHost(host:string) {
+function centerWsFromHost(host: string) {
     let https = 'https://';
     if (host.startsWith(https) === true) {
         host = host.substr(https.length);
-        if (host.endsWith('/') === true) host = host.substr(0, host.length-1);
+        if (host.endsWith('/') === true) host = host.substr(0, host.length - 1);
         return 'wss://' + host + '/tv/';
     }
     return `ws://${host}/tv/`
 }
-export function resUrlFromHost(host:string) {
-	if (!host) return;
+export function resUrlFromHost(host: string) {
+    if (!host) return;
     let url = urlFromHost(host);
     return url + 'res/';
 }
@@ -90,8 +81,8 @@ export class Host {
     ws: string;
     resHost: string;
 
-    async start(testing:boolean) {
-		if (!centerHost) debugger;
+    async start(testing: boolean) {
+        if (!centerHost) debugger;
         this.testing = testing;
         if (env.isDevelopment === true) {
             await this.tryLocal();
@@ -99,16 +90,16 @@ export class Host {
         let host = this.getCenterHost();
         this.url = centerUrlFromHost(host);
         this.ws = centerWsFromHost(host);
-		this.resHost = this.getResHost();
+        this.resHost = this.getResHost();
     }
 
-    private debugHostUrl(host:string) {return `http://${host}/hello`}
+    private debugHostUrl(host: string) { return `http://${host}/hello` }
     private async tryLocal() {
-        let promises:PromiseLike<any>[] = [];
-        let hostArr:string[] = [];
+        let promises: PromiseLike<any>[] = [];
+        let hostArr: string[] = [];
         for (let i in hosts) {
             let hostValue = hosts[i];
-            let {value} = hostValue;
+            let { value } = hostValue;
             if (hostArr.findIndex(v => v === value) < 0) hostArr.push(value);
         }
 
@@ -118,7 +109,7 @@ export class Host {
         }
         let results = await Promise.all(promises);
         let len = hostArr.length;
-        for (let i=0; i<len; i++) {
+        for (let i = 0; i < len; i++) {
             let local = results[i];
             let host = hostArr[i];
             for (let j in hosts) {
@@ -130,8 +121,8 @@ export class Host {
         }
     }
 
-    private getCenterHost():string {
-        let {value, local} = hosts.centerhost;
+    private getCenterHost(): string {
+        let { value, local } = hosts.centerhost;
         let hash = document.location.hash;
         if (hash.includes('sheet_debug') === true) {
             return value;
@@ -142,8 +133,8 @@ export class Host {
         return centerHost;
     }
 
-    private getResHost():string {
-        let {value, local} = hosts.reshost;
+    private getResHost(): string {
+        let { value, local } = hosts.reshost;
         let hash = document.location.hash;
         if (hash.includes('sheet_debug') === true) {
             return value;
@@ -154,41 +145,41 @@ export class Host {
         return resHost;
     }
 
-    getUrlOrDebug(url:string, debugHost:string = 'uqhost'):string {
+    getUrlOrDebug(url: string, debugHost: string = 'uqhost'): string {
         if (env.isDevelopment === false) return url;
         let host = hosts[debugHost];
         if (host === undefined) return url;
-        let {value, local} = host;
+        let { value, local } = host;
         if (local === false) return url;
         return `http://${value}/`;
     }
-    getUrlOrTest(db:string, url:string, urlTest:string):string {
-		if (!urlTest) {
-			urlTest = url;
-			if (!urlTest) {
-				console.error('no server set for ' + db);
-				debugger;				
-			}
-		}
-		else if (!url) {
-			url = urlTest;
-		}
-		let testProd:string;
+    getUrlOrTest(db: string, url: string, urlTest: string): string {
+        if (!urlTest) {
+            urlTest = url;
+            if (!urlTest) {
+                console.error('no server set for ' + db);
+                debugger;
+            }
+        }
+        else if (!url) {
+            url = urlTest;
+        }
+        let testProd: string;
         if (this.testing === true) {
-			if (urlTest !== '-') url = urlTest;
-			testProd = 'test';
+            if (urlTest !== '-') url = urlTest;
+            testProd = 'test';
         }
         else {
-			testProd = 'prod';
+            testProd = 'prod';
         }
-		url = this.getUrlOrDebug(url);
-		if (url.endsWith('/') === false) {
-			url += '/';
-		}
+        url = this.getUrlOrDebug(url);
+        if (url.endsWith('/') === false) {
+            url += '/';
+        }
         return `${url}uq/${testProd}/${db}/`;
     }
 
-    async localCheck(urlDebug: string):Promise<boolean> {
+    async localCheck(urlDebug: string): Promise<boolean> {
         return await localCheck(urlDebug);
     }
 }
@@ -203,21 +194,21 @@ export class Host {
 //const timeout = 2000;
 const timeout = 2000;
 
-function fetchLocalCheck(url:string):Promise<any> {
+function fetchLocalCheck(url: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      fetch(url, fetchOptions as any)
-      .then(v => {
-          v.text().then(resolve).catch(reject);
-      })
-      .catch(reject);
-      const e = new Error("Connection timed out");
-      env.setTimeout('fetchLocalCheck', reject, timeout, e);
+        fetch(url, fetchOptions as any)
+            .then(v => {
+                v.text().then(resolve).catch(reject);
+            })
+            .catch(reject);
+        const e = new Error("Connection timed out");
+        env.setTimeout('fetchLocalCheck', reject, timeout, e);
     });
 }
 
-async function localCheck(url:string):Promise<boolean> {
+async function localCheck(url: string): Promise<boolean> {
     try {
-		await fetchLocalCheck(url);
+        await fetchLocalCheck(url);
         return true;
     }
     catch (err) {

@@ -326,7 +326,7 @@ export declare class UqMan {
     getUqKeyWithConfig(): string;
     hasEntity(name: string): boolean;
     createProxy(): any;
-    private showReload;
+    showReload(msg: string): void;
     private apiPost;
     private apiActs;
     protected Acts: (param: any) => Promise<any>;

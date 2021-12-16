@@ -314,7 +314,7 @@ var TsUQ = /** @class */ (function () {
         idxArr.forEach(function (v) { return ts += _this.uqEntityInterface(v, _this.buildIDXActParamInterface); });
         ixArr.forEach(function (v) { return ts += _this.uqEntityInterface(v, _this.buildIXInterface); });
         ts += this.buildActsInterface(this.uq);
-        ts += "\n\nexport interface UqExt extends Uq {\n\tActs(param:ParamActs): Promise<any>;\n\tSQL: Uq;\n\tIDRender(id:number):" + this.buildContext.element + ";\n";
+        ts += "\n\nexport interface UqExt extends Uq {\n\tActs(param:ParamActs): Promise<any>;\n\tSQL: Uq;\n\tIDRender(id:number):" + this.buildContext.element + ";\n\tIDLocalRender(id:number):" + this.buildContext.element + ";\n";
         function appendArr(arr, type, tsBuild) {
             if (arr.length === 0)
                 return;

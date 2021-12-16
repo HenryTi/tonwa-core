@@ -99,7 +99,7 @@ var HttpChannel = /** @class */ (function () {
         this.hostUrl = hostUrl;
         this.apiToken = apiToken;
         this.ui = ui;
-        this.timeout = tool_1.env.isDevelopment === true ? 10000 : 50000;
+        this.timeout = tool_1.env.isDevelopment === true ? 30000 : 50000;
     }
     HttpChannel.prototype.used = function () {
         this.post('', {});

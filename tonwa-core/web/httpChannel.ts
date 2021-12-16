@@ -33,7 +33,7 @@ export abstract class HttpChannel {
         this.hostUrl = hostUrl;
         this.apiToken = apiToken;
         this.ui = ui;
-        this.timeout = env.isDevelopment === true ? 10000 : 50000;
+        this.timeout = env.isDevelopment === true ? 30000 : 50000;
     }
 
     private startWait = (waiting: boolean) => {

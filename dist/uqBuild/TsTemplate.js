@@ -22,7 +22,7 @@ var TsTemplate = /** @class */ (function () {
     });
     Object.defineProperty(TsTemplate.prototype, "tsCBase", {
         get: function () {
-            return this.tsHeader + "\nimport { CSub, CBase, CAppBase, IConstructor } from 'tonwa-" + this.buildContext.uiPlatform + "';\nimport { UQs } from './uqs';\nimport { CApp } from './CApp';\n\nexport abstract class CUqBase extends CBase<CApp, UQs> {\n    protected async internalStart(param?:any, ...params:any[]):Promise<void> {}\n}\n\nexport abstract class CUqSub<A extends CAppBase<U>, U, T extends CBase<A,U>> extends CSub<A, U, T> {\n}\n\nexport abstract class CUqApp extends CAppBase<UQs> {\n    protected newC<T extends CUqBase>(type: IConstructor<T>, ...param:any[]): T {\n        let c = new type(this);\n        c.internalInit(...param);\n        return c;\n    }\n}\n";
+            return this.tsHeader + "\nimport { CSub, CBase, CAppBase, IConstructor } from 'tonwa-" + this.buildContext.uiPlatform + "';\nimport { UQs } from './uqs';\nimport { CApp } from './CApp';\n\nexport abstract class CUqBase extends CBase<CApp, UQs> {\n    protected async internalStart(param?:any, ...params:any[]):Promise<void> {}\n}\n\nexport abstract class CUqSub<A extends CAppBase<U>, U, T extends CBase<A,U>> extends CSub<A, U, T> {\n}\n\nexport abstract class CUqApp extends CAppBase<UQs> {\n    newC<T extends CUqBase>(type: IConstructor<T>, ...param:any[]): T {\n        let c = new type(this);\n        c.internalInit(...param);\n        return c;\n    }\n}\n";
         },
         enumerable: false,
         configurable: true

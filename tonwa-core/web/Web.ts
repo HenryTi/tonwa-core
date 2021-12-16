@@ -89,7 +89,7 @@ export abstract class Web {
 
 
     constructor() {
-        this.centerApi = new CenterApi(this, '/tv', undefined);
+        this.centerApi = new CenterApi(this, 'tv/', undefined);
         this.appBridge = new AppBridge(this);
         this.userApi = new UserApi(this, 'tv/', undefined);
         this.uqTokenApi = new UqTokenApi(this, 'tv/tie/', undefined);
