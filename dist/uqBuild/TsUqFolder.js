@@ -37,7 +37,7 @@ var TsUqFolder = /** @class */ (function () {
         var tsUqBuilder = new TsUQ_1.TsUQ(this.buildContext, this.uq, this.uqAlias);
         //tsUq += buildUQ(this.uq, this.uqAlias);
         tsUq += tsUqBuilder.build();
-        (0, tools_1.overrideTsFile)(uqFolder + "/" + this.uqAlias + ".ts", tsUq);
+        (0, tools_1.overrideTsFile)("".concat(uqFolder, "/").concat(this.uqAlias, ".ts"), tsUq);
         this.saveTuidAndIDTsIndexAndRender(uqFolder);
     };
     TsUqFolder.prototype.saveTuidAndIDTsIndexAndRender = function (uqFolder) {
@@ -51,10 +51,10 @@ var TsUqFolder = /** @class */ (function () {
             var cName = (0, tool_1.capitalCase)(sName);
             if (cName[0] === '$')
                 continue;
-            imports += "\nimport * as " + cName + " from './" + cName + ".ui';";
-            sets += "\n\tassign(uq, '" + cName + "', " + cName + ");";
-            var tsUI = "/* eslint-disable */\n// eslint-disable-next-line @typescript-eslint/no-unused-vars\nimport { FieldItem, FieldItemNumber, FieldItemString, FieldItemId, FieldItemInt, UI, TFunc } from 'tonwa-" + this.buildContext.uiPlatform + "';\n// eslint-disable-next-line @typescript-eslint/no-unused-vars\nimport { Res, uqStringify, setRes } from \"tonwa-core\";\nimport { Tuid" + cName + " } from \"./" + this.uqAlias + "\";\n\nconst resRaw: Res<any> = {\n\t$zh: {\n\t},\n\t$en: {\n\t}\n};\nconst res: any = {};\nsetRes(res, resRaw);\n\nexport const t:TFunc = (str:string|" + this.buildContext.element + "): string|" + this.buildContext.element + " => {\n\treturn res[str as string] ?? str;\n}\n\nexport function render(item: Tuid" + cName + "):" + this.buildContext.element + " {\n\treturn <>{uqStringify(item)}</>;\n};\n";
-            var path = uqFolder + "/" + cName + ".ui.tsx";
+            imports += "\nimport * as ".concat(cName, " from './").concat(cName, ".ui';");
+            sets += "\n\tassign(uq, '".concat(cName, "', ").concat(cName, ");");
+            var tsUI = "/* eslint-disable */\n// eslint-disable-next-line @typescript-eslint/no-unused-vars\nimport { FieldItem, FieldItemNumber, FieldItemString, FieldItemId, FieldItemInt, UI, TFunc } from 'tonwa-".concat(this.buildContext.uiPlatform, "';\n// eslint-disable-next-line @typescript-eslint/no-unused-vars\nimport { Res, uqStringify, setRes } from \"tonwa-core\";\nimport { Tuid").concat(cName, " } from \"./").concat(this.uqAlias, "\";\n\nconst resRaw: Res<any> = {\n\t$zh: {\n\t},\n\t$en: {\n\t}\n};\nconst res: any = {};\nsetRes(res, resRaw);\n\nexport const t:TFunc = (str:string|").concat(this.buildContext.element, "): string|").concat(this.buildContext.element, " => {\n\treturn res[str as string] ?? str;\n}\n\nexport function render(item: Tuid").concat(cName, "):").concat(this.buildContext.element, " {\n\treturn <>{uqStringify(item)}</>;\n};\n");
+            var path = "".concat(uqFolder, "/").concat(cName, ".ui.tsx");
             (0, tools_1.saveTsFileIfNotExists)(path, tsUI);
         }
         for (var _b = 0, _c = __spreadArray(__spreadArray(__spreadArray([], idArr, true), idxArr, true), ixArr, true); _b < _c.length; _b++) {
@@ -65,16 +65,16 @@ var TsUqFolder = /** @class */ (function () {
             if (cName[0] === '$')
                 continue;
             coll[cName.toLocaleLowerCase()] = i;
-            imports += "\nimport * as " + cName + " from './" + cName + ".ui';";
-            sets += "\n\tassign(uq, '" + cName + "', " + cName + ");";
-            var tsUI = "// eslint-disable-next-line @typescript-eslint/no-unused-vars\nimport { FieldItem, FieldItemNumber, FieldItemString, FieldItemId, FieldItemInt, UI, TFunc } from 'tonwa-" + this.buildContext.uiPlatform + "';\n// eslint-disable-next-line @typescript-eslint/no-unused-vars\nimport { Res, uqStringify, setRes } from \"tonwa-core\";\nimport { " + cName + " } from \"./" + this.uqAlias + "\";\n\n/*--fields--*/\nconst fields = {\n};\n/*==fields==*/\n\nconst fieldArr: FieldItem[] = [\n];\n\nexport const ui: UI = {\n\tlabel: \"" + cName + "\",\n\tfieldArr,\n\tfields,\n};\n\nconst resRaw: Res<any> = {\n\t$zh: {\n\t},\n\t$en: {\n\t}\n};\nconst res: any = {};\nsetRes(res, resRaw);\n\nexport const t:TFunc = (str:string|" + this.buildContext.element + "): string|" + this.buildContext.element + " => {\n\treturn res[str as string] ?? str;\n}\n\nexport function render(item: " + cName + "):" + this.buildContext.element + " {\n\treturn <>{uqStringify(item)}</>;\n};\n";
-            var path = uqFolder + "/" + cName + ".ui.tsx";
+            imports += "\nimport * as ".concat(cName, " from './").concat(cName, ".ui';");
+            sets += "\n\tassign(uq, '".concat(cName, "', ").concat(cName, ");");
+            var tsUI = "// eslint-disable-next-line @typescript-eslint/no-unused-vars\nimport { FieldItem, FieldItemNumber, FieldItemString, FieldItemId, FieldItemInt, UI, TFunc } from 'tonwa-".concat(this.buildContext.uiPlatform, "';\n// eslint-disable-next-line @typescript-eslint/no-unused-vars\nimport { Res, uqStringify, setRes } from \"tonwa-core\";\nimport { ").concat(cName, " } from \"./").concat(this.uqAlias, "\";\n\n/*--fields--*/\nconst fields = {\n};\n/*==fields==*/\n\nconst fieldArr: FieldItem[] = [\n];\n\nexport const ui: UI = {\n\tlabel: \"").concat(cName, "\",\n\tfieldArr,\n\tfields,\n};\n\nconst resRaw: Res<any> = {\n\t$zh: {\n\t},\n\t$en: {\n\t}\n};\nconst res: any = {};\nsetRes(res, resRaw);\n\nexport const t:TFunc = (str:string|").concat(this.buildContext.element, "): string|").concat(this.buildContext.element, " => {\n\treturn res[str as string] ?? str;\n}\n\nexport function render(item: ").concat(cName, "):").concat(this.buildContext.element, " {\n\treturn <>{uqStringify(item)}</>;\n};\n");
+            var path = "".concat(uqFolder, "/").concat(cName, ".ui.tsx");
             (0, tools_1.saveTsFileIfNotExists)(path, tsUI);
             var fields = this.buildFields(i);
             var tsFieldArr = this.buildFieldArr(i);
             this.replaceTsFileFields(path, fields);
             var tsImportFieldItemsBegin = 'import { FieldItem, ';
-            var tsImportFieldItemsEnd = " } from \"tonwa-" + this.buildContext.uiPlatform + "\";";
+            var tsImportFieldItemsEnd = " } from \"tonwa-".concat(this.buildContext.uiPlatform, "\";");
             var tsImportFieldItems = 'FieldItemInt, FieldItemNumber, FieldItemString, FieldItemId';
             this.replaceTsFileString(path, {
                 begin: tsImportFieldItemsBegin,
@@ -83,8 +83,8 @@ var TsUqFolder = /** @class */ (function () {
             });
             this.replaceTsFileString(path, { begin: '\nconst fieldArr: FieldItem[] = [\n', end: '\n];\n', content: tsFieldArr });
         }
-        var tsIndex = "import { UqExt as Uq, assign } from './" + this.uqAlias + "';" + imports + "\n\t\nexport function setUI(uq: Uq) {" + sets + "\n}\nexport * from './" + this.uqAlias + "';\n";
-        (0, tools_1.overrideTsFile)(uqFolder + "/index.ts", tsIndex);
+        var tsIndex = "import { UqExt as Uq, assign } from './".concat(this.uqAlias, "';").concat(imports, "\n\t\nexport function setUI(uq: Uq) {").concat(sets, "\n}\nexport * from './").concat(this.uqAlias, "';\n");
+        (0, tools_1.overrideTsFile)("".concat(uqFolder, "/index.ts"), tsIndex);
         var files = fs_1.default.readdirSync(uqFolder);
         var suffix = '.ui.tsx';
         for (var _d = 0, files_1 = files; _d < files_1.length; _d++) {
@@ -95,7 +95,7 @@ var TsUqFolder = /** @class */ (function () {
             var fileEntityName = file.substring(0, from);
             var entity = coll[fileEntityName.toLocaleLowerCase()];
             if (entity === undefined || fileEntityName[0] === '$') {
-                var unFile = uqFolder + "/" + file;
+                var unFile = "".concat(uqFolder, "/").concat(file);
                 fs_1.default.unlinkSync(unFile);
             }
         }
@@ -181,7 +181,7 @@ var TsUqFolder = /** @class */ (function () {
             var name_4 = f.name;
             if (name_4 === 'id')
                 continue;
-            ts += "fields." + name_4 + ", ";
+            ts += "fields.".concat(name_4, ", ");
         }
         return ts;
     };
@@ -193,7 +193,7 @@ var TsUqFolder = /** @class */ (function () {
             var name_5 = f.name;
             if (name_5 === 'id')
                 continue;
-            ts += "fields." + name_5 + ", ";
+            ts += "fields.".concat(name_5, ", ");
         }
         return ts;
     };
@@ -207,7 +207,7 @@ var TsUqFolder = /** @class */ (function () {
                 continue;
             if (name_6 === 'id')
                 continue;
-            ts += "fields." + name_6 + ", ";
+            ts += "fields.".concat(name_6, ", ");
         }
         return ts;
     };

@@ -248,8 +248,8 @@ var UQsMan = /** @class */ (function () {
                 if (ret !== undefined)
                     return ret;
                 debugger;
-                console.error("controller.uqs." + String(key) + " undefined");
-                _this.showReload("\u65B0\u589E uq " + String(key));
+                console.error("controller.uqs.".concat(String(key), " undefined"));
+                _this.showReload("\u65B0\u589E uq ".concat(String(key)));
                 return undefined;
             },
         });
@@ -286,7 +286,7 @@ var UQsMan = /** @class */ (function () {
         if (uq === undefined) {
             //debugger;
             if (tool_1.env.buildingUq === false) {
-                console.error("setInner(tuidImport: TuidImport): uq " + fromName + " is not loaded");
+                console.error("setInner(tuidImport: TuidImport): uq ".concat(fromName, " is not loaded"));
             }
             return;
         }
@@ -294,11 +294,11 @@ var UQsMan = /** @class */ (function () {
         var tuid = uq.tuid(iName);
         if (tuid === undefined) {
             //debugger;
-            return "setInner(tuidImport: TuidImport): uq " + fromName + " has no Tuid " + iName;
+            return "setInner(tuidImport: TuidImport): uq ".concat(fromName, " has no Tuid ").concat(iName);
         }
         if (tuid.isImport === true) {
             //debugger;
-            return "setInner(tuidImport: TuidImport): uq " + fromName + " Tuid " + iName + " is import";
+            return "setInner(tuidImport: TuidImport): uq ".concat(fromName, " Tuid ").concat(iName, " is import");
         }
         tuidImport.setFrom(tuid);
     };

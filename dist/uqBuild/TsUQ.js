@@ -21,22 +21,22 @@ var TsUQ = /** @class */ (function () {
     function TsUQ(buildContext, uq, uqAlias) {
         var _this = this;
         this.buildTuid = function (tuid) {
-            var ts = "\t" + (0, tools_1.entityName)(tuid.sName) + ": UqTuid<Tuid" + (0, tool_1.capitalCase)(tuid.sName) + ">&{tv:(id:number, render?:Render<any>)=>" + _this.buildContext.element + "};";
+            var ts = "\t".concat((0, tools_1.entityName)(tuid.sName), ": UqTuid<Tuid").concat((0, tool_1.capitalCase)(tuid.sName), ">&{tv:(id:number, render?:Render<any>)=>").concat(_this.buildContext.element, "};");
             return ts;
         };
         this.buildTuidInterface = function (tuid) {
-            var ts = "export interface Tuid" + (0, tool_1.capitalCase)(tuid.sName) + " {";
+            var ts = "export interface Tuid".concat((0, tool_1.capitalCase)(tuid.sName), " {");
             ts += "\n\tid?: number;";
             ts += _this.buildFields(tuid.fields);
             ts += '\n}';
             return ts;
         };
         this.buildAction = function (action) {
-            var ts = "\t" + (0, tools_1.entityName)(action.sName) + ": UqAction<Param" + (0, tool_1.capitalCase)(action.sName) + ", Result" + (0, tool_1.capitalCase)(action.sName) + ">;";
+            var ts = "\t".concat((0, tools_1.entityName)(action.sName), ": UqAction<Param").concat((0, tool_1.capitalCase)(action.sName), ", Result").concat((0, tool_1.capitalCase)(action.sName), ">;");
             return ts;
         };
         this.buildActionInterface = function (action) {
-            var ts = "export interface Param" + (0, tool_1.capitalCase)(action.sName) + " {";
+            var ts = "export interface Param".concat((0, tool_1.capitalCase)(action.sName), " {");
             ts += _this.buildFields(action.fields);
             ts += _this.buildArrs(action.arrFields);
             ts += '\n}\n';
@@ -48,7 +48,7 @@ var TsUQ = /** @class */ (function () {
             if (!schema)
                 return;
             var values = schema.values;
-            var ts = "export enum " + (0, tool_1.capitalCase)(enm.sName) + " {";
+            var ts = "export enum ".concat((0, tool_1.capitalCase)(enm.sName), " {");
             var first = true;
             for (var i in values) {
                 if (first === false) {
@@ -70,11 +70,11 @@ var TsUQ = /** @class */ (function () {
         };
         this.buildQuery = function (query) {
             var sName = query.sName;
-            var ts = "\t" + (0, tools_1.entityName)(sName) + ": UqQuery<Param" + (0, tool_1.capitalCase)(sName) + ", Result" + (0, tool_1.capitalCase)(sName) + ">;";
+            var ts = "\t".concat((0, tools_1.entityName)(sName), ": UqQuery<Param").concat((0, tool_1.capitalCase)(sName), ", Result").concat((0, tool_1.capitalCase)(sName), ">;");
             return ts;
         };
         this.buildQueryInterface = function (query) {
-            var ts = "export interface Param" + (0, tool_1.capitalCase)(query.sName) + " {";
+            var ts = "export interface Param".concat((0, tool_1.capitalCase)(query.sName), " {");
             ts += _this.buildFields(query.fields);
             ts += '\n}\n';
             ts += _this.buildReturns(query, query.returns);
@@ -83,19 +83,19 @@ var TsUQ = /** @class */ (function () {
         this.buildSheet = function (sheet) {
             var sName = sheet.sName, verify = sheet.verify;
             var cName = (0, tool_1.capitalCase)(sName);
-            var v = verify ? "Verify" + cName : 'any';
-            var ts = "\t" + (0, tools_1.entityName)(sName) + ": UqSheet<Sheet" + cName + ", " + v + ">;";
+            var v = verify ? "Verify".concat(cName) : 'any';
+            var ts = "\t".concat((0, tools_1.entityName)(sName), ": UqSheet<Sheet").concat(cName, ", ").concat(v, ">;");
             return ts;
         };
         this.buildSheetInterface = function (sheet) {
             var sName = sheet.sName, fields = sheet.fields, arrFields = sheet.arrFields, verify = sheet.verify;
-            var ts = "export interface Sheet" + (0, tool_1.capitalCase)(sName) + " {";
+            var ts = "export interface Sheet".concat((0, tool_1.capitalCase)(sName), " {");
             ts += _this.buildFields(fields);
             ts += _this.buildArrs(arrFields);
             ts += '}';
             if (verify) {
                 var returns = verify.returns;
-                ts += "\nexport interface Verify" + (0, tool_1.capitalCase)(sName) + " {";
+                ts += "\nexport interface Verify".concat((0, tool_1.capitalCase)(sName), " {");
                 for (var _i = 0, returns_1 = returns; _i < returns_1.length; _i++) {
                     var item = returns_1[_i];
                     var arrName = item.name, fields_1 = item.fields;
@@ -109,12 +109,12 @@ var TsUQ = /** @class */ (function () {
         };
         this.buildBook = function (book) {
             var sName = book.sName;
-            var ts = "\t" + (0, tools_1.entityName)(sName) + ": UqBook<Param" + (0, tool_1.capitalCase)(sName) + ", Result" + (0, tool_1.capitalCase)(sName) + ">;";
+            var ts = "\t".concat((0, tools_1.entityName)(sName), ": UqBook<Param").concat((0, tool_1.capitalCase)(sName), ", Result").concat((0, tool_1.capitalCase)(sName), ">;");
             return ts;
         };
         this.buildBookInterface = function (book) {
             var sName = book.sName, fields = book.fields, returns = book.returns;
-            var ts = "export interface Param" + (0, tool_1.capitalCase)(sName) + " {";
+            var ts = "export interface Param".concat((0, tool_1.capitalCase)(sName), " {");
             ts += _this.buildFields(fields);
             ts += '\n}\n';
             ts += _this.buildReturns(book, returns);
@@ -122,7 +122,7 @@ var TsUQ = /** @class */ (function () {
         };
         this.buildMap = function (map) {
             var sName = map.sName;
-            var ts = "\t" + (0, tools_1.entityName)(sName) + ": UqMap;";
+            var ts = "\t".concat((0, tools_1.entityName)(sName), ": UqMap;");
             return ts;
         };
         this.buildMapInterface = function (map) {
@@ -138,12 +138,12 @@ var TsUQ = /** @class */ (function () {
         };
         this.buildHistory = function (history) {
             var sName = history.sName;
-            var ts = "\t" + (0, tools_1.entityName)(sName) + ": UqHistory<Param" + (0, tool_1.capitalCase)(sName) + ", Result" + (0, tool_1.capitalCase)(sName) + ">;";
+            var ts = "\t".concat((0, tools_1.entityName)(sName), ": UqHistory<Param").concat((0, tool_1.capitalCase)(sName), ", Result").concat((0, tool_1.capitalCase)(sName), ">;");
             return ts;
         };
         this.buildHistoryInterface = function (history) {
             var sName = history.sName, fields = history.fields, returns = history.returns;
-            var ts = "export interface Param" + (0, tool_1.capitalCase)(sName) + " {";
+            var ts = "export interface Param".concat((0, tool_1.capitalCase)(sName), " {");
             ts += _this.buildFields(fields);
             ts += '\n}\n';
             ts += _this.buildReturns(history, returns);
@@ -151,7 +151,7 @@ var TsUQ = /** @class */ (function () {
         };
         this.buildPending = function (pending) {
             var sName = pending.sName;
-            var ts = "\t" + (0, tools_1.entityName)(sName) + ": UqPending<any, any>;";
+            var ts = "\t".concat((0, tools_1.entityName)(sName), ": UqPending<any, any>;");
             return ts;
         };
         this.buildPendingInterface = function (pending) {
@@ -167,17 +167,17 @@ var TsUQ = /** @class */ (function () {
         };
         this.buildID = function (id) {
             var sName = id.sName;
-            var ts = "\t" + (0, tools_1.entityName)(sName) + ": UqID<any> & IDXEntity<any>;";
+            var ts = "\t".concat((0, tools_1.entityName)(sName), ": UqID<any> & IDXEntity<any>;");
             return ts;
         };
         this.buildIDX = function (idx) {
             var sName = idx.sName;
-            var ts = "\t" + (0, tools_1.entityName)(sName) + ": UqIDX<any>;";
+            var ts = "\t".concat((0, tools_1.entityName)(sName), ": UqIDX<any>;");
             return ts;
         };
         this.buildIX = function (ix) {
             var sName = ix.sName;
-            var ts = "\t" + (0, tools_1.entityName)(sName) + ": UqIX<any>;";
+            var ts = "\t".concat((0, tools_1.entityName)(sName), ": UqIX<any>;");
             return ts;
         };
         this.buildIDInterface = function (idEntity) {
@@ -197,7 +197,7 @@ var TsUQ = /** @class */ (function () {
                 var f = fields_2[_i];
                 _loop_1(f);
             }
-            var ts = "export interface " + (0, tool_1.capitalCase)(sName) + " {";
+            var ts = "export interface ".concat((0, tool_1.capitalCase)(sName), " {");
             ts += "\n\tid?: number;";
             ts += _this.buildFields(keys, true);
             ts += _this.buildFields(others, true);
@@ -207,7 +207,7 @@ var TsUQ = /** @class */ (function () {
         this.buildIDXInterface = function (idx) {
             var sName = idx.sName, fields = idx.fields, schema = idx.schema;
             var exFields = schema.exFields;
-            var ts = "export interface " + (0, tool_1.capitalCase)(sName) + " {";
+            var ts = "export interface ".concat((0, tool_1.capitalCase)(sName), " {");
             var indent = 1;
             for (var _i = 0, fields_3 = fields; _i < fields_3.length; _i++) {
                 var field = fields_3[_i];
@@ -215,10 +215,10 @@ var TsUQ = /** @class */ (function () {
                 var s = fieldTypeMap[type];
                 if (!s)
                     s = 'any';
-                ts += "\n" + '\t'.repeat(indent) + name_2;
+                ts += "\n".concat('\t'.repeat(indent)).concat(name_2);
                 if (name_2 !== 'id')
                     ts += '?';
-                ts += ": " + s + ";";
+                ts += ": ".concat(s, ";");
             }
             ts += "\n\t$act?: number;";
             var hasTrack = false;
@@ -245,7 +245,7 @@ var TsUQ = /** @class */ (function () {
         this.buildIDXActParamInterface = function (idx) {
             var sName = idx.sName, fields = idx.fields, schema = idx.schema;
             var exFields = schema.exFields;
-            var ts = "export interface ActParam" + (0, tool_1.capitalCase)(sName) + " {";
+            var ts = "export interface ActParam".concat((0, tool_1.capitalCase)(sName), " {");
             var indent = 1;
             for (var _i = 0, fields_4 = fields; _i < fields_4.length; _i++) {
                 var field = fields_4[_i];
@@ -253,10 +253,10 @@ var TsUQ = /** @class */ (function () {
                 var s = fieldTypeMap[type];
                 if (!s)
                     s = 'any';
-                ts += "\n" + '\t'.repeat(indent) + name_3;
+                ts += "\n".concat('\t'.repeat(indent)).concat(name_3);
                 if (name_3 !== 'id')
                     ts += '?';
-                ts += ": " + s + "|IDXValue;";
+                ts += ": ".concat(s, "|IDXValue;");
             }
             ts += "\n\t$act?: number;";
             var hasTrack = false;
@@ -282,7 +282,7 @@ var TsUQ = /** @class */ (function () {
         };
         this.buildIXInterface = function (ix) {
             var sName = ix.sName, fields = ix.fields;
-            var ts = "export interface " + (0, tool_1.capitalCase)(sName) + " {";
+            var ts = "export interface ".concat((0, tool_1.capitalCase)(sName), " {");
             ts += _this.buildFields(fields);
             ts += '\n}';
             return ts;
@@ -296,7 +296,7 @@ var TsUQ = /** @class */ (function () {
         var tsImport = "\n// eslint-disable-next-line @typescript-eslint/no-unused-vars\nimport { IDXValue, Uq";
         var ts = "\n\n";
         ts += '\n//===============================';
-        ts += "\n//======= UQ " + this.uq.name + " ========";
+        ts += "\n//======= UQ ".concat(this.uq.name, " ========");
         ts += '\n//===============================';
         ts += '\n';
         var _a = this.uq, enumArr = _a.enumArr, tuidArr = _a.tuidArr, actionArr = _a.actionArr, sheetArr = _a.sheetArr, queryArr = _a.queryArr, bookArr = _a.bookArr, mapArr = _a.mapArr, historyArr = _a.historyArr, pendingArr = _a.pendingArr, idArr = _a.idArr, idxArr = _a.idxArr, ixArr = _a.ixArr;
@@ -314,7 +314,7 @@ var TsUQ = /** @class */ (function () {
         idxArr.forEach(function (v) { return ts += _this.uqEntityInterface(v, _this.buildIDXActParamInterface); });
         ixArr.forEach(function (v) { return ts += _this.uqEntityInterface(v, _this.buildIXInterface); });
         ts += this.buildActsInterface(this.uq);
-        ts += "\n\nexport interface UqExt extends Uq {\n\tActs(param:ParamActs): Promise<any>;\n\tSQL: Uq;\n\tIDRender(id:number):" + this.buildContext.element + ";\n\tIDLocalRender(id:number):" + this.buildContext.element + ";\n";
+        ts += "\n\nexport interface UqExt extends Uq {\n\tActs(param:ParamActs): Promise<any>;\n\tSQL: Uq;\n\tIDRender(id:number):".concat(this.buildContext.element, ";\n\tIDLocalRender(id:number):").concat(this.buildContext.element, ";\n");
         function appendArr(arr, type, tsBuild) {
             if (arr.length === 0)
                 return;
@@ -337,7 +337,7 @@ var TsUQ = /** @class */ (function () {
         appendArr(ixArr, 'IX', function (v) { return _this.uqBlock(v, _this.buildIX); });
         ts += '\n}\n';
         ts += "\nexport function assign(uq: any, to:string, from:any): void {\n\tlet hasEntity = uq.hasEntity(to);\n\tif (hasEntity === false) {\n\t\treturn;\n\t}\n\tObject.assign((uq as any)[to], from);\n}\n";
-        tsImport += " } from \"tonwa-core\";\nimport { Render, IDXEntity } from \"tonwa-" + this.buildContext.uiPlatform + "\";";
+        tsImport += " } from \"tonwa-core\";\n// eslint-disable-next-line @typescript-eslint/no-unused-vars\nimport { Render, IDXEntity } from \"tonwa-".concat(this.buildContext.uiPlatform, "\";");
         return tsImport + ts;
     };
     TsUQ.prototype.uqEntityInterface = function (entity, buildInterface) {
@@ -377,7 +377,7 @@ var TsUQ = /** @class */ (function () {
         if (!s)
             s = 'any';
         var q = (isInID === true && sysFields.indexOf(name) >= 0) ? '?' : '';
-        return "\n" + '\t'.repeat(indent) + name + q + ": " + s + ";";
+        return "\n".concat('\t'.repeat(indent)).concat(name).concat(q, ": ").concat(s, ";");
     };
     TsUQ.prototype.buildArrs = function (arrFields) {
         if (!arrFields)
@@ -385,7 +385,7 @@ var TsUQ = /** @class */ (function () {
         var ts = '\n';
         for (var _i = 0, arrFields_1 = arrFields; _i < arrFields_1.length; _i++) {
             var af = arrFields_1[_i];
-            ts += "\t" + (0, tool_1.camelCase)(af.name) + ": {";
+            ts += "\t".concat((0, tool_1.camelCase)(af.name), ": {");
             ts += this.buildFields(af.fields, false, 2);
             ts += '\n\t}[];\n';
         }
@@ -402,15 +402,15 @@ var TsUQ = /** @class */ (function () {
         for (var _i = 0, returns_2 = returns; _i < returns_2.length; _i++) {
             var ret = returns_2[_i];
             var retName = (0, tool_1.capitalCase)(ret.name);
-            ts += "export interface Return" + sName + retName + " {";
+            ts += "export interface Return".concat(sName).concat(retName, " {");
             ts += this.buildFields(ret.fields);
             ts += '\n}\n';
         }
-        ts += "export interface Result" + sName + " {\n";
+        ts += "export interface Result".concat(sName, " {\n");
         for (var _a = 0, returns_3 = returns; _a < returns_3.length; _a++) {
             var ret = returns_3[_a];
             var retName = (0, tool_1.capitalCase)(ret.name);
-            ts += "\t" + ret.name + ": Return" + sName + retName + "[];\n";
+            ts += "\t".concat(ret.name, ": Return").concat(sName).concat(retName, "[];\n");
         }
         ts += '}';
         return ts;
@@ -419,15 +419,15 @@ var TsUQ = /** @class */ (function () {
         var ts = "\nexport interface ParamActs {";
         uq.idArr.forEach(function (v) {
             var sName = v.sName;
-            ts += "\n\t" + (0, tool_1.camelCase)(sName) + "?: " + (0, tool_1.capitalCase)(sName) + "[];";
+            ts += "\n\t".concat((0, tool_1.camelCase)(sName), "?: ").concat((0, tool_1.capitalCase)(sName), "[];");
         });
         uq.idxArr.forEach(function (v) {
             var sName = v.sName;
-            ts += "\n\t" + (0, tool_1.camelCase)(sName) + "?: ActParam" + (0, tool_1.capitalCase)(sName) + "[];";
+            ts += "\n\t".concat((0, tool_1.camelCase)(sName), "?: ActParam").concat((0, tool_1.capitalCase)(sName), "[];");
         });
         uq.ixArr.forEach(function (v) {
             var sName = v.sName;
-            ts += "\n\t" + (0, tool_1.camelCase)(sName) + "?: " + (0, tool_1.capitalCase)(sName) + "[];";
+            ts += "\n\t".concat((0, tool_1.camelCase)(sName), "?: ").concat((0, tool_1.capitalCase)(sName), "[];");
         });
         ts += '\n}\n';
         return ts;

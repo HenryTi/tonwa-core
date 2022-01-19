@@ -10,7 +10,7 @@ exports.red = '\x1b[41m%s\x1b[0m';
 exports.lastBuildTime = 0;
 //export const uqTsSrcPath = 'src/UqApp';
 function saveSrcTsFileIfNotExists(context, fileName, suffix, content) {
-    var tsFilePath = context.uqTsSrcPath + "/" + fileName + "." + suffix;
+    var tsFilePath = "".concat(context.uqTsSrcPath, "/").concat(fileName, ".").concat(suffix);
     saveTsFileIfNotExists(tsFilePath, content);
     //if (fs.existsSync(tsFile) === true) return;
     //saveTsFile(fileName, content, suffix);
@@ -19,8 +19,8 @@ exports.saveSrcTsFileIfNotExists = saveSrcTsFileIfNotExists;
 function saveTsFile(context, fileName, content, suffix) {
     if (suffix === void 0) { suffix = 'ts'; }
     var uqTsSrcPath = context.uqTsSrcPath;
-    var srcFile = uqTsSrcPath + "/" + fileName + "." + suffix + ".txt";
-    var tsFile = uqTsSrcPath + "/" + fileName + "." + suffix;
+    var srcFile = "".concat(uqTsSrcPath, "/").concat(fileName, ".").concat(suffix, ".txt");
+    var tsFile = "".concat(uqTsSrcPath, "/").concat(fileName, ".").concat(suffix);
     if (!fs_1.default.existsSync(srcFile)) {
         if (fs_1.default.existsSync(tsFile)) {
             fs_1.default.renameSync(tsFile, srcFile);
@@ -28,14 +28,14 @@ function saveTsFile(context, fileName, content, suffix) {
     }
     fs_1.default.writeFileSync(tsFile, content);
     exports.lastBuildTime = Date.now();
-    console.log(exports.red, tsFile + " is built");
+    console.log(exports.red, "".concat(tsFile, " is built"));
 }
 exports.saveTsFile = saveTsFile;
 function overrideTsFile(path, content) {
     //let tsFile = `${path}/${fileName}.${suffix}`;
     fs_1.default.writeFileSync(path, content);
     exports.lastBuildTime = Date.now();
-    console.log(exports.red, path + " is built");
+    console.log(exports.red, "".concat(path, " is built"));
 }
 exports.overrideTsFile = overrideTsFile;
 //fileName:string, 

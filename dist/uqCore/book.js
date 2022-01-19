@@ -50,7 +50,7 @@ var BookQueryCaller = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Object.defineProperty(BookQueryCaller.prototype, "path", {
-        get: function () { return "book/" + this.entity.name; },
+        get: function () { return "book/".concat(this.entity.name); },
         enumerable: false,
         configurable: true
     });

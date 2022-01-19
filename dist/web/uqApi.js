@@ -390,7 +390,7 @@ var UqTokenApi = /** @class */ (function (_super) {
                         ret = _a.sent();
                         if (ret === undefined) {
                             unit = params.unit, uqOwner_1 = params.uqOwner, uqName_1 = params.uqName;
-                            err = "center get app-uq(unit=" + unit + ", '" + uqOwner_1 + "/" + uqName_1 + "') - not exists or no unit-service";
+                            err = "center get app-uq(unit=".concat(unit, ", '").concat(uqOwner_1, "/").concat(uqName_1, "') - not exists or no unit-service");
                             throw err;
                         }
                         uqToken = {

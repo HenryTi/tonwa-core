@@ -109,7 +109,7 @@ var UQsLoader = /** @class */ (function () {
                     case 0:
                         _a = this.appConfig, app = _a.app, uqConfigs = _a.uqs, version = _a.version;
                         name = app.name, dev = app.dev;
-                        uqsManApp = new UQsManApp(this.tonwa, dev.name + "/" + name);
+                        uqsManApp = new UQsManApp(this.tonwa, "".concat(dev.name, "/").concat(name));
                         this.uqsMan = uqsManApp;
                         appOwner = uqsManApp.appOwner, appName = uqsManApp.appName, localData = uqsManApp.localData;
                         uqAppData = localData.get();
@@ -119,7 +119,7 @@ var UQsLoader = /** @class */ (function () {
                         uqAppData = _d.sent();
                         if (!uqAppData.id) {
                             return [2 /*return*/, [
-                                    appOwner + "/" + appName + "\u4E0D\u5B58\u5728\u3002\u8BF7\u4ED4\u7EC6\u68C0\u67E5app\u5168\u540D\u3002"
+                                    "".concat(appOwner, "/").concat(appName, "\u4E0D\u5B58\u5728\u3002\u8BF7\u4ED4\u7EC6\u68C0\u67E5app\u5168\u540D\u3002")
                                 ]];
                         }
                         uqAppData.version = version;
@@ -195,7 +195,7 @@ var UQsLoader = /** @class */ (function () {
                     case 1:
                         ret = _b.sent();
                         if (ret.length < uqs.length) {
-                            err = "\u4E0B\u5217UQ\uFF1A\n" + uqs.map(function (v) { return v.owner + "/" + v.name; }).join('\n') + "\u4E4B\u4E00\u4E0D\u5B58\u5728";
+                            err = "\u4E0B\u5217UQ\uFF1A\n".concat(uqs.map(function (v) { return "".concat(v.owner, "/").concat(v.name); }).join('\n'), "\u4E4B\u4E00\u4E0D\u5B58\u5728");
                             console.error(err);
                             throw Error(err);
                         }

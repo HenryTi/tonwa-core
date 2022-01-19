@@ -488,7 +488,7 @@ var GetCaller = /** @class */ (function (_super) {
         return _this;
     }
     Object.defineProperty(GetCaller.prototype, "path", {
-        get: function () { return "tuid/" + this.entity.name + "/" + this.params; },
+        get: function () { return "tuid/".concat(this.entity.name, "/").concat(this.params); },
         enumerable: false,
         configurable: true
     });
@@ -502,7 +502,7 @@ var IdsCaller = /** @class */ (function (_super) {
     Object.defineProperty(IdsCaller.prototype, "path", {
         get: function () {
             var divName = this.params.divName;
-            return "tuidids/" + this.entity.name + "/" + (divName !== undefined ? divName : '$');
+            return "tuidids/".concat(this.entity.name, "/").concat(divName !== undefined ? divName : '$');
         },
         enumerable: false,
         configurable: true
@@ -519,7 +519,7 @@ var SaveCaller = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Object.defineProperty(SaveCaller.prototype, "path", {
-        get: function () { return "tuid/" + this.entity.name; },
+        get: function () { return "tuid/".concat(this.entity.name); },
         enumerable: false,
         configurable: true
     });
@@ -582,7 +582,7 @@ var SearchCaller = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Object.defineProperty(SearchCaller.prototype, "path", {
-        get: function () { return "tuids/" + this.entity.name; },
+        get: function () { return "tuids/".concat(this.entity.name); },
         enumerable: false,
         configurable: true
     });
@@ -596,7 +596,7 @@ var AllCaller = /** @class */ (function (_super) {
         return _this;
     }
     Object.defineProperty(AllCaller.prototype, "path", {
-        get: function () { return "tuid-all/" + this.entity.name; },
+        get: function () { return "tuid-all/".concat(this.entity.name); },
         enumerable: false,
         configurable: true
     });
@@ -612,7 +612,7 @@ var LoadArrCaller = /** @class */ (function (_super) {
     Object.defineProperty(LoadArrCaller.prototype, "path", {
         get: function () {
             var _a = this.params, arr = _a.arr, owner = _a.owner, id = _a.id;
-            return "tuid-arr/" + this.entity.name + "/" + owner + "/" + arr + "/" + id;
+            return "tuid-arr/".concat(this.entity.name, "/").concat(owner, "/").concat(arr, "/").concat(id);
         },
         enumerable: false,
         configurable: true
@@ -625,7 +625,7 @@ var SavePropCaller = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Object.defineProperty(SavePropCaller.prototype, "path", {
-        get: function () { return "tuid-prop/" + this.entity.name + "/"; },
+        get: function () { return "tuid-prop/".concat(this.entity.name, "/"); },
         enumerable: false,
         configurable: true
     });
@@ -639,7 +639,7 @@ var SaveArrCaller = /** @class */ (function (_super) {
     Object.defineProperty(SaveArrCaller.prototype, "path", {
         get: function () {
             var _a = this.params, arr = _a.arr, owner = _a.owner;
-            return "tuid-arr/" + this.entity.name + "/" + owner + "/" + arr + "/";
+            return "tuid-arr/".concat(this.entity.name, "/").concat(owner, "/").concat(arr, "/");
         },
         enumerable: false,
         configurable: true
@@ -660,7 +660,7 @@ var ArrPosCaller = /** @class */ (function (_super) {
     Object.defineProperty(ArrPosCaller.prototype, "path", {
         get: function () {
             var _a = this.params, arr = _a.arr, owner = _a.owner;
-            return "tuid-arr-pos/" + this.entity.name + "/" + owner + "/" + arr + "/";
+            return "tuid-arr-pos/".concat(this.entity.name, "/").concat(owner, "/").concat(arr, "/");
         },
         enumerable: false,
         configurable: true
@@ -678,7 +678,7 @@ var TuidNoCaller = /** @class */ (function (_super) {
     }
     Object.defineProperty(TuidNoCaller.prototype, "path", {
         get: function () {
-            return "tuid-no/" + this.entity.name + "/";
+            return "tuid-no/".concat(this.entity.name, "/");
         },
         enumerable: false,
         configurable: true

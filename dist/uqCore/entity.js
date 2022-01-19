@@ -232,7 +232,7 @@ var Entity = /** @class */ (function () {
                     break;
                 case 'date':
                     if (d instanceof Date) {
-                        val = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+                        val = "".concat(d.getFullYear(), "-").concat(d.getMonth() + 1, "-").concat(d.getDate());
                     }
                     else {
                         val = d;

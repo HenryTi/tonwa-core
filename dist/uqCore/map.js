@@ -309,7 +309,7 @@ var MapAddCaller = /** @class */ (function (_super) {
         return _this;
     }
     Object.defineProperty(MapAddCaller.prototype, "path", {
-        get: function () { return "map/" + this.map.name + "/add"; },
+        get: function () { return "map/".concat(this.map.name, "/add"); },
         enumerable: false,
         configurable: true
     });
@@ -328,7 +328,7 @@ var MapDelCaller = /** @class */ (function (_super) {
         return _this;
     }
     Object.defineProperty(MapDelCaller.prototype, "path", {
-        get: function () { return "map/" + this.map.name + "/del"; },
+        get: function () { return "map/".concat(this.map.name, "/del"); },
         enumerable: false,
         configurable: true
     });
@@ -347,7 +347,7 @@ var MapAllCaller = /** @class */ (function (_super) {
         return _this;
     }
     Object.defineProperty(MapAllCaller.prototype, "path", {
-        get: function () { return "map/" + this.map.name + "/all"; },
+        get: function () { return "map/".concat(this.map.name, "/all"); },
         enumerable: false,
         configurable: true
     });
@@ -366,7 +366,7 @@ var MapPageCaller = /** @class */ (function (_super) {
         return _this;
     }
     Object.defineProperty(MapPageCaller.prototype, "path", {
-        get: function () { return "map/" + this.map.name + "/page"; },
+        get: function () { return "map/".concat(this.map.name, "/page"); },
         enumerable: false,
         configurable: true
     });
@@ -385,7 +385,7 @@ var MapQueryCaller = /** @class */ (function (_super) {
         return _this;
     }
     Object.defineProperty(MapQueryCaller.prototype, "path", {
-        get: function () { return "map/" + this.map.name + "/query"; },
+        get: function () { return "map/".concat(this.map.name, "/query"); },
         enumerable: false,
         configurable: true
     });

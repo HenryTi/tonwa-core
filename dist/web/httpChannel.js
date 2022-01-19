@@ -261,7 +261,7 @@ var HttpChannel = /** @class */ (function () {
                         now_1 = Date.now();
                         timeOutHandler_1 = tool_1.env.setTimeout(undefined, //'httpChannel.fetch',
                         function () {
-                            that.endWait("webapi timeout: " + (Date.now() - now_1) + "ms " + url, reject);
+                            that.endWait("webapi timeout: ".concat((Date.now() - now_1), "ms ").concat(url), reject);
                         }, this.timeout);
                         return [4 /*yield*/, fetch(encodeURI(path), options)];
                     case 2:

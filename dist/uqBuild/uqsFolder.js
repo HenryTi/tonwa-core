@@ -72,7 +72,7 @@ function buildUqsFolder(buildContext) {
                 case 2:
                     _d.sent();
                     tsUqsIndexHeader = '';
-                    uqsIndexFile = uqTsSrcPath + "/uqs/index.ts";
+                    uqsIndexFile = "".concat(uqTsSrcPath, "/uqs/index.ts");
                     if (fs_1.default.existsSync(uqsIndexFile) === true) {
                         indexText = fs_1.default.readFileSync(uqsIndexFile, 'utf8');
                         p1 = indexText.indexOf('///###import AppUQs###///');
@@ -98,10 +98,10 @@ function buildUqsFolder(buildContext) {
                         tsUqFolder = new TsUqFolder_1.TsUqFolder(buildContext, uq, uqsFolder, uqAlias);
                         // buildTsUqFolder(uq, uqsFolder, uqAlias);
                         tsUqFolder.build();
-                        tsUqsIndexHeader += "\nimport * as " + uqAlias + " from './" + uqAlias + "';";
-                        tsUqsIndexContent += "\n\t" + uqAlias + ": " + uqAlias + ".UqExt;";
-                        tsUqsIndexReExport += "\nexport * as " + uqAlias + " from './" + uqAlias + "';";
-                        tsUqsUI += "\n\t" + uqAlias + ".setUI(uqs." + uqAlias + ");";
+                        tsUqsIndexHeader += "\nimport * as ".concat(uqAlias, " from './").concat(uqAlias, "';");
+                        tsUqsIndexContent += "\n\t".concat(uqAlias, ": ").concat(uqAlias, ".UqExt;");
+                        tsUqsIndexReExport += "\nexport * as ".concat(uqAlias, " from './").concat(uqAlias, "';");
+                        tsUqsUI += "\n\t".concat(uqAlias, ".setUI(uqs.").concat(uqAlias, ");");
                     }
                     if (!fs_1.default.existsSync(uqsFolder)) {
                         fs_1.default.mkdirSync(uqsFolder);

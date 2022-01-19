@@ -122,8 +122,8 @@ var EntityCaller = /** @class */ (function (_super) {
             var _a = this.entity, ver = _a.ver, uq = _a.uq;
             var uqVersion = uq.uqVersion;
             return {
-                uq: "" + uqVersion,
-                en: "" + ver,
+                uq: "".concat(uqVersion),
+                en: "".concat(ver),
             };
         },
         enumerable: false,
@@ -136,7 +136,7 @@ var EntityCaller = /** @class */ (function (_super) {
                     case 0:
                         ++this.tries;
                         if (this.tries > 5)
-                            throw new Error(schema.entity.name + " can not get right uq response schema, 5 tries");
+                            throw new Error("".concat(schema.entity.name, " can not get right uq response schema, 5 tries"));
                         this.rebuildSchema(schema);
                         return [4 /*yield*/, this.innerRequest()];
                     case 1: return [2 /*return*/, _a.sent()];
@@ -181,7 +181,7 @@ var QueryQueryCaller = /** @class */ (function (_super) {
     });
     ;
     Object.defineProperty(QueryQueryCaller.prototype, "path", {
-        get: function () { return "query/" + this.entity.name; },
+        get: function () { return "query/".concat(this.entity.name); },
         enumerable: false,
         configurable: true
     });
@@ -212,7 +212,7 @@ var QueryPageCaller = /** @class */ (function (_super) {
     ;
     Object.defineProperty(QueryPageCaller.prototype, "path", {
         //results: {[name:string]:any[]};
-        get: function () { return "query-page/" + this.entity.name; },
+        get: function () { return "query-page/".concat(this.entity.name); },
         enumerable: false,
         configurable: true
     });

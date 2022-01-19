@@ -1,8 +1,9 @@
 import { env } from '../tool';
 
-const centerHost = 'https://tv.jkchemical.com'; // process.env['REACT_APP_CENTER_HOST'];
+const rootCenterHost = 'https://tv.jkchemical.com';
+const centerHost = process.env['REACT_APP_CENTER_HOST'] ?? rootCenterHost;
 const centerDebugHost = 'localhost:3000'; //'192.168.86.64';
-const resHost = 'https://tv.jkchemical.com' || centerHost;
+const resHost = centerHost ?? rootCenterHost;
 const resDebugHost = 'localhost:3015'; //'192.168.86.63';
 const uqDebugHost = 'localhost:3015'; //'192.168.86.63';
 const uqDebugBuilderHost = 'localhost:3009';

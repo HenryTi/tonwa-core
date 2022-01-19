@@ -102,6 +102,7 @@ export function assign(uq: any, to:string, from:any): void {
 `;
 
 		tsImport += ` } from "tonwa-core";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Render, IDXEntity } from "tonwa-${this.buildContext.uiPlatform}";`;
 
 		return tsImport + ts;

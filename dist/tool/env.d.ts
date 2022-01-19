@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { LocalMap } from './localDb';
 export declare const env: {
     unit: number;

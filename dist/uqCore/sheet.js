@@ -284,7 +284,7 @@ var SheetCaller = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(SheetCaller.prototype, "path", {
-        get: function () { return "sheet/" + this.entity.name + "/" + this.suffix; },
+        get: function () { return "sheet/".concat(this.entity.name, "/").concat(this.suffix); },
         enumerable: false,
         configurable: true
     });
@@ -296,7 +296,7 @@ var SaveCaller = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Object.defineProperty(SaveCaller.prototype, "path", {
-        get: function () { return "sheet/" + this.entity.name; },
+        get: function () { return "sheet/".concat(this.entity.name); },
         enumerable: false,
         configurable: true
     });
@@ -329,7 +329,7 @@ var SaveDirectCaller = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Object.defineProperty(SaveDirectCaller.prototype, "path", {
-        get: function () { return "sheet/" + this.entity.name + "/direct"; },
+        get: function () { return "sheet/".concat(this.entity.name, "/direct"); },
         enumerable: false,
         configurable: true
     });
@@ -343,7 +343,7 @@ var ActionCaller = /** @class */ (function (_super) {
         return _this;
     }
     Object.defineProperty(ActionCaller.prototype, "path", {
-        get: function () { return "sheet/" + this.entity.name; },
+        get: function () { return "sheet/".concat(this.entity.name); },
         enumerable: false,
         configurable: true
     });
@@ -355,7 +355,7 @@ var ActionDirectCaller = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Object.defineProperty(ActionDirectCaller.prototype, "path", {
-        get: function () { return "sheet/" + this.entity.name + "/direct"; },
+        get: function () { return "sheet/".concat(this.entity.name, "/direct"); },
         enumerable: false,
         configurable: true
     });
@@ -373,7 +373,7 @@ var GetSheetCaller = /** @class */ (function (_super) {
     //protected readonly suffix = 'archive';
     GetSheetCaller.prototype.buildParams = function () { };
     Object.defineProperty(GetSheetCaller.prototype, "path", {
-        get: function () { return "sheet/" + this.entity.name + "/get/" + this.params; },
+        get: function () { return "sheet/".concat(this.entity.name, "/get/").concat(this.params); },
         enumerable: false,
         configurable: true
     });
@@ -390,7 +390,7 @@ var SheetArchiveCaller = /** @class */ (function (_super) {
     //protected readonly suffix = 'archive';
     SheetArchiveCaller.prototype.buildParams = function () { };
     Object.defineProperty(SheetArchiveCaller.prototype, "path", {
-        get: function () { return "sheet/" + this.entity.name + "/archive/" + this.params; },
+        get: function () { return "sheet/".concat(this.entity.name, "/archive/").concat(this.params); },
         enumerable: false,
         configurable: true
     });
