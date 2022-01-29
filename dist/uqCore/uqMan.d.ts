@@ -207,7 +207,7 @@ export interface Uq {
     Acts(param: any): Promise<any>;
     ActIX<T>(param: ParamActIX<T>): Promise<number[]>;
     ActIXSort(param: ParamActIXSort): Promise<void>;
-    ActIDProp(ID: ID, name: string, value: any): Promise<void>;
+    ActIDProp(ID: ID, id: number, name: string, value: any): Promise<void>;
     ActDetail<M, D>(param: ParamActDetail<M, D>): Promise<RetActDetail>;
     ActDetail<M, D, D2>(param: ParamActDetail2<M, D, D2>): Promise<RetActDetail2>;
     ActDetail<M, D, D2, D3>(param: ParamActDetail3<M, D, D2, D3>): Promise<RetActDetail3>;
@@ -342,7 +342,7 @@ export declare class UqMan {
     private apiActIxSort;
     protected ActIXSort: (param: ParamActIXSort) => Promise<void>;
     protected $ActIXSort: (param: ParamActIXSort) => Promise<string>;
-    protected ActIDProp: (ID: ID, name: string, value: any) => Promise<void>;
+    protected ActIDProp: (ID: ID, id: number, name: string, value: any) => Promise<void>;
     private apiActDetail;
     protected ActDetail: (param: ParamActDetail<any, any>) => Promise<any>;
     protected $ActDetail: (param: ParamActDetail<any, any>) => Promise<any>;

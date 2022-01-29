@@ -244,7 +244,7 @@ export interface Uq {
 	Acts(param: any): Promise<any>;
 	ActIX<T>(param: ParamActIX<T>): Promise<number[]>;
 	ActIXSort(param: ParamActIXSort): Promise<void>;
-	ActIDProp(ID: ID, name: string, value: any): Promise<void>;
+	ActIDProp(ID: ID, id: number, name: string, value: any): Promise<void>;
 	ActDetail<M, D>(param: ParamActDetail<M, D>): Promise<RetActDetail>;
 	ActDetail<M, D, D2>(param: ParamActDetail2<M, D, D2>): Promise<RetActDetail2>;
 	ActDetail<M, D, D2, D3>(param: ParamActDetail3<M, D, D2, D3>): Promise<RetActDetail3>;
@@ -848,8 +848,8 @@ export class UqMan {
 		return await this.apiActIxSort(param, EnumResultType.sql);
 	}
 
-	protected ActIDProp = async (ID: ID, name: string, value: any) => {
-		await this.uqApi.post('act-id-prop', { ID: ID.name, name, value });
+	protected ActIDProp = async (ID: ID, id: number, name: string, value: any) => {
+		await this.uqApi.post('act-id-prop', { ID: ID.name, id, name, value });
 	}
 
 	private async apiActDetail(param: ParamActDetail<any, any>, resultType: EnumResultType): Promise<any> {
