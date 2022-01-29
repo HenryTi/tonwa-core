@@ -244,6 +244,7 @@ export interface Uq {
 	Acts(param: any): Promise<any>;
 	ActIX<T>(param: ParamActIX<T>): Promise<number[]>;
 	ActIXSort(param: ParamActIXSort): Promise<void>;
+	ActIDProp(ID: ID, name: string, value: any): Promise<void>;
 	ActDetail<M, D>(param: ParamActDetail<M, D>): Promise<RetActDetail>;
 	ActDetail<M, D, D2>(param: ParamActDetail2<M, D, D2>): Promise<RetActDetail2>;
 	ActDetail<M, D, D2, D3>(param: ParamActDetail3<M, D, D2, D3>): Promise<RetActDetail3>;
@@ -809,16 +810,6 @@ export class UqMan {
 	}
 
 	protected ActIX = async (param: ParamActIX<any>): Promise<number[]> => {
-		/*
-		let {IX, ID, values, IXs} = param;
-		let apiParam:any = {
-			IX: entityName(IX),
-			ID: entityName(ID),
-			IXs: IXs?.map(v => ({IX:entityName(v.IX), ix:v.ix})),
-			values,
-		};
-		let ret = await this.apiPost('act-ix'), apiParam);
-		*/
 		let ret = await this.apiActIX(param, EnumResultType.data);
 		return (ret[0].ret as string).split('\t').map(v => Number(v));
 	}
@@ -855,6 +846,10 @@ export class UqMan {
 
 	protected $ActIXSort = async (param: ParamActIXSort): Promise<string> => {
 		return await this.apiActIxSort(param, EnumResultType.sql);
+	}
+
+	protected ActIDProp = async (ID: ID, name: string, value: any) => {
+		await this.uqApi.post('act-id-prop', { ID: ID.name, name, value });
 	}
 
 	private async apiActDetail(param: ParamActDetail<any, any>, resultType: EnumResultType): Promise<any> {

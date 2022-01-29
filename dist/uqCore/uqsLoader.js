@@ -181,9 +181,9 @@ var UQsLoader = /** @class */ (function () {
     };
     UQsLoader.prototype.loadUqData = function (uqConfigs) {
         return __awaiter(this, void 0, void 0, function () {
-            var uqs, centerAppApi, ret, err, i, _a, ownerAlias, alias;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var uqs, centerAppApi, ret, _a, err, i, _b, ownerAlias, alias;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
                         uqs = uqConfigs.map(function (v) {
                             var dev = v.dev, name = v.name, version = v.version, alias = v.alias;
@@ -191,16 +191,22 @@ var UQsLoader = /** @class */ (function () {
                             return { owner: owner, ownerAlias: ownerAlias, name: name, version: version, alias: alias };
                         });
                         centerAppApi = new web_1.CenterAppApi(this.tonwa.web, 'tv/', undefined);
-                        return [4 /*yield*/, centerAppApi.uqs(uqs)];
-                    case 1:
-                        ret = _b.sent();
+                        if (!(uqs.length === 0)) return [3 /*break*/, 1];
+                        _a = [];
+                        return [3 /*break*/, 3];
+                    case 1: return [4 /*yield*/, centerAppApi.uqs(uqs)];
+                    case 2:
+                        _a = _c.sent();
+                        _c.label = 3;
+                    case 3:
+                        ret = _a;
                         if (ret.length < uqs.length) {
                             err = "\u4E0B\u5217UQ\uFF1A\n".concat(uqs.map(function (v) { return "".concat(v.owner, "/").concat(v.name); }).join('\n'), "\u4E4B\u4E00\u4E0D\u5B58\u5728");
                             console.error(err);
                             throw Error(err);
                         }
                         for (i = 0; i < uqs.length; i++) {
-                            _a = uqs[i], ownerAlias = _a.ownerAlias, alias = _a.alias;
+                            _b = uqs[i], ownerAlias = _b.ownerAlias, alias = _b.alias;
                             ret[i].ownerAlias = ownerAlias;
                             ret[i].uqAlias = alias;
                         }

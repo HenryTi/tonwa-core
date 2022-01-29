@@ -98,7 +98,7 @@ export class UQsLoader {
 			}
 		);
 		let centerAppApi = new CenterAppApi(this.tonwa.web, 'tv/', undefined);
-		let ret: UqData[] = await centerAppApi.uqs(uqs);
+		let ret: UqData[] = uqs.length === 0 ? [] : await centerAppApi.uqs(uqs);
 		if (ret.length < uqs.length) {
 			let err = `下列UQ：\n${uqs.map(v => `${v.owner}/${v.name}`).join('\n')}之一不存在`;
 			console.error(err);

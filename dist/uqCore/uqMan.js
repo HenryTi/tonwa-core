@@ -206,6 +206,16 @@ var UqMan = /** @class */ (function () {
                 }
             });
         }); };
+        this.ActIDProp = function (ID, name, value) { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.uqApi.post('act-id-prop', { ID: ID.name, name: name, value: value })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        }); };
         this.ActDetail = function (param) { return __awaiter(_this, void 0, void 0, function () {
             var ret, val, parts, items;
             return __generator(this, function (_a) {
