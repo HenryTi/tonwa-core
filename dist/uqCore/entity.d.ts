@@ -27,6 +27,7 @@ export declare abstract class Entity {
     clearSchema(): void;
     setSchema(schema: any): void;
     protected setJName(name: string): void;
+    protected setKeys(): void;
     buildFieldsTuid(): void;
     schemaStringify(): string;
     tuidFromName(fieldName: string, arrName?: string): Tuid;

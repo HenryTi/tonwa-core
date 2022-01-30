@@ -78,6 +78,9 @@ var UqID = /** @class */ (function (_super) {
         });
     };
     ;
+    UqID.prototype.setKeys = function () {
+        this.keys = this.schema.keys;
+    };
     UqID.prototype.getIdFromObj = function (value) { return value['id']; };
     UqID.prototype.cacheTuids = function (defer) { };
     UqID.prototype.loadValuesFromIds = function (divName, ids) {

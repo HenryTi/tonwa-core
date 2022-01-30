@@ -155,9 +155,12 @@ var Entity = /** @class */ (function () {
         if (name !== this.name)
             this.jName = name;
     };
+    Entity.prototype.setKeys = function () {
+    };
     Entity.prototype.buildFieldsTuid = function () {
         var _a = this.schema, fields = _a.fields, arrs = _a.arrs, returns = _a.returns;
         this.fields = fields;
+        this.setKeys();
         this.uq.buildFieldTuid(fields);
         this.arrFields = arrs;
         this.uq.buildArrFieldsTuid(arrs, fields);

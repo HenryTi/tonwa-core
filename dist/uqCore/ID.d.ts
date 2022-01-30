@@ -1,4 +1,5 @@
 import { Entity } from "./entity";
+import { Field } from "./uqMan";
 export declare class UqID<M extends {
     id: number;
 }> extends Entity {
@@ -6,7 +7,9 @@ export declare class UqID<M extends {
     create: boolean;
     update: boolean;
     owner: boolean;
+    keys: Field[];
     NO(): Promise<string>;
+    protected setKeys(): void;
     getIdFromObj(value: any): number;
     cacheTuids(defer: number): void;
     loadValuesFromIds(divName: string, ids: number[]): Promise<M[]>;

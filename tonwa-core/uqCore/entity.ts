@@ -33,12 +33,12 @@ export abstract class Entity {
     readonly schemaLocal: LocalCache;
     readonly uqApi: UqApi;
     abstract get typeName(): string;
-    get sName():string {return this.jName || this.name}
-	fields: Field[];
+    get sName(): string { return this.jName || this.name }
+    fields: Field[];
     arrFields: ArrFields[];
     returns: ArrFields[];
 
-    constructor(uq:UqMan, name:string, typeId:number) {
+    constructor(uq: UqMan, name: string, typeId: number) {
         this.uq = uq;
         this.name = name;
         this.typeId = typeId;
@@ -51,12 +51,12 @@ export abstract class Entity {
 
     //getApiFrom() {return this.entities.uqApi;}
 
-    private fieldMaps: {[arr:string]: FieldMap} = {};
-    fieldMap(arr?:string): FieldMap {
+    private fieldMaps: { [arr: string]: FieldMap } = {};
+    fieldMap(arr?: string): FieldMap {
         if (arr === undefined) arr = '$';
         let ret = this.fieldMaps[arr];
         if (ret === undefined) {
-            let fields:Field[];
+            let fields: Field[];
             if (arr === '$') fields = this.fields;
             else if (this.arrFields !== undefined) {
                 let arrFields = this.arrFields.find(v => v.name === arr);
@@ -74,67 +74,71 @@ export abstract class Entity {
         return ret;
     }
 
-    public async loadSchema():Promise<void> {
+    public async loadSchema(): Promise<void> {
         if (this.schema !== undefined) return;
         let schema = this.schemaLocal.get();
         if (!schema) {
             schema = await this.uq.loadEntitySchema(this.name);
         }
         //this.setSchema(schema);
-		//this.buildFieldsTuid();
-		this.buildSchema(schema);
-		await this.loadValues();
-	}
+        //this.buildFieldsTuid();
+        this.buildSchema(schema);
+        await this.loadValues();
+    }
 
-	buildSchema(schema: any) {
+    buildSchema(schema: any) {
         this.setSchema(schema);
-		this.buildFieldsTuid();
-		//await this.loadValues();
-	}
-	
-	protected async loadValues():Promise<any> {}
+        this.buildFieldsTuid();
+        //await this.loadValues();
+    }
+
+    protected async loadValues(): Promise<any> { }
 
     // 如果要在setSchema里面保存cache，必须先调用clearSchema
     public clearSchema() {
         this.schema = undefined;
     }
 
-    public setSchema(schema:any) {
+    public setSchema(schema: any) {
         if (schema === undefined) return;
-        let {name, version} = schema;
-        this.ver = version || 0;		
-		this.setJName(name);
+        let { name, version } = schema;
+        this.ver = version || 0;
+        this.setJName(name);
         this.schemaLocal.set(schema);
-		this.schema = schema;
-		this.buildFieldsTuid();
-	}
-	
-	protected setJName(name:string) {
+        this.schema = schema;
+        this.buildFieldsTuid();
+    }
+
+    protected setJName(name: string) {
         if (name !== this.name) this.jName = name;
-	}
+    }
+
+    protected setKeys() {
+    }
 
     public buildFieldsTuid() {
-        let {fields, arrs, returns} = this.schema;
-		this.fields = fields;
+        let { fields, arrs, returns } = this.schema;
+        this.fields = fields;
+        this.setKeys();
         this.uq.buildFieldTuid(fields);
-		this.arrFields = arrs;
+        this.arrFields = arrs;
         this.uq.buildArrFieldsTuid(arrs, fields);
-		this.returns = returns;
+        this.returns = returns;
         this.uq.buildArrFieldsTuid(returns, fields);
     }
 
-    schemaStringify():string {
-        return JSON.stringify(this.schema, (key:string, value:any) => {
+    schemaStringify(): string {
+        return JSON.stringify(this.schema, (key: string, value: any) => {
             if (key === '_tuid') return undefined;
             return value;
         }, 4);
     }
 
-    tuidFromName(fieldName:string, arrName?:string):Tuid {
+    tuidFromName(fieldName: string, arrName?: string): Tuid {
         if (this.schema === undefined) return;
-        let {fields, arrs} = this.schema;
+        let { fields, arrs } = this.schema;
         let entities = this.uq;
-        function getTuid(fn:string, fieldArr:Field[]) {
+        function getTuid(fn: string, fieldArr: Field[]) {
             if (fieldArr === undefined) return;
             let f = fieldArr.find(v => v.name === fn);
             if (f === undefined) return;
@@ -149,17 +153,17 @@ export abstract class Entity {
         return getTuid(fn, arr.fields);
     }
 
-    buildParams(params:any):any {
-        let result:any = {};
+    buildParams(params: any): any {
+        let result: any = {};
         let fields = this.fields;
         if (fields !== undefined) this.buildFieldsParams(result, fields, params);
         let arrs = this.arrFields;
         if (arrs !== undefined) {
             for (let arr of arrs) {
-                let {name, fields} = arr;
-                let paramsArr:any[] = params[name];
+                let { name, fields } = arr;
+                let paramsArr: any[] = params[name];
                 if (paramsArr === undefined) continue;
-                let arrResult:any[] = [];
+                let arrResult: any[] = [];
                 result[name] = arrResult;
                 for (let pa of params) {
                     let rowResult = {};
@@ -171,43 +175,43 @@ export abstract class Entity {
         return result;
     }
 
-    private buildFieldsParams(result:any, fields:Field[], params:any) {
+    private buildFieldsParams(result: any, fields: Field[], params: any) {
         for (let field of fields) {
-            let {name, type} = field;            
+            let { name, type } = field;
             let d = params[name];
-            let val:any;
+            let val: any;
             switch (type) {
-				case 'datetime':
-                	val = this.buildDateTimeParam(d);
-					break;
-				case 'date':
-					if (d instanceof Date) {
-						val = `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
-					}
-					else {
-						val = d;
-					}
-					break;
-				default:
-					switch (typeof d) {
-						default: val = d; break;
-						case 'object':
-							if (d instanceof Date) {
-								val = d;
-								break;
-							}
-							let tuid = field._tuid;
-							if (tuid === undefined) val = d.id;
-							else val = tuid.getIdFromObj(d);
-							break;
-					}
-					break;
+                case 'datetime':
+                    val = this.buildDateTimeParam(d);
+                    break;
+                case 'date':
+                    if (d instanceof Date) {
+                        val = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+                    }
+                    else {
+                        val = d;
+                    }
+                    break;
+                default:
+                    switch (typeof d) {
+                        default: val = d; break;
+                        case 'object':
+                            if (d instanceof Date) {
+                                val = d;
+                                break;
+                            }
+                            let tuid = field._tuid;
+                            if (tuid === undefined) val = d.id;
+                            else val = tuid.getIdFromObj(d);
+                            break;
+                    }
+                    break;
             }
             result[name] = val;
         }
     }
 
-    buildDateTimeParam(val:any) {
+    buildDateTimeParam(val: any) {
         let dt: Date;
         switch (typeof val) {
             default: debugger; throw new Error('escape datetime field in pack data error: value=' + val);
@@ -216,10 +220,10 @@ export abstract class Entity {
             case 'string':
             case 'number': dt = new Date(val); break;
         }
-        return Math.floor(dt.getTime()/1000);
+        return Math.floor(dt.getTime() / 1000);
     }
 
-    buildDateParam(val:any) {
+    buildDateParam(val: any) {
         let dt: Date;
         switch (typeof val) {
             default: debugger; throw new Error('escape datetime field in pack data error: value=' + val);
@@ -230,26 +234,26 @@ export abstract class Entity {
         }
         let ret = dt.toISOString();
         let p = ret.indexOf('T');
-        return p>0? ret.substr(0, p) : ret;
+        return p > 0 ? ret.substr(0, p) : ret;
     }
 
-    pack(data:any):string {
-        let ret:string[] = [];
+    pack(data: any): string {
+        let ret: string[] = [];
         let fields = this.fields;
         if (fields !== undefined) this.packRow(ret, fields, data);
-        let arrs = this.arrFields; 
+        let arrs = this.arrFields;
         if (arrs !== undefined) {
             for (let arr of arrs) {
-				let {name, fields} = arr;
-				let arrData = getObjPropIgnoreCase(data, name);
-				//if (!arrData) arrData = data[name.toLowerCase()];
+                let { name, fields } = arr;
+                let arrData = getObjPropIgnoreCase(data, name);
+                //if (!arrData) arrData = data[name.toLowerCase()];
                 this.packArr(ret, fields, arrData);
             }
         }
         return ret.join('');
     }
 
-    private escape(row:any, field:Field):any {
+    private escape(row: any, field: Field): any {
         let d = row[field.name];
         if (d === null) return '';
         switch (field.type) {
@@ -265,20 +269,20 @@ export abstract class Entity {
                     case 'string':
                         let len = d.length;
                         let r = '', p = 0;
-                        for (let i=0;i<len;i++) {
-                            let c:number = d.charCodeAt(i), ch:string;
-                            switch(c) {
-								default: continue;
-								case codeBackSlash: ch = '\\\\'; break;
+                        for (let i = 0; i < len; i++) {
+                            let c: number = d.charCodeAt(i), ch: string;
+                            switch (c) {
+                                default: continue;
+                                case codeBackSlash: ch = '\\\\'; break;
                                 case codeBT: ch = '\\t'; break;
-								case codeBN: ch = '\\n'; break;
-								case codeBF: ch = '\\f'; break;
-								case codeBV: ch = '\\v'; break;
-								case codeBB: ch = '\\b'; break;
-								case codeBR: ch = '\\r'; break;
-							}
-							r += d.substring(p, i) + ch;
-							p = i+1;
+                                case codeBN: ch = '\\n'; break;
+                                case codeBF: ch = '\\f'; break;
+                                case codeBV: ch = '\\v'; break;
+                                case codeBB: ch = '\\b'; break;
+                                case codeBR: ch = '\\r'; break;
+                            }
+                            r += d.substring(p, i) + ch;
+                            p = i + 1;
                         }
                         return r + d.substring(p);
                     case 'undefined': return '';
@@ -286,7 +290,7 @@ export abstract class Entity {
         }
     }
 
-    private packRow(result:string[], fields:Field[], data:any) {
+    private packRow(result: string[], fields: Field[], data: any) {
         let len = fields.length;
         if (len === 0) {
             result.push(ln);
@@ -294,32 +298,32 @@ export abstract class Entity {
         }
         let ret = '';
         ret += this.escape(data, fields[0]);
-        for (let i=1;i<len;i++) {
+        for (let i = 1; i < len; i++) {
             let f = fields[i];
             ret += tab + this.escape(data, f);
         }
         result.push(ret + ln);
     }
 
-    private packArr(result:string[], fields:Field[], data:any[]) {
+    private packArr(result: string[], fields: Field[], data: any[]) {
         if (data !== undefined) {
-			if (data.length === 0) {
-				result.push(ln);
-			}
-			else {
-				for (let row of data) {
-					this.packRow(result, fields, row);
-				}
-			}
-		}
-		else {
-			result.push(ln);
-		}
+            if (data.length === 0) {
+                result.push(ln);
+            }
+            else {
+                for (let row of data) {
+                    this.packRow(result, fields, row);
+                }
+            }
+        }
+        else {
+            result.push(ln);
+        }
         result.push(ln);
     }
-    protected cacheFieldsInValue(values:any, fields:Field[]) {
+    protected cacheFieldsInValue(values: any, fields: Field[]) {
         for (let f of fields as Field[]) {
-            let {name, _tuid} = f;
+            let { name, _tuid } = f;
             if (_tuid === undefined) continue;
             let id = values[name];
             //_tuid.useId(id);
@@ -327,16 +331,16 @@ export abstract class Entity {
         }
     }
 
-    protected unpackTuidIdsOfFields(values:string[], fields: Field[]):any[] {
+    protected unpackTuidIdsOfFields(values: string[], fields: Field[]): any[] {
         if (fields === undefined) {
             return values as any[];
         }
-        let ret:any[] = []
+        let ret: any[] = []
         for (let ln of values) {
             if (!ln) continue;
             let len = ln.length;
             let p = 0;
-            while (p<len) {
+            while (p < len) {
                 let ch = ln.charCodeAt(p);
                 if (ch === 10) {
                     ++p;
@@ -350,7 +354,7 @@ export abstract class Entity {
         return ret;
     }
 
-    unpackSheet(data:string):any {
+    unpackSheet(data: string): any {
         let ret = {} as any; //new this.newMain();
         //if (schema === undefined || data === undefined) return;
         let fields = this.fields;
@@ -365,29 +369,29 @@ export abstract class Entity {
         return ret;
     }
 
-	unpackReturns(data:string, returns?:ArrFields[]):{[name:string]:any[]} {
-		if (data === undefined) debugger;
-		let ret = {} as any;
-		let p = 0;
-		let arrs = returns || this.returns;
-		if (arrs !== undefined) {
-			for (let arr of arrs) {
-				p = this.unpackArr(ret, arr, data, p);
-			}
-		}
-		return ret;
-	}
+    unpackReturns(data: string, returns?: ArrFields[]): { [name: string]: any[] } {
+        if (data === undefined) debugger;
+        let ret = {} as any;
+        let p = 0;
+        let arrs = returns || this.returns;
+        if (arrs !== undefined) {
+            for (let arr of arrs) {
+                p = this.unpackArr(ret, arr, data, p);
+            }
+        }
+        return ret;
+    }
 
-    protected unpackRow(ret:any, fields:Field[], data:string, p:number):number {
+    protected unpackRow(ret: any, fields: Field[], data: string, p: number): number {
         let ch0 = 0, ch = 0, c = p, i = 0, len = data.length, fLen = fields.length;
-        for (;p<len;p++) {
+        for (; p < len; p++) {
             ch0 = ch;
             ch = data.charCodeAt(p);
             if (ch === 9) {
                 let f = fields[i];
-                let {name} = f;
+                let { name } = f;
                 if (ch0 !== 8) {
-                    if (p>c) {
+                    if (p > c) {
                         let v = data.substring(c, p);
                         ret[name] = this.to(ret, v, f);
                     }
@@ -395,9 +399,9 @@ export abstract class Entity {
                 else {
                     ret[name] = null;
                 }
-                c = p+1;
+                c = p + 1;
                 ++i;
-                if (i>=fLen) {
+                if (i >= fLen) {
                     p = data.indexOf('\n', c);
                     if (p >= 0) ++p;
                     else p = len;
@@ -406,9 +410,9 @@ export abstract class Entity {
             }
             else if (ch === 10) {
                 let f = fields[i];
-                let {name} = f;
+                let { name } = f;
                 if (ch0 !== 8) {
-                    if (p>c) {
+                    if (p > c) {
                         let v = data.substring(c, p);
                         ret[name] = this.to(ret, v, f);
                     }
@@ -422,7 +426,7 @@ export abstract class Entity {
             }
         }
         let f = fields[i];
-        let {name} = f;
+        let { name } = f;
         if (ch0 !== 8) {
             let v = data.substring(c);
             ret[name] = this.to(ret, v, f);
@@ -430,83 +434,83 @@ export abstract class Entity {
         return len;
     }
 
-    private to(ret:any, v:string, f:Field):any {
+    private to(ret: any, v: string, f: Field): any {
         switch (f.type) {
-			default: return v;
-			case 'text':
-			case 'char':
-				return this.reverseNT(v);
+            default: return v;
+            case 'text':
+            case 'char':
+                return this.reverseNT(v);
             case 'datetime':
             case 'time':
-			case 'timestamp':
+            case 'timestamp':
                 let n = Number(v);
-                let date = isNaN(n) === true? new Date(v) : new Date(n*1000);
+                let date = isNaN(n) === true ? new Date(v) : new Date(n * 1000);
                 return date;
             case 'date':
                 let parts = v.split('-');
-                return new Date(Number(parts[0]), Number(parts[1])-1, Number(parts[2]));
+                return new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
             case 'enum':
             case 'tinyint':
             case 'smallint':
             case 'int':
             case 'bigint':
             case 'dec':
-			case 'float':
-			case 'double':
+            case 'float':
+            case 'double':
                 return Number(v);
             case 'id':
                 let id = Number(v);
-                let {_tuid} = f;
+                let { _tuid } = f;
                 if (_tuid === undefined) return id;
                 return _tuid.boxId(id);
         }
-	}
-	
-	private reverseNT(text:string):string {
-		if (text === undefined) return;
-		if (text === null) return;
-		let len = text.length;
-		let r = '';
-		let p = 0;
-		for (let i=0; i<len; i++) {
-			let c = text.charCodeAt(i);
-			if (c === codeBackSlash) {
-				if (i===len-1) break;
-				let c1 = text.charCodeAt(i+1);
-				let ch:string;
-				switch (c1) {
-					default: continue;
-					case codeBackSlash: ch = '\\'; break;
-					case codeN: ch = '\n'; break;
-					case codeT: ch = '\t'; break;
-					case codeB: ch = '\b'; break;
-					case codeF: ch = '\f'; break;
-					case codeV: ch = '\v'; break;
-					case codeR: ch = '\r'; break;
-				}
-				r += text.substring(p, i) + ch;
-				p = i+2;
-				++i;
-			}
-		}
-		r += text.substring(p, len);
-		return r;
-	}
+    }
 
-    private unpackArr(ret:any, arr:ArrFields, data:string, p:number):number {
-		let p0 = p;
-        let vals:any[] = [], len = data.length;
-        let {name, fields} = arr;
-        while (p<len) {
+    private reverseNT(text: string): string {
+        if (text === undefined) return;
+        if (text === null) return;
+        let len = text.length;
+        let r = '';
+        let p = 0;
+        for (let i = 0; i < len; i++) {
+            let c = text.charCodeAt(i);
+            if (c === codeBackSlash) {
+                if (i === len - 1) break;
+                let c1 = text.charCodeAt(i + 1);
+                let ch: string;
+                switch (c1) {
+                    default: continue;
+                    case codeBackSlash: ch = '\\'; break;
+                    case codeN: ch = '\n'; break;
+                    case codeT: ch = '\t'; break;
+                    case codeB: ch = '\b'; break;
+                    case codeF: ch = '\f'; break;
+                    case codeV: ch = '\v'; break;
+                    case codeR: ch = '\r'; break;
+                }
+                r += text.substring(p, i) + ch;
+                p = i + 2;
+                ++i;
+            }
+        }
+        r += text.substring(p, len);
+        return r;
+    }
+
+    private unpackArr(ret: any, arr: ArrFields, data: string, p: number): number {
+        let p0 = p;
+        let vals: any[] = [], len = data.length;
+        let { name, fields } = arr;
+        while (p < len) {
             let ch = data.charCodeAt(p);
             if (ch === 10) {
-				if (p === p0) {
-					ch = data.charCodeAt(p);
-					if (ch !== 10) {
-						throw new Error('upackArr: arr第一个字符是10，则必须紧跟一个10，表示整个arr的结束')
-					}
-					++p;
-				}
+                if (p === p0) {
+                    ch = data.charCodeAt(p);
+                    if (ch !== 10) {
+                        throw new Error('upackArr: arr第一个字符是10，则必须紧跟一个10，表示整个arr的结束')
+                    }
+                    ++p;
+                }
                 ++p;
                 break;
             }
