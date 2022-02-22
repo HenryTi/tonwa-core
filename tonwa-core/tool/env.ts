@@ -44,8 +44,9 @@ function initEnv(): {
 		search = /([^&=]+)=?([^&]*)/g,
 		decode = function (s: any) { return decodeURIComponent(s.replace(pl, " ")); };
 	let query: string = undefined;
-	if (window) {
-		query = window.location.search.substring(1);
+	if ((global as any).window) {
+		let win = (global as any).window;
+		query = win.location.search.substring(1);
 	}
 	let params: { [key: string]: string } = {};
 	for (; ;) {

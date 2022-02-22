@@ -52,8 +52,9 @@ function initEnv() {
     var pl = /\+/g, // Regex for replacing addition symbol with a space
     search = /([^&=]+)=?([^&]*)/g, decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); };
     var query = undefined;
-    if (window) {
-        query = window.location.search.substring(1);
+    if (global.window) {
+        var win = global.window;
+        query = win.location.search.substring(1);
     }
     var params = {};
     for (;;) {
