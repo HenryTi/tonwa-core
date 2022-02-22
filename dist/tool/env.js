@@ -50,9 +50,15 @@ exports.env = (function () {
 }());
 function initEnv() {
     var pl = /\+/g, // Regex for replacing addition symbol with a space
-    search = /([^&=]+)=?([^&]*)/g, decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); }, query = window.location.search.substring(1);
+    search = /([^&=]+)=?([^&]*)/g, decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); };
+    var query = undefined;
+    if (window) {
+        query = window.location.search.substring(1);
+    }
     var params = {};
     for (;;) {
+        if (!query)
+            break;
         var match = search.exec(query);
         if (!match)
             break;
@@ -136,6 +142,8 @@ function initEnv() {
     return { unit: unit, testing: testing, buildingUq: false, params: params, lang: lang, district: district, timeZone: timeZone, isMobile: isMobile };
 }
 function detectBrowser() {
+    if (!window)
+        return;
     if ((navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) >= 0)
         return 'Opera';
     if (navigator.userAgent.indexOf("Chrome") >= 0)

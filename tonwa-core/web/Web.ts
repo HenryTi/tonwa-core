@@ -18,7 +18,7 @@ export interface PromiseValue<T> {
     reject: (reason?: any) => void;
 }
 
-export abstract class Web {
+export class Web {
     // ----- 从nav搬移过来的内容
 
 

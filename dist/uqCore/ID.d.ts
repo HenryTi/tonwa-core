@@ -10,7 +10,9 @@ export declare class UqID<M extends {
     keys: Field[];
     NO(): Promise<string>;
     protected setKeys(): void;
+    get isGlobal(): boolean;
     getIdFromObj(value: any): number;
+    valueFromString(str: string): M;
     cacheTuids(defer: number): void;
     loadValuesFromIds(divName: string, ids: number[]): Promise<M[]>;
     cacheTuidFieldValues(value: any): void;

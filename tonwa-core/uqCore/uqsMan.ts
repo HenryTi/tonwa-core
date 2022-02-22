@@ -2,7 +2,7 @@ import { env } from '../tool';
 import { UqMan } from './uqMan';
 import { TuidImport, TuidInner } from './tuid';
 import { Web, UqData } from '../web';
-import { Tonwa, UqConfig } from '../core';
+import { Tonwa, TonwaBase, UqConfig } from '../core';
 
 /*
 export interface TVs {
@@ -13,14 +13,14 @@ export interface TVs {
 */
 
 export class UQsMan {
-	private readonly tonwa: Tonwa;
+	private readonly tonwa: TonwaBase;
 	private readonly web: Web;
 	private collection: { [uqLower: string]: UqMan };
 	//private readonly tvs: TVs;
 	proxy: any;
 	uqMans: UqMan[] = [];
 
-	constructor(tonwa: Tonwa/*, tvs:TVs*/) {
+	constructor(tonwa: TonwaBase) {
 		this.tonwa = tonwa;
 		this.web = tonwa.web;
 		//this.tvs = tvs || {};

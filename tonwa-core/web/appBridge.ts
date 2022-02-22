@@ -93,7 +93,7 @@ export class AppBridge {
 
     private subFrameStarted(evt: any) {
         var message = evt.data;
-        let subWin = evt.source as Window;
+        let subWin = evt.source; // as Window;
         setSubAppWindow(subWin);
         this.hideFrameBack(message.hash);
         let msg: any = Object.assign({}, this.web.user);
@@ -219,7 +219,7 @@ export class AppBridge {
         });
     }
 
-    async callCenterApiFromMessage(from: Window, message: any): Promise<void> {
+    async callCenterApiFromMessage(from: any/*Window*/, message: any): Promise<void> {
         let { callId, url, method, body } = message;
         let result = await this.web.callCenterapi.directCall(url, method, body);
         from.postMessage({

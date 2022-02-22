@@ -7,7 +7,7 @@ import { Login } from './Login';
 
 export interface NavSettings {
 	oem?: string;
-	loginTop?: JSX.Element;
+	loginTop?: any; // JSX.Element
 	privacy?: string;
 	htmlTitle?: string;
 }
@@ -17,26 +17,39 @@ const logs: string[] = [];
 
 export let tonwa: Tonwa;
 
-export abstract class Tonwa {
+export abstract class TonwaBase {
 	readonly web: Web;
+	testing: boolean;
+
+	constructor() {
+		this.testing = false;
+		this.web = this.createWeb();
+	}
+	abstract createWeb(): Web;
+	abstract createObservableMap<K, V>(): Map<K, V>;
+	async init() {
+		this.testing = env.testing;
+		await this.web.host.start(this.testing);
+	}
+}
+
+export abstract class Tonwa extends TonwaBase {
 	private wsHost: string;
 	private local: LocalData = new LocalData();
 	private navigo: Navigo;
 	//isWebNav:boolean = false;
 	navSettings: NavSettings;
 	user: User = null;
-	testing: boolean;
 	language: string;
 	culture: string;
 	resUrl: string;
 
 	constructor() {
+		super();
 		tonwa = this;
-		this.web = this.createWeb();
 		let { lang, district } = resOptions;
 		this.language = lang;
 		this.culture = district;
-		this.testing = false;
 	}
 
 	/*
@@ -47,8 +60,6 @@ export abstract class Tonwa {
 	protected abstract showRegister(): Promise<void>;
 	protected abstract showForget(): Promise<void>;
 
-	abstract createWeb(): Web;
-	abstract createObservableMap<K, V>(): Map<K, V>;
 	abstract get nav(): Nav;
 
 	abstract privacyEntry(): void;
@@ -104,30 +115,6 @@ export abstract class Tonwa {
 		}
 	}
 
-	private async loadPredefinedUnit() {
-		let envUnit = process.env.REACT_APP_UNIT;
-		if (envUnit !== undefined) {
-			return Number(envUnit);
-		}
-		let unitName: string;
-		let unit = this.local.unit.get();
-		if (unit !== undefined) {
-			if (env.isDevelopment !== true) return unit.id;
-			unitName = await this.getPredefinedUnitName();
-			if (unitName === undefined) return;
-			if (unit.name === unitName) return unit.id;
-		}
-		else {
-			unitName = await this.getPredefinedUnitName();
-			if (unitName === undefined) return;
-		}
-		let unitId = await this.web.guestApi.unitFromName(unitName);
-		if (unitId !== undefined) {
-			this.local.unit.set({ id: unitId, name: unitName });
-		}
-		return unitId;
-	}
-
 	setSettings(settings?: NavSettings) {
 		this.navSettings = settings;
 		let { htmlTitle } = settings;
@@ -149,7 +136,6 @@ export abstract class Tonwa {
 	}
 
 	hashParam: string;
-	private centerHost: string;
 	private arrs = ['/test', '/test/'];
 	private unitJsonPath(): string {
 		let { origin, pathname } = document.location;
@@ -189,21 +175,11 @@ export abstract class Tonwa {
 	forceDevelopment: boolean;
 
 	async init() {
-		this.testing = env.testing;
+		await super.init();
 		if (this.forceDevelopment === true) {
 			env.isDevelopment = true;
 		}
-		await this.web.host.start(this.testing);
-		/*
-		let hash = document.location.hash;
-		if (hash !== undefined && hash.length > 0) {
-			let pos = getExHashPos();
-			if (pos < 0) pos = undefined;
-			this.hashParam = hash.substring(1, pos);
-		}
-		*/
 		let { url, ws, resHost } = this.web.host;
-		this.centerHost = url;
 		this.resUrl = this.web.resUrlFromHost(resHost);
 		this.wsHost = ws;
 		this.web.setCenterUrl(url);
@@ -393,7 +369,7 @@ export abstract class Tonwa {
 		await this.internalLogined(user, callback, true);
 	}
 
-	loginTop(defaultTop: JSX.Element) {
+	loginTop(defaultTop: any /*JSX.Element*/) {
 		return (this.navSettings && this.navSettings.loginTop) || defaultTop;
 	}
 

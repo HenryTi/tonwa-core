@@ -174,6 +174,43 @@ var UqApi = /** @class */ (function (_super) {
             });
         });
     };
+    UqApi.prototype.setMeAdmin = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.get('set-me-admin')];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    UqApi.prototype.setAdmin = function (user, role, name, nick, icon, assigned) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.post('set-admin', { user: user, role: role, name: name, nick: nick, icon: icon, assigned: assigned })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    UqApi.prototype.isAdmin = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var ret;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.get('is-admin')];
+                    case 1:
+                        ret = _a.sent();
+                        return [2 /*return*/, ret];
+                }
+            });
+        });
+    };
     UqApi.prototype.getRoles = function () {
         return __awaiter(this, void 0, void 0, function () {
             var ret, parts, s, _i, parts_1, p;

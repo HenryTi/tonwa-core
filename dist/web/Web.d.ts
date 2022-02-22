@@ -11,7 +11,7 @@ export interface PromiseValue<T> {
     resolve: (value?: T | PromiseLike<T>) => void;
     reject: (reason?: any) => void;
 }
-export declare abstract class Web {
+export declare class Web {
     reload(): void;
     showReloadPage(msg: string): void;
     navBack(): void;

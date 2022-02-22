@@ -52,7 +52,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.WSChannel = exports.WsBridge = exports.WsBase = exports.postWsToTop = exports.setSubAppWindow = void 0;
-var subAppWindow;
+var subAppWindow; // Window;
 function postWsToSubApp(msg) {
     if (subAppWindow === undefined)
         return;

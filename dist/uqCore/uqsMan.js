@@ -47,7 +47,7 @@ export interface TVs {
 }
 */
 var UQsMan = /** @class */ (function () {
-    function UQsMan(tonwa /*, tvs:TVs*/) {
+    function UQsMan(tonwa) {
         this.uqMans = [];
         this.tonwa = tonwa;
         this.web = tonwa.web;

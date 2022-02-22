@@ -45,7 +45,7 @@ export declare abstract class Entity {
     unpackReturns(data: string, returns?: ArrFields[]): {
         [name: string]: any[];
     };
-    protected unpackRow(ret: any, fields: Field[], data: string, p: number): number;
+    protected unpackRow(ret: any, fields: Field[], data: string, p: number, sep?: number): number;
     private to;
     private reverseNT;
     private unpackArr;

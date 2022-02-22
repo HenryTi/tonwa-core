@@ -15,7 +15,16 @@ export class UqID<M extends { id: number }> extends Entity {
 	protected setKeys() {
 		this.keys = this.schema.keys;
 	}
+	get isGlobal(): boolean {
+		return this.schema.global;
+	}
 	getIdFromObj(value: any): number { return value['id']; }
+	valueFromString(str: string): M {
+		if (!str) return undefined;
+		let ret: M = {} as M;
+		this.unpackRow(ret, this.fields, str, 0, 12);
+		return ret;
+	}
 	cacheTuids(defer: number): void { }
 	async loadValuesFromIds(divName: string, ids: number[]): Promise<M[]> {
 		let ret = await (this.uq as unknown as Uq).QueryID<M>({

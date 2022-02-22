@@ -1,15 +1,17 @@
-import { Tonwa, AppConfig as AppConfigCore, UqConfig } from '../core';
+import { Tonwa, AppConfig as AppConfigCore, UqConfig, TonwaBase } from '../core';
 import { UQsMan } from "./uqsMan";
 import { LocalMap, LocalCache, env } from '../tool';
 import { UqData, UqAppData, CenterAppApi } from '../web';
 
+
+
 export class UQsLoader {
-	readonly tonwa: Tonwa;
+	readonly tonwa: TonwaBase;
 	protected readonly appConfig: AppConfigCore;
 	protected isBuildingUQ: boolean = false;
 	uqsMan: UQsMan;         // value
 
-	constructor(tonwa: Tonwa, appConfig: AppConfigCore) {
+	constructor(tonwa: TonwaBase, appConfig: AppConfigCore) {
 		this.appConfig = appConfig;
 		this.tonwa = tonwa;
 	}
@@ -120,8 +122,8 @@ class UQsManApp extends UQsMan {
 	readonly localData: LocalCache;
 	id: number;
 
-	constructor(tonwa: Tonwa, tonwaAppName: string/*, tvs:TVs*/) {
-		super(tonwa/*, tvs*/);
+	constructor(tonwa: TonwaBase, tonwaAppName: string) {
+		super(tonwa);
 		let parts = tonwaAppName.split('/');
 		if (parts.length !== 2) {
 			throw new Error('tonwaApp name must be / separated, owner/app');

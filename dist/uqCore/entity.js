@@ -464,12 +464,13 @@ var Entity = /** @class */ (function () {
         }
         return ret;
     };
-    Entity.prototype.unpackRow = function (ret, fields, data, p) {
+    Entity.prototype.unpackRow = function (ret, fields, data, p, sep) {
+        if (sep === void 0) { sep = 9; }
         var ch0 = 0, ch = 0, c = p, i = 0, len = data.length, fLen = fields.length;
         for (; p < len; p++) {
             ch0 = ch;
             ch = data.charCodeAt(p);
-            if (ch === 9) {
+            if (ch === sep) {
                 var f_1 = fields[i];
                 var name_5 = f_1.name;
                 if (ch0 !== 8) {

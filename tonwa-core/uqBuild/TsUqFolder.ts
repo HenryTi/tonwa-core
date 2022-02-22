@@ -46,7 +46,7 @@ export class TsUqFolder {
 
 	private saveTuidAndIDTsIndexAndRender(uqFolder: string) {
 		let imports = '', sets = '';
-		let { idArr, idxArr, ixArr, tuidArr } = this.uq;
+		let { idArr, idxArr, tuidArr } = this.uq;  // ixArr, 
 		let coll: { [name: string]: Entity } = {};
 
 		for (let i of tuidArr) {
@@ -86,7 +86,7 @@ export function render(item: Tuid${cName}):${this.buildContext.element} {
 			saveTsFileIfNotExists(path, tsUI);
 		}
 
-		for (let i of [...idArr, ...idxArr, ...ixArr]) {
+		for (let i of [...idArr, ...idxArr]) { // , ...ixArr IX does not need UI
 			let { sName } = i;
 			//coll[sName.toLowerCase()] = i;
 			let cName = capitalCase(sName);

@@ -136,7 +136,7 @@ var AppBridge = /** @class */ (function () {
     };
     AppBridge.prototype.subFrameStarted = function (evt) {
         var message = evt.data;
-        var subWin = evt.source;
+        var subWin = evt.source; // as Window;
         (0, wsChannel_1.setSubAppWindow)(subWin);
         this.hideFrameBack(message.hash);
         var msg = Object.assign({}, this.web.user);
@@ -306,7 +306,7 @@ var AppBridge = /** @class */ (function () {
             });
         });
     };
-    AppBridge.prototype.callCenterApiFromMessage = function (from, message) {
+    AppBridge.prototype.callCenterApiFromMessage = function (from /*Window*/, message) {
         return __awaiter(this, void 0, void 0, function () {
             var callId, url, method, body, result;
             return __generator(this, function (_a) {

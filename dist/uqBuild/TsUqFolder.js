@@ -42,7 +42,7 @@ var TsUqFolder = /** @class */ (function () {
     };
     TsUqFolder.prototype.saveTuidAndIDTsIndexAndRender = function (uqFolder) {
         var imports = '', sets = '';
-        var _a = this.uq, idArr = _a.idArr, idxArr = _a.idxArr, ixArr = _a.ixArr, tuidArr = _a.tuidArr;
+        var _a = this.uq, idArr = _a.idArr, idxArr = _a.idxArr, tuidArr = _a.tuidArr; // ixArr, 
         var coll = {};
         for (var _i = 0, tuidArr_1 = tuidArr; _i < tuidArr_1.length; _i++) {
             var i = tuidArr_1[_i];
@@ -57,7 +57,7 @@ var TsUqFolder = /** @class */ (function () {
             var path = "".concat(uqFolder, "/").concat(cName, ".ui.tsx");
             (0, tools_1.saveTsFileIfNotExists)(path, tsUI);
         }
-        for (var _b = 0, _c = __spreadArray(__spreadArray(__spreadArray([], idArr, true), idxArr, true), ixArr, true); _b < _c.length; _b++) {
+        for (var _b = 0, _c = __spreadArray(__spreadArray([], idArr, true), idxArr, true); _b < _c.length; _b++) { // , ...ixArr IX does not need UI
             var i = _c[_b];
             var sName = i.sName;
             //coll[sName.toLowerCase()] = i;

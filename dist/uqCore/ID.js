@@ -81,7 +81,21 @@ var UqID = /** @class */ (function (_super) {
     UqID.prototype.setKeys = function () {
         this.keys = this.schema.keys;
     };
+    Object.defineProperty(UqID.prototype, "isGlobal", {
+        get: function () {
+            return this.schema.global;
+        },
+        enumerable: false,
+        configurable: true
+    });
     UqID.prototype.getIdFromObj = function (value) { return value['id']; };
+    UqID.prototype.valueFromString = function (str) {
+        if (!str)
+            return undefined;
+        var ret = {};
+        this.unpackRow(ret, this.fields, str, 0, 12);
+        return ret;
+    };
     UqID.prototype.cacheTuids = function (defer) { };
     UqID.prototype.loadValuesFromIds = function (divName, ids) {
         return __awaiter(this, void 0, void 0, function () {

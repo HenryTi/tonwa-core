@@ -49,7 +49,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UqMan = exports.fieldDefaultValue = void 0;
 /* eslint-disable */
-//import { UqApi, UqData, UnitxApi } from '../net';
 var web_1 = require("../web");
 var tuid_1 = require("./tuid");
 var action_1 = require("./action");
@@ -59,9 +58,7 @@ var book_1 = require("./book");
 var history_1 = require("./history");
 var map_1 = require("./map");
 var pending_1 = require("./pending");
-//import { CreateBoxId, BoxId } from './tuid';
 var tool_1 = require("../tool");
-//import { ReactBoxId } from './tuid/reactBoxId';
 var enum_1 = require("./enum");
 var ID_1 = require("./ID");
 var IDCache_1 = require("./IDCache");
@@ -95,9 +92,10 @@ var EnumResultType;
 })(EnumResultType || (EnumResultType = {}));
 ;
 var UqMan = /** @class */ (function () {
-    function UqMan(tonwa, uqData /*, createBoxId:CreateBoxId, tvs:{[entity:string]:(values:any)=>JSX.Element}*/) {
+    function UqMan(tonwa, uqData) {
         var _this = this;
         this.entities = {};
+        this.entityTypes = {};
         this.enums = {};
         this.actions = {};
         this.queries = {};
@@ -141,7 +139,7 @@ var UqMan = /** @class */ (function () {
                 }
             });
         }); };
-        this.getAdmins = function () { return __awaiter(_this, void 0, void 0, function () {
+        this.AdminGetList = function () { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.uqApi.getAdmins()];
@@ -149,6 +147,43 @@ var UqMan = /** @class */ (function () {
                 }
             });
         }); };
+        this.AdminSetMe = function () { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.uqApi.setMeAdmin()];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        }); };
+        this.AdminSet = function (user, role, name, nick, icon, assigned) { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.uqApi.setAdmin(user, role, name, nick, icon, assigned)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        }); };
+        this.AdminIsMe = function () { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.uqApi.isAdmin()];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        }); };
+        this.IDValue = function (type, value) {
+            if (!type)
+                return;
+            var ID = _this.ids[type.toLowerCase()];
+            if (ID === undefined)
+                return;
+            /*
+            if (ID.fields === undefined) {
+                await ID.loadSchema();
+            }
+            */
+            return ID.valueFromString(value);
+        };
         this.$Acts = function (param) { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -183,18 +218,7 @@ var UqMan = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.apiActIxSort(param, EnumResultType.data)];
-                    case 1: 
-                    /*
-                    let {IX, ix, id, after} = param;
-                    let apiParam:any = {
-                        IX: entityName(IX),
-                        ix,
-                        id,
-                        after,
-                    };
-                    await this.apiPost('act-ix-sort'), apiParam);
-                    */
-                    return [2 /*return*/, _a.sent()];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         }); };
@@ -322,6 +346,9 @@ var UqMan = /** @class */ (function () {
                 }
             });
         }); };
+        this.IDEntity = function (typeId) {
+            return _this.entityTypes[typeId];
+        };
         this.$IDNO = function (param) { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -390,6 +417,14 @@ var UqMan = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.apiIX(param, EnumResultType.sql)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        }); };
+        this.IXValues = function (param) { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.apiIXValues(param, EnumResultType.data)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -508,14 +543,7 @@ var UqMan = /** @class */ (function () {
         }); };
         this.tonwa = tonwa;
         this.web = tonwa.web;
-        //this.createBoxId = createBoxId;
-        /*
-        if (createBoxId === undefined) {
-            this.createBoxId = this.createBoxIdFromTVs;
-            this.tvs = tvs || {};
-        }
-        */
-        var id = uqData.id, uqOwner = uqData.uqOwner, uqName = uqData.uqName, /*access, */ newVersion = uqData.newVersion;
+        var id = uqData.id, uqOwner = uqData.uqOwner, uqName = uqData.uqName, newVersion = uqData.newVersion;
         this.newVersion = newVersion;
         this.uqOwner = uqOwner;
         this.uqName = uqName;
@@ -621,10 +649,11 @@ var UqMan = /** @class */ (function () {
             debugger;
         }
         this.localEntities.set(entities);
-        var access = entities.access, tuids = entities.tuids, role = entities.role, version = entities.version;
+        var access = entities.access, tuids = entities.tuids, role = entities.role, version = entities.version, ids = entities.ids;
         this.uqVersion = version;
         this.allRoles = role === null || role === void 0 ? void 0 : role.names;
         this.buildTuids(tuids);
+        this.buildIds(ids);
         this.buildAccess(access);
     };
     UqMan.prototype.buildTuids = function (tuids) {
@@ -642,6 +671,14 @@ var UqMan = /** @class */ (function () {
         for (var i in this.tuids) {
             var tuid = this.tuids[i];
             tuid.buildFieldsTuid();
+        }
+    };
+    UqMan.prototype.buildIds = function (ids) {
+        for (var i in ids) {
+            var schema = ids[i];
+            var typeId = schema.typeId;
+            var ID_3 = this.newID(i, typeId);
+            ID_3.setSchema(schema);
         }
     };
     UqMan.prototype.loadEntitySchema = function (entityName) {
@@ -713,6 +750,7 @@ var UqMan = /** @class */ (function () {
     UqMan.prototype.setEntity = function (name, entity) {
         this.entities[name] = entity;
         this.entities[name.toLowerCase()] = entity;
+        this.entityTypes[entity.typeId] = entity;
     };
     UqMan.prototype.newEnum = function (name, id) {
         var enm = this.enums[name];
@@ -964,7 +1002,7 @@ var UqMan = /** @class */ (function () {
             get: function (target, key, receiver) {
                 var lk = key.toLowerCase();
                 if (lk === '$') {
-                    return _this;
+                    return _this.$proxy;
                 }
                 var ret = target[lk];
                 if (ret !== undefined)
@@ -979,6 +1017,21 @@ var UqMan = /** @class */ (function () {
             }
         });
         this.proxy = ret;
+        this.$proxy = new Proxy(this.entities, {
+            get: function (target, key, receiver) {
+                var lk = key.toLowerCase();
+                var ret = target[lk];
+                if (ret !== undefined)
+                    return ret;
+                var func = _this['$' + key];
+                if (func !== undefined)
+                    return func;
+                var err = "entity ".concat(_this.name, ".").concat(String(key), " not defined");
+                console.error('UQ错误：' + err);
+                _this.showReload('服务器正在更新');
+                return undefined;
+            }
+        });
         this.idCache = new IDCache_1.IDCache(this);
         return ret;
     };
@@ -1208,8 +1261,6 @@ var UqMan = /** @class */ (function () {
             });
         });
     };
-    //private checkParam(ID:ID, IDX:(ID|IDX)|(ID|IDX)[], IX:IX, id:number|number[], key:{[key:string]:string|number}, page: ParamPage) {
-    //}
     UqMan.prototype.IDXToString = function (p) {
         if (Array.isArray(p) === true)
             return p.map(function (v) { return entityName(v); });
@@ -1253,6 +1304,21 @@ var UqMan = /** @class */ (function () {
                     case 0:
                         IX = param.IX, IX1 = param.IX1, IDX = param.IDX;
                         return [4 /*yield*/, this.apiPost('ix', resultType, __assign(__assign({}, param), { IX: entityName(IX), IX1: entityName(IX1), IDX: IDX === null || IDX === void 0 ? void 0 : IDX.map(function (v) { return entityName(v); }) }))];
+                    case 1:
+                        ret = _a.sent();
+                        return [2 /*return*/, ret];
+                }
+            });
+        });
+    };
+    UqMan.prototype.apiIXValues = function (param, resultType) {
+        return __awaiter(this, void 0, void 0, function () {
+            var IX, ret;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        IX = param.IX;
+                        return [4 /*yield*/, this.apiPost('ix-values', resultType, __assign(__assign({}, param), { IX: entityName(IX) }))];
                     case 1:
                         ret = _a.sent();
                         return [2 /*return*/, ret];

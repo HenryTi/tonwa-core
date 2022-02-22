@@ -1,5 +1,5 @@
 import { Web } from "./Web";
-export declare function setSubAppWindow(win: Window): void;
+export declare function setSubAppWindow(win: any): void;
 export declare function postWsToTop(msg: any): void;
 export declare abstract class WsBase {
     protected web: Web;

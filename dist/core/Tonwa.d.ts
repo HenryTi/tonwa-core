@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { Navigo, Hooks, NamedRoute, RouteFunc } from "./Navigo";
 import { Nav, NavPage } from './Nav';
 import { Web } from '../web';
@@ -6,27 +5,31 @@ import { User, Guest } from '../tool';
 import { Login } from './Login';
 export interface NavSettings {
     oem?: string;
-    loginTop?: JSX.Element;
+    loginTop?: any;
     privacy?: string;
     htmlTitle?: string;
 }
 export declare let tonwa: Tonwa;
-export declare abstract class Tonwa {
+export declare abstract class TonwaBase {
     readonly web: Web;
+    testing: boolean;
+    constructor();
+    abstract createWeb(): Web;
+    abstract createObservableMap<K, V>(): Map<K, V>;
+    init(): Promise<void>;
+}
+export declare abstract class Tonwa extends TonwaBase {
     private wsHost;
     private local;
     private navigo;
     navSettings: NavSettings;
     user: User;
-    testing: boolean;
     language: string;
     culture: string;
     resUrl: string;
     constructor();
     protected abstract showRegister(): Promise<void>;
     protected abstract showForget(): Promise<void>;
-    abstract createWeb(): Web;
-    abstract createObservableMap<K, V>(): Map<K, V>;
     abstract get nav(): Nav;
     abstract privacyEntry(): void;
     abstract resetAll: () => void;
@@ -35,11 +38,9 @@ export declare abstract class Tonwa {
     onReceive(msg: any): Promise<void>;
     private loadUnitJson;
     private getPredefinedUnitName;
-    private loadPredefinedUnit;
     setSettings(settings?: NavSettings): void;
     get oem(): string;
     hashParam: string;
-    private centerHost;
     private arrs;
     private unitJsonPath;
     private windowOnError;
@@ -75,7 +76,7 @@ export declare abstract class Tonwa {
     onChangeLogin: (user: User) => Promise<void>;
     logined(user: User, callback?: (user: User) => Promise<void>): Promise<void>;
     userLogined(user: User, callback?: (user: User) => Promise<void>): Promise<void>;
-    loginTop(defaultTop: JSX.Element): JSX.Element;
+    loginTop(defaultTop: any): any;
     logout(callback?: () => Promise<void>): Promise<void>;
     get logs(): string[];
     log(msg: string): void;

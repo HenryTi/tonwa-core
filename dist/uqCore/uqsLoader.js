@@ -220,8 +220,8 @@ var UQsLoader = /** @class */ (function () {
 exports.UQsLoader = UQsLoader;
 var UQsManApp = /** @class */ (function (_super) {
     __extends(UQsManApp, _super);
-    function UQsManApp(tonwa, tonwaAppName /*, tvs:TVs*/) {
-        var _this = _super.call(this, tonwa /*, tvs*/) || this;
+    function UQsManApp(tonwa, tonwaAppName) {
+        var _this = _super.call(this, tonwa) || this;
         var parts = tonwaAppName.split('/');
         if (parts.length !== 2) {
             throw new Error('tonwaApp name must be / separated, owner/app');

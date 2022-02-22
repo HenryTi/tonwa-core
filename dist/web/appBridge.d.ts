@@ -22,6 +22,6 @@ export declare class AppBridge {
     getUqToken(uq: string): UqToken;
     private readonly brideCenterApis;
     bridgeCenterApi(url: string, method: string, body: any): Promise<any>;
-    callCenterApiFromMessage(from: Window, message: any): Promise<void>;
+    callCenterApiFromMessage(from: any, message: any): Promise<void>;
     bridgeCenterApiReturn(message: any): void;
 }

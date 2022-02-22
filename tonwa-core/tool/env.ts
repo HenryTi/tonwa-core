@@ -42,10 +42,14 @@ function initEnv(): {
 } {
 	let pl = /\+/g,  // Regex for replacing addition symbol with a space
 		search = /([^&=]+)=?([^&]*)/g,
-		decode = function (s: any) { return decodeURIComponent(s.replace(pl, " ")); },
+		decode = function (s: any) { return decodeURIComponent(s.replace(pl, " ")); };
+	let query: string = undefined;
+	if (window) {
 		query = window.location.search.substring(1);
+	}
 	let params: { [key: string]: string } = {};
 	for (; ;) {
+		if (!query) break;
 		let match = search.exec(query);
 		if (!match) break;
 		params[decode(match[1])] = decode(match[2]);
@@ -130,6 +134,7 @@ function initEnv(): {
 }
 
 function detectBrowser() {
+	if (!window) return;
 	if ((navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) >= 0)
 		return 'Opera';
 	if (navigator.userAgent.indexOf("Chrome") >= 0)

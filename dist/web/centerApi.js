@@ -68,6 +68,16 @@ var CenterApi = /** @class */ (function (_super) {
             });
         });
     };
+    CenterApi.prototype.userFromKey = function (userName) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.get('tie/user-from-key', { key: userName })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
     CenterApi.prototype.userFromId = function (userId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -78,11 +88,31 @@ var CenterApi = /** @class */ (function (_super) {
             });
         });
     };
-    CenterApi.prototype.userFromKey = function (userName) {
+    CenterApi.prototype.userFromName = function (userName) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.get('tie/user-from-key', { key: userName })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    CenterApi.prototype.usersFromEmail = function (email) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.get('tie/users-from-email', { email: email })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    CenterApi.prototype.userFromMobile = function (mobile) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.get('tie/users-from-mobile', { mobile: mobile })];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });

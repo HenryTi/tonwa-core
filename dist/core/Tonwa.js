@@ -1,4 +1,19 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -36,39 +51,62 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Tonwa = exports.tonwa = void 0;
+exports.Tonwa = exports.TonwaBase = exports.tonwa = void 0;
 var Navigo_1 = require("./Navigo");
 var res_1 = require("../res");
 var tool_1 = require("../tool");
 var logMark;
 var logs = [];
-var Tonwa = /** @class */ (function () {
+var TonwaBase = /** @class */ (function () {
+    function TonwaBase() {
+        this.testing = false;
+        this.web = this.createWeb();
+    }
+    TonwaBase.prototype.init = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this.testing = tool_1.env.testing;
+                        return [4 /*yield*/, this.web.host.start(this.testing)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return TonwaBase;
+}());
+exports.TonwaBase = TonwaBase;
+var Tonwa = /** @class */ (function (_super) {
+    __extends(Tonwa, _super);
     function Tonwa() {
-        var _this = this;
-        this.local = new tool_1.LocalData();
-        this.user = null;
-        this.arrs = ['/test', '/test/'];
-        this.windowOnError = function (event, source, lineno, colno, error) {
+        var _this = _super.call(this) || this;
+        _this.local = new tool_1.LocalData();
+        _this.user = null;
+        _this.arrs = ['/test', '/test/'];
+        _this.windowOnError = function (event, source, lineno, colno, error) {
             debugger;
             console.error('windowOnError');
             console.error(error);
         };
-        this.windowOnUnhandledRejection = function (ev) {
+        _this.windowOnUnhandledRejection = function (ev) {
             debugger;
             console.error('windowOnUnhandledRejection');
             console.error(ev.reason);
         };
-        this.windowOnClick = function (ev) {
+        _this.windowOnClick = function (ev) {
             console.error('windowOnClick');
         };
-        this.windowOnMouseMove = function (ev) {
+        _this.windowOnMouseMove = function (ev) {
             console.log('navigator.userAgent: ' + navigator.userAgent);
             console.log('mouse move (%s, %s)', ev.x, ev.y);
         };
-        this.windowOnScroll = function (ev) {
+        _this.windowOnScroll = function (ev) {
             console.log('scroll event');
         };
-        this.reloadUser = function () {
+        _this.reloadUser = function () {
             var user = _this.local.user.get();
             var curUser = _this.user;
             if (!user && !curUser)
@@ -82,7 +120,7 @@ var Tonwa = /** @class */ (function () {
                 _this.logined(user);
             }
         };
-        this.reload = function () { return __awaiter(_this, void 0, void 0, function () {
+        _this.reload = function () { return __awaiter(_this, void 0, void 0, function () {
             var waiting, registration, plus, webview, webView;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -119,7 +157,7 @@ var Tonwa = /** @class */ (function () {
                 }
             });
         }); };
-        this.navLogin = function (params) { return __awaiter(_this, void 0, void 0, function () {
+        _this.navLogin = function (params) { return __awaiter(_this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
                 this.showLogin(function (user) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
@@ -128,7 +166,7 @@ var Tonwa = /** @class */ (function () {
                 return [2 /*return*/];
             });
         }); };
-        this.navLogout = function (params) { return __awaiter(_this, void 0, void 0, function () {
+        _this.navLogout = function (params) { return __awaiter(_this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
                 this.showLogout(function () { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
@@ -137,31 +175,30 @@ var Tonwa = /** @class */ (function () {
                 return [2 /*return*/];
             });
         }); };
-        this.navRegister = function (params) { return __awaiter(_this, void 0, void 0, function () {
+        _this.navRegister = function (params) { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 this.showRegister();
                 return [2 /*return*/];
             });
         }); };
-        this.navForget = function (params) { return __awaiter(_this, void 0, void 0, function () {
+        _this.navForget = function (params) { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 this.showForget();
                 return [2 /*return*/];
             });
         }); };
-        this.doneSysRoutes = false;
-        this.sysRoutes = {
-            '/login': this.navLogin,
-            '/logout': this.navLogout,
-            '/register': this.navRegister,
-            '/forget': this.navForget,
+        _this.doneSysRoutes = false;
+        _this.sysRoutes = {
+            '/login': _this.navLogin,
+            '/logout': _this.navLogout,
+            '/register': _this.navRegister,
+            '/forget': _this.navForget,
         };
-        exports.tonwa = this;
-        this.web = this.createWeb();
+        exports.tonwa = _this;
         var lang = res_1.resOptions.lang, district = res_1.resOptions.district;
-        this.language = lang;
-        this.culture = district;
-        this.testing = false;
+        _this.language = lang;
+        _this.culture = district;
+        return _this;
     }
     Object.defineProperty(Tonwa.prototype, "guest", {
         //abstract clear(): void;
@@ -244,45 +281,6 @@ var Tonwa = /** @class */ (function () {
             });
         });
     };
-    Tonwa.prototype.loadPredefinedUnit = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var envUnit, unitName, unit, unitId;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        envUnit = process.env.REACT_APP_UNIT;
-                        if (envUnit !== undefined) {
-                            return [2 /*return*/, Number(envUnit)];
-                        }
-                        unit = this.local.unit.get();
-                        if (!(unit !== undefined)) return [3 /*break*/, 2];
-                        if (tool_1.env.isDevelopment !== true)
-                            return [2 /*return*/, unit.id];
-                        return [4 /*yield*/, this.getPredefinedUnitName()];
-                    case 1:
-                        unitName = _a.sent();
-                        if (unitName === undefined)
-                            return [2 /*return*/];
-                        if (unit.name === unitName)
-                            return [2 /*return*/, unit.id];
-                        return [3 /*break*/, 4];
-                    case 2: return [4 /*yield*/, this.getPredefinedUnitName()];
-                    case 3:
-                        unitName = _a.sent();
-                        if (unitName === undefined)
-                            return [2 /*return*/];
-                        _a.label = 4;
-                    case 4: return [4 /*yield*/, this.web.guestApi.unitFromName(unitName)];
-                    case 5:
-                        unitId = _a.sent();
-                        if (unitId !== undefined) {
-                            this.local.unit.set({ id: unitId, name: unitName });
-                        }
-                        return [2 /*return*/, unitId];
-                }
-            });
-        });
-    };
     Tonwa.prototype.setSettings = function (settings) {
         this.navSettings = settings;
         var htmlTitle = settings.htmlTitle;
@@ -325,16 +323,13 @@ var Tonwa = /** @class */ (function () {
             var _a, url, ws, resHost, guest;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0:
-                        this.testing = tool_1.env.testing;
+                    case 0: return [4 /*yield*/, _super.prototype.init.call(this)];
+                    case 1:
+                        _b.sent();
                         if (this.forceDevelopment === true) {
                             tool_1.env.isDevelopment = true;
                         }
-                        return [4 /*yield*/, this.web.host.start(this.testing)];
-                    case 1:
-                        _b.sent();
                         _a = this.web.host, url = _a.url, ws = _a.ws, resHost = _a.resHost;
-                        this.centerHost = url;
                         this.resUrl = this.web.resUrlFromHost(resHost);
                         this.wsHost = ws;
                         this.web.setCenterUrl(url);
@@ -564,7 +559,7 @@ var Tonwa = /** @class */ (function () {
             });
         });
     };
-    Tonwa.prototype.loginTop = function (defaultTop) {
+    Tonwa.prototype.loginTop = function (defaultTop /*JSX.Element*/) {
         return (this.navSettings && this.navSettings.loginTop) || defaultTop;
     };
     Tonwa.prototype.logout = function (callback) {
@@ -756,6 +751,6 @@ var Tonwa = /** @class */ (function () {
         });
     };
     return Tonwa;
-}());
+}(TonwaBase));
 exports.Tonwa = Tonwa;
 //# sourceMappingURL=Tonwa.js.map

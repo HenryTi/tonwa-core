@@ -1,5 +1,5 @@
 import { UqApi, UqData } from '../web';
-import { Tonwa, UqConfig } from '../core';
+import { TonwaBase, UqConfig } from '../core';
 import { Tuid, TuidDiv, TuidBox } from './tuid';
 import { Action } from './action';
 import { Sheet } from './sheet';
@@ -45,7 +45,6 @@ export interface TuidModify {
 }
 interface ParamPage {
     start: number;
-    end?: number;
     size: number;
 }
 export interface ParamActIX<T> {
@@ -147,6 +146,13 @@ export interface ParamIX {
     ix: number | number[];
     IDX?: (ID | IDX)[];
     page?: ParamPage;
+    order?: 'asc' | 'desc';
+}
+export interface ParamIXValues {
+    IX: IX;
+    ix?: number;
+    page?: ParamPage;
+    order?: 'asc' | 'desc';
 }
 export interface ParamKeyIX {
     ID: ID;
@@ -199,11 +205,12 @@ export interface ParamIDTree {
     page?: ParamPage;
 }
 export interface Uq {
-    getAdmins(): Promise<{
-        id: number;
-        role: number;
-    }[]>;
-    $: UqMan;
+    AdminGetList(): Promise<any[]>;
+    AdminSetMe(): Promise<void>;
+    AdminSet(user: number, role: number, assigned: string): Promise<void>;
+    AdminIsMe(): Promise<boolean>;
+    IDValue(type: string, value: string): object;
+    $: Uq;
     Acts(param: any): Promise<any>;
     ActIX<T>(param: ParamActIX<T>): Promise<number[]>;
     ActIXSort(param: ParamActIXSort): Promise<void>;
@@ -213,13 +220,18 @@ export interface Uq {
     ActDetail<M, D, D2, D3>(param: ParamActDetail3<M, D, D2, D3>): Promise<RetActDetail3>;
     QueryID<T>(param: ParamQueryID): Promise<T[]>;
     IDNO(param: ParamIDNO): Promise<string>;
+    IDEntity(typeId: number): ID;
     IDDetailGet<M, D>(param: ParamIDDetailGet): Promise<[M[], D[]]>;
     IDDetailGet<M, D, D2>(param: ParamIDDetailGet): Promise<[M[], D[], D2[]]>;
     IDDetailGet<M, D, D2, D3>(param: ParamIDDetailGet): Promise<[M[], D[], D2[], D3[]]>;
-    ID<T>(param: ParamID): Promise<T[]>;
+    ID<T = any>(param: ParamID): Promise<T[]>;
     IXr<T>(param: ParamIX): Promise<T[]>;
     KeyID<T>(param: ParamKeyID): Promise<T[]>;
-    IX<T>(param: ParamIX): Promise<T[]>;
+    IX<T = any>(param: ParamIX): Promise<T[]>;
+    IXValues(param: ParamIXValues): Promise<{
+        type: string;
+        value: string;
+    }[]>;
     KeyIX<T>(param: ParamKeyIX): Promise<T[]>;
     IDLog<T>(param: ParamIDLog): Promise<T[]>;
     IDSum<T>(param: ParamIDSum): Promise<T[]>;
@@ -233,6 +245,9 @@ export interface Uq {
 export declare class UqMan {
     readonly entities: {
         [name: string]: Entity;
+    };
+    readonly entityTypes: {
+        [id: number]: Entity;
     };
     private readonly enums;
     private readonly actions;
@@ -251,6 +266,7 @@ export declare class UqMan {
     private readonly localEntities;
     idCache: IDCache;
     proxy: any;
+    $proxy: any;
     readonly localMap: LocalMap;
     readonly localModifyMax: LocalCache;
     readonly tuids: {
@@ -262,11 +278,11 @@ export declare class UqMan {
     readonly name: string;
     readonly uqApi: UqApi;
     readonly id: number;
-    readonly tonwa: Tonwa;
+    readonly tonwa: TonwaBase;
     readonly web: Web;
     uqVersion: number;
     config: UqConfig;
-    constructor(tonwa: Tonwa, uqData: UqData);
+    constructor(tonwa: TonwaBase, uqData: UqData);
     getID(name: string): ID;
     getIDX(name: string): IDX;
     getIX(name: string): IX;
@@ -299,6 +315,7 @@ export declare class UqMan {
     loadEntities(): Promise<string>;
     buildEntities(entities: any): void;
     private buildTuids;
+    private buildIds;
     loadEntitySchema(entityName: string): Promise<any>;
     loadAllSchemas(): Promise<void>;
     getTuid(name: string): Tuid;
@@ -331,10 +348,11 @@ export declare class UqMan {
     private apiPost;
     private apiActs;
     protected Acts: (param: any) => Promise<any>;
-    protected getAdmins: () => Promise<{
-        id: number;
-        role: number;
-    }[]>;
+    protected AdminGetList: () => Promise<any[]>;
+    protected AdminSetMe: () => Promise<void>;
+    protected AdminSet: (user: number, role: number, name: string, nick: string, icon: string, assigned: string) => Promise<void>;
+    protected AdminIsMe: () => Promise<boolean>;
+    protected IDValue: (type: string, value: string) => object;
     protected $Acts: (param: any) => Promise<any>;
     private apiActIX;
     protected ActIX: (param: ParamActIX<any>) => Promise<number[]>;
@@ -354,6 +372,7 @@ export declare class UqMan {
     protected $IDTv: (ids: number[]) => Promise<any>;
     private apiIDNO;
     protected IDNO: (param: ParamIDNO) => Promise<string>;
+    protected IDEntity: (typeId: number) => ID;
     protected $IDNO: (param: ParamIDNO) => Promise<string>;
     private apiIDDetailGet;
     IDDetailGet: (param: ParamIDDetailGet) => Promise<any>;
@@ -368,6 +387,8 @@ export declare class UqMan {
     private apiIX;
     protected IX: (param: ParamIX) => Promise<any[]>;
     protected $IX: (param: ParamIX) => Promise<string>;
+    private apiIXValues;
+    protected IXValues: (param: ParamIXValues) => Promise<any[]>;
     private apiIXr;
     protected IXr: (param: ParamIX) => Promise<any[]>;
     protected $IXr: (param: ParamIX) => Promise<any[]>;

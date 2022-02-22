@@ -382,12 +382,12 @@ export abstract class Entity {
         return ret;
     }
 
-    protected unpackRow(ret: any, fields: Field[], data: string, p: number): number {
+    protected unpackRow(ret: any, fields: Field[], data: string, p: number, sep: number = 9): number {
         let ch0 = 0, ch = 0, c = p, i = 0, len = data.length, fLen = fields.length;
         for (; p < len; p++) {
             ch0 = ch;
             ch = data.charCodeAt(p);
-            if (ch === 9) {
+            if (ch === sep) {
                 let f = fields[i];
                 let { name } = f;
                 if (ch0 !== 8) {
