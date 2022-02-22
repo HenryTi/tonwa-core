@@ -13,11 +13,11 @@ exports.env = void 0;
 var _62_1 = require("./62");
 var localDb_1 = require("./localDb");
 exports.env = (function () {
-    var _a = initEnv(), unit = _a.unit, testing = _a.testing, buildingUq = _a.buildingUq, params = _a.params, lang = _a.lang, district = _a.district, timeZone = _a.timeZone, isMobile = _a.isMobile;
+    var _a = initEnv(), unit = _a.unit, testing = _a.testing, params = _a.params, lang = _a.lang, district = _a.district, timeZone = _a.timeZone, isMobile = _a.isMobile;
     return {
         unit: unit,
         testing: testing,
-        buildingUq: buildingUq,
+        buildingUq: false,
         params: params,
         lang: lang,
         district: district,
@@ -49,6 +49,8 @@ exports.env = (function () {
     };
 }());
 function initEnv() {
+    if (!global.window)
+        return {};
     var pl = /\+/g, // Regex for replacing addition symbol with a space
     search = /([^&=]+)=?([^&]*)/g, decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); };
     var query = undefined;
@@ -140,7 +142,7 @@ function initEnv() {
         'BlackBerry|Windows Phone|' +
         'Opera Mini|IEMobile|Mobile', 'i');
     var isMobile = regEx.test(navigator.userAgent);
-    return { unit: unit, testing: testing, buildingUq: false, params: params, lang: lang, district: district, timeZone: timeZone, isMobile: isMobile };
+    return { unit: unit, testing: testing, params: params, lang: lang, district: district, timeZone: timeZone, isMobile: isMobile };
 }
 function detectBrowser() {
     if (!window)
